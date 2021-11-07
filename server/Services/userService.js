@@ -12,6 +12,17 @@ const register = async (user, callback) => {
     });
 };
 
+const login = async (email, callback) => {
+  try {
+    let user = await userModel.findOne({ email });
+    if (!user) return callback({ errMessage: "Your email/password is wrong!" });
+    return callback(false, user);
+  } catch (err) {
+    return callback({ errMsg: "Something went wrong", details: err.message });
+  }
+};
+
 module.exports = {
-    register,
-}
+  register,
+  login,
+};
