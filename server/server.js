@@ -4,6 +4,7 @@ const unless = require("express-unless");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoute = require("./Routes/userRoute");
+const boardRoute = require("./Routes/boardRoute");
 const auth = require("./Middlewares/auth");
 
 dotenv.config();
@@ -44,6 +45,7 @@ mongoose
 //ROUTES
 
 app.use("/user", userRoute);
+app.use("/board", boardRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is online! Port: ${process.env.PORT}`);
