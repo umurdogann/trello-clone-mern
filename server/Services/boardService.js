@@ -10,7 +10,6 @@ const create = async (req, callback) => {
     const newBoard = await tempBoard.save();
 
     // Add this board to owner's boards
-    console.log(req.user.id)
     const user = await userModel.findById(req.user.id);
     user.boards.unshift(newBoard.id);
     await user.save();
@@ -33,6 +32,24 @@ const create = async (req, callback) => {
   }
 };
 
+const getAll = async (userId, callback) => {
+  try {
+    // Get user
+    const user = await userModel.findById(userId);
+
+    // Get board's ids of user
+    const boardIds = user.boards;
+
+    // Get boards of user
+    const boards = await boardModel.find({ _id: { $in: boardIds } });
+
+    return callback(false, boards);
+  } catch (error) {
+    return callback({ msg: "Something went wrong", details: error.message });
+  }
+};
+
 module.exports = {
   create,
+  getAll,
 };

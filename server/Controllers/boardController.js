@@ -13,6 +13,15 @@ const create = async (req, res) => {
   });
 };
 
+const getAll = async (req, res) => {
+  const userId = req.user.id;
+  await boardService.getAll(userId, (err, result) => {
+    if (err) return res.status(400).send(err);
+    return res.status(200).send(result);
+  });
+};
+
 module.exports = {
   create,
+  getAll,
 };
