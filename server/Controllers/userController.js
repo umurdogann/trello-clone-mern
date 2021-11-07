@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const userService = require("../Services/userService");
+const auth = require("../Middlewares/auth");
 
 const register = async (req, res) => {
   const { name, surname, email, password } = req.body;
@@ -30,8 +31,10 @@ const login = async (req, res) => {
         .status(400)
         .send({ errMessage: "Your email/password is wrong!" });
 
+    result.token = auth.generateToken(result.id, result.email);
     result.password = undefined;
     result.__v = undefined;
+
     return res
       .status(200)
       .send({ msg: "User login successful!", user: result });
