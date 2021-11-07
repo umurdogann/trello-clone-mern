@@ -4,12 +4,26 @@ const unless = require("express-unless");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoute = require("./Routes/userRoute");
+const auth = require("./Middlewares/auth");
 
 dotenv.config();
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// AUTH VERIFICATION AND UNLESS
+
+auth.verifyToken.unless = unless;
+
+app.use(
+  auth.verifyToken.unless({
+    path: [
+      { url: "/user/login", method: ["POST"] },
+      { url: "/user/register", method: ["POST"] },
+    ],
+  })
+);
 
 //MONGODB CONNECTION
 
@@ -27,9 +41,9 @@ mongoose
     console.log(`Details : ${err}`);
   });
 
-  //ROUTES
+//ROUTES
 
-  app.use("/user",userRoute);
+app.use("/user", userRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is online! Port: ${process.env.PORT}`);
