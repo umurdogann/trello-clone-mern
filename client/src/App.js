@@ -1,12 +1,11 @@
+import React from 'react'
 
-import './App.css';
-
-function App() {
+const App = () => {
   return (
     <div>
-      Trello App Clone!
+      This is trello clone!
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
