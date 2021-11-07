@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
         return res
           .status(401)
           .send({ errMessage: "Authorization token invalid", details: err });
-      req.body.user = verifiedToken;
+      req.user = verifiedToken;
       next();
     });
   } catch (error) {
