@@ -3,6 +3,8 @@ const express = require("express");
 const unless = require("express-unless");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const userRoute = require("./Routes/userRoute");
+
 dotenv.config();
 const app = express();
 
@@ -24,6 +26,10 @@ mongoose
     console.log(`Database connection failed!`);
     console.log(`Details : ${err}`);
   });
+
+  //ROUTES
+
+  app.use("/user",userRoute);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is online! Port: ${process.env.PORT}`);
