@@ -64,7 +64,7 @@ const FormCard = styled.div`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  max-width: 20rem;
+  width: 20rem;
   justify-content: center;
   align-items: center;
   gap: 1rem;
