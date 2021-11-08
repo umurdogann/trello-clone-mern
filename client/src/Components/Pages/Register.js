@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { md } from "../../BreakPoints";
 import Background from "../Background";
@@ -18,6 +19,7 @@ const Container = styled.div`
   })}
 `;
 const TrelloIconContainer = styled.div`
+  cursor: pointer;
   padding-top: 2.5rem;
   ${md({
     paddingTop: "1rem",
@@ -129,13 +131,14 @@ const Link = styled.a`
 `;
 
 const Register = () => {
+  let history = useHistory();
   return (
     <>
       <BgContainer>
         <Background />
       </BgContainer>
       <Container>
-        <TrelloIconContainer>
+        <TrelloIconContainer onClick={()=>history.push("/")}>
           <Icon src="https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/trello-header-logos/167dc7b9900a5b241b15ba21f8037cf8/trello-logo-blue.svg" />
         </TrelloIconContainer>
         <FormSection>
@@ -153,7 +156,7 @@ const Register = () => {
               </Text>
               <Button>Complete</Button>
               <Hr />
-              <Link fontSize="0.85rem">Already have an account? Log In</Link>
+              <Link fontSize="0.85rem" onClick={()=>history.push("/login")}>Already have an account? Log In</Link>
             </Form>
           </FormCard>
         </FormSection>

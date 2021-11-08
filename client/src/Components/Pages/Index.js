@@ -2,6 +2,7 @@ import React from "react";
 import IndexNav from "../IndexNav";
 import styled from "styled-components";
 import { lg, sm } from "../../BreakPoints";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   background: linear-gradient(rgb(234, 230, 255), rgb(255, 255, 255)) no-repeat;
@@ -108,6 +109,7 @@ const SvgItem = styled.img`
 `;
 
 const Index = () => {
+  let history = useHistory();
   return (
     <>
       <IndexNav />
@@ -121,7 +123,7 @@ const Index = () => {
                 From high rises to the home office, the way your team works is
                 unique—accomplish it all with Trello.
               </Text>
-              <Button>Sign up - it's free</Button>
+              <Button onClick={()=>history.push("/register")}>Sign up - it's free</Button>
             </LeftWrapper>
           </LeftSide>
           <RightSide>
