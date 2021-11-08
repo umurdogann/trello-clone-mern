@@ -97,9 +97,9 @@ const RightSide = styled.div`
 `;
 
 const SvgItem = styled.img`
-  width: 465.5px;
+  width: 400.5px;
   aspect-ratio: auto 465.5 / 602.5;
-  height: 602.5px;
+  height: 540.5px;
   
   ${lg({
     width: "300px",
