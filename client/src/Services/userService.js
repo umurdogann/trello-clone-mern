@@ -1,11 +1,16 @@
 import axios from "axios";
-import { registrationStart, registrationEnd } from "../Redux/Slices/userSlice";
+import {
+  registrationStart,
+  registrationEnd,
+  loginStart,
+  loginFailure,
+  loginSuccess,
+} from "../Redux/Slices/userSlice";
 import { openAlert } from "../Redux/Slices/alertSlice";
 const baseUrl = "http://localhost:3001/user/";
 
 export const register = async (
   { name, surname, email, password, repassword },
-  callback,
   dispatch
 ) => {
   dispatch(registrationStart());
@@ -28,12 +33,11 @@ export const register = async (
         openAlert({
           message: res.data.message,
           severity: "success",
-          callback,
+          nextRoute: "/login",
           duration: 1500,
         })
       );
     } catch (error) {
-      console.log(error);
       dispatch(
         openAlert({
           message: error?.response?.data?.errMessage
@@ -43,6 +47,33 @@ export const register = async (
         })
       );
     }
-    dispatch(registrationEnd());
+  }
+  dispatch(registrationEnd());
+};
+
+export const login = async ({ email, password }, dispatch) => {
+  dispatch(loginStart());
+  try {
+    const res = await axios.post(baseUrl + "login", { email, password });
+    const { user, message } = res.data;
+    dispatch(loginSuccess({ user }));
+    dispatch(
+      openAlert({
+        message,
+        severity: "success",
+        duration: 1500,
+        nextRoute: "/boards",
+      })
+    );
+  } catch (error) {
+    dispatch(loginFailure());
+    dispatch(
+      openAlert({
+        message: error?.response?.data?.errMessage
+          ? error.response.data.errMessage
+          : error.message,
+        severity: "error",
+      })
+    );
   }
 };
