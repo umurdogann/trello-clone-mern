@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import '@atlaskit/css-reset';
 import './index.css';
-import {Store} from "./Redux/Store";
+import Store from "./Redux/Store";
 import {Provider} from "react-redux";
 
 ReactDOM.render(
