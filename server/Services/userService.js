@@ -22,7 +22,21 @@ const login = async (email, callback) => {
   }
 };
 
+const getUser = async (id, callback) => {
+  try {
+    let user = await userModel.findById(id);
+    if (!user) return callback({ errMessage: "User not found!" });
+    return callback(false, { ...user.toJSON() });
+  } catch (err) {
+    return callback({
+      errMessage: "Something wen wrong",
+      details: err.message,
+    });
+  }
+};
+
 module.exports = {
   register,
   login,
+  getUser,
 };
