@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { md } from "../../BreakPoints";
 import Background from "../Background";
+import { register } from "../../Services/userService";
+import { useDispatch, useSelector } from "react-redux";
 
 const BgContainer = styled.div`
   display: initial;
@@ -103,7 +105,14 @@ const Button = styled.button`
   cursor: pointer;
   font-weight: bold;
   &:hover {
-    background: linear-gradient(to bottom, #61bd4f 0%, #5aac44 100%);
+    background: ${(props) =>
+      props.disabled
+        ? "lightgrey"
+        : "linear-gradient(to bottom, #61bd4f 0%, #5aac44 100%)"};
+  }
+  &:disabled {
+    background-color: lightgray;
+    cursor: default;
   }
 `;
 const Hr = styled.hr`
@@ -124,7 +133,7 @@ const Link = styled.a`
   text-decoration: none;
   color: #0052cc;
   cursor: pointer;
-  font-size: ${props => props.fontSize};
+  font-size: ${(props) => props.fontSize};
   &:hover {
     color: #0052cc;
   }
@@ -132,31 +141,106 @@ const Link = styled.a`
 
 const Register = () => {
   let history = useHistory();
+  const dispatch = useDispatch();
+  const { pending } = useSelector((state) => state.user);
+  const [userInformations, setUserInformations] = useState({
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+    repassword: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await register(userInformations, () => history.push("/login"), dispatch);
+  };
+
   return (
     <>
       <BgContainer>
         <Background />
       </BgContainer>
       <Container>
-        <TrelloIconContainer onClick={()=>history.push("/")}>
+        <TrelloIconContainer onClick={() => history.push("/")}>
           <Icon src="https://d2k1ftgv7pobq7.cloudfront.net/meta/c/p/res/images/trello-header-logos/167dc7b9900a5b241b15ba21f8037cf8/trello-logo-blue.svg" />
         </TrelloIconContainer>
         <FormSection>
           <FormCard>
-            <Form>
+            <Form onSubmit={(e) => handleSubmit(e)}>
               <Title>Sign up for your account</Title>
-              <Input type="text" placeholder="Enter name" />
-              <Input type="text" placeholder="Enter surname" />
-              <Input type="email" placeholder="Enter email" />
-              <Input type="password" placeholder="Enter password" />
-              <Input type="password" placeholder="Confirm password" />
+              <Input
+                type="text"
+                placeholder="Enter name"
+                required
+                value={userInformations.name}
+                onChange={(e) =>
+                  setUserInformations({
+                    ...userInformations,
+                    name: e.target.value,
+                  })
+                }
+              />
+              <Input
+                type="text"
+                placeholder="Enter surname"
+                required
+                value={userInformations.surname}
+                onChange={(e) =>
+                  setUserInformations({
+                    ...userInformations,
+                    surname: e.target.value,
+                  })
+                }
+              />
+              <Input
+                type="email"
+                placeholder="Enter email"
+                required
+                value={userInformations.email}
+                onChange={(e) =>
+                  setUserInformations({
+                    ...userInformations,
+                    email: e.target.value,
+                  })
+                }
+              />
+              <Input
+                type="password"
+                placeholder="Enter password"
+                required
+                value={userInformations.password}
+                onChange={(e) =>
+                  setUserInformations({
+                    ...userInformations,
+                    password: e.target.value,
+                  })
+                }
+              />
+              <Input
+                type="password"
+                placeholder="Confirm password"
+                required
+                value={userInformations.repassword}
+                onChange={(e) =>
+                  setUserInformations({
+                    ...userInformations,
+                    repassword: e.target.value,
+                  })
+                }
+              />
               <Text>
                 By signing up, you confirm that you've read and accepted our{" "}
-                <Link fontSize="0.75rem">Terms of Service</Link> and <Link fontSize="0.75rem">Privacy Policy</Link>.
+                <Link fontSize="0.75rem">Terms of Service</Link> and{" "}
+                <Link fontSize="0.75rem">Privacy Policy</Link>.
               </Text>
-              <Button>Complete</Button>
+              <Button type="submit" disabled={pending}>
+                Complete
+              </Button>
               <Hr />
-              <Link fontSize="0.85rem" onClick={()=>history.push("/login")}>Already have an account? Log In</Link>
+              <Link fontSize="0.85rem" onClick={() => history.push("/login")}>
+                Already have an account? Log In
+              </Link>
             </Form>
           </FormCard>
         </FormSection>
