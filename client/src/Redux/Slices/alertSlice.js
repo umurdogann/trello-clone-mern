@@ -5,7 +5,7 @@ const initialState = {
   severity: "error",
   message: "",
   duration: 3000,
-  callback: null,
+  nextRoute: null,
 };
 
 export const alertSlice = createSlice({
@@ -19,7 +19,9 @@ export const alertSlice = createSlice({
       state.duration = action.payload.duration
         ? action.payload.duration
         : initialState.duration;
-      state.callback = action.payload.callback ? action.payload.callback : null;
+      state.nextRoute = action.payload.nextRoute
+        ? action.payload.nextRoute
+        : null;
     },
     closeAlert: (state) => {
       state.open = false;

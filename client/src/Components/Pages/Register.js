@@ -153,7 +153,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await register(userInformations, () => history.push("/login"), dispatch);
+    await register(userInformations, dispatch);
   };
 
   return (
