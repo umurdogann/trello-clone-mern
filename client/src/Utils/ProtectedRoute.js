@@ -5,9 +5,8 @@ import { Route, useHistory } from "react-router-dom";
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const history = useHistory();
   const user = useSelector((state) => state.user);
-
   useEffect(() => {
-    if (!user.isAuthenticated) history.push("/");
+    if (!user.isAuthenticated && !user.pending) history.push("/");
   });
 
   return (
