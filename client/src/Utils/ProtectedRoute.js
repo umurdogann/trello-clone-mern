@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Route, useHistory } from "react-router-dom";
+import LoadingScreen from "../Components/LoadingScreen";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const history = useHistory();
@@ -13,7 +14,9 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) => {
-        return <Component {...props} />;
+        if (user.isAuthenticated && !user.pending) {
+          return <Component {...props} />;
+        } else return <LoadingScreen />;
       }}
     />
   );
