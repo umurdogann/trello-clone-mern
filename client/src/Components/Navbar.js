@@ -1,0 +1,134 @@
+import React from "react";
+import styled from "styled-components";
+import DropdownMenu from "./DropdownMenu";
+import SearchBar from "./SearchBar";
+import { xs } from "../BreakPoints";
+import ProfileBox from "./ProfileBox";
+const Container = styled.div`
+  height: 3rem;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(24px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  gap: 0.5rem;
+  ${xs({
+    padding: "0.5rem, 0rem",
+  })}
+`;
+
+const LeftSide = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 1rem;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  ${xs({
+    gap: "0.1rem",
+    width: "fit-content",
+  })}
+`;
+
+const RightSide = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+/* const UserProfile = styled.div`
+    background-color:green;
+    color: white;
+    font-weight:600;
+    box-sizing: border-box;
+    border:4px solid rgba(255,255,255,0.1);    
+    height:2.1rem;
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+    width:2.1rem;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    cursor: pointer;
+    
+    &:hover{
+      border: 4px solid rgba(255,255,255,0.5)
+    }
+`; */
+
+const LogoContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const TrelloLogo = styled.img`
+  width: 75px;
+  height: 15px;
+`;
+
+const DropdownContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  ${xs({
+    display: "none",
+  })}
+`;
+
+const Navbar = () => {
+  return (
+    <Container>
+      <LeftSide>
+        <LogoContainer>
+          <TrelloLogo src="https://a.trellocdn.com/prgb/dist/images/header-logo-spirit-loading.87e1af770a49ce8e84e3.gif" />
+        </LogoContainer>
+        <DropdownContainer>
+          <DropdownMenu
+            title="Workspaces"
+            menu={[
+              {
+                title: "Workspace 1",
+                cb: () => {
+                  alert("Workspace 1");
+                },
+                id: "1",
+              },
+              {
+                title: "Workspace 2",
+                cb: () => {
+                  alert("Workspace 2");
+                },
+                id: "2",
+              },
+              {
+                title: "Workspace 3",
+                cb: () => {
+                  alert("Workspace 3");
+                },
+                id: "3",
+              },
+            ]}
+          />
+        </DropdownContainer>
+      </LeftSide>
+      <RightSide>
+        <SearchBar />
+        <ProfileBox/>
+      </RightSide>
+    </Container>
+  );
+};
+
+export default Navbar;
