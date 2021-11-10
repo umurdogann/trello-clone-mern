@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   userInfo: null,
   isAuthenticated: null,
-  pending: false,
+  pending: true,
   token: localStorage.getItem("token"),
 };
 
@@ -32,6 +32,24 @@ export const userSlice = createSlice({
       state.isAuthenticated = false;
       localStorage.removeItem("token");
     },
+    loadStart: (state) => {
+      state.pending = true;
+    },
+    loadSuccess: (state, action) => {
+      state.isAuthenticated = true;
+      state.userInfo = action.payload.user;
+      state.token = localStorage.getItem("token");
+      state.pending = false;
+    },
+    loadFailure: (state) => {
+      state.pending = false;
+    },
+    logout: (state) => {
+      state.isAuthenticated = false;
+      state.userInfo = null;
+      state.token = null;
+      localStorage.removeItem("token");
+    },
   },
 });
 
@@ -41,5 +59,9 @@ export const {
   loginStart,
   loginFailure,
   loginSuccess,
+  loadStart,
+  loadSuccess,
+  loadFailure,
+  logout,
 } = userSlice.actions;
 export default userSlice.reducer;

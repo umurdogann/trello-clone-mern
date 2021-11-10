@@ -5,8 +5,12 @@ import {
   loginStart,
   loginFailure,
   loginSuccess,
+  loadSuccess,
+  loadFailure,
+  loadStart,
 } from "../Redux/Slices/userSlice";
 import { openAlert } from "../Redux/Slices/alertSlice";
+import setBearer from "../Utils/setBearer";
 const baseUrl = "http://localhost:3001/user/";
 
 export const register = async (
@@ -56,7 +60,9 @@ export const login = async ({ email, password }, dispatch) => {
   try {
     const res = await axios.post(baseUrl + "login", { email, password });
     const { user, message } = res.data;
-    dispatch(loginSuccess({ user }));
+    setTimeout(() => {
+      dispatch(loginSuccess({ user }));
+    }, 1500);
     dispatch(
       openAlert({
         message,
@@ -75,5 +81,17 @@ export const login = async ({ email, password }, dispatch) => {
         severity: "error",
       })
     );
+  }
+};
+
+export const loadUser = async (dispatch) => {
+  dispatch(loadStart());
+  if (!localStorage.token) return dispatch(loadFailure());
+  setBearer(localStorage.token);
+  try {
+    const res = await axios.get(baseUrl + "get-user");
+    dispatch(loadSuccess({ user: res.data }));
+  } catch (error) {
+    dispatch(loadFailure());
   }
 };
