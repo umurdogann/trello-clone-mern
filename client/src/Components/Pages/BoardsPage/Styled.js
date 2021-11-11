@@ -40,7 +40,6 @@ export const Wrapper = styled.div`
 
 export const Board = styled.div`
   color: white;
-  text-shadow: 0px 1px 4px #aaa;
   padding: 0.6rem;
   margin: 0 0.8rem 1rem 0.8rem;
   width: 200px;
