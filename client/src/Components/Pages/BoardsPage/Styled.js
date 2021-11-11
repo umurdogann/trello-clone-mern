@@ -46,7 +46,7 @@ export const Board = styled.div`
   width: 200px;
   height: 120px;
   border-radius: 5px;
-  background-color: ${props=>props.bgColor};
+  background-color: ${(props) => props.bgColor};
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -55,18 +55,33 @@ export const Board = styled.div`
   will-change: opacity;
   transition: opacity 450ms;
   &:hover {
-    opacity: 100%;    
+    opacity: 100%;
     transition: opacity 150ms;
     font-weight: 600;
   }
 `;
 
 export const AddBoard = styled(Board)`
-  text-shadow: 0.09091em 0.09091em 0 rgba(200, 200, 200, 0.5);
-  color: black;
-  background-color: lightgray;
+  background-color: transparent;
+  background-image: linear-gradient(
+    to right,
+    #0b486b 0%,
+    #f56217 51%,
+    #0b486b 100%
+  );
+  font-size:1.2rem;
+  transition: 2s;
+  opacity: 65%;
+  background-size: 200% auto;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  font-weight: 600;
+  &:hover {
+    background-position: right center;
+    color: #fff;
+    transition: 400ms ease-in;
+  }
 `;
-

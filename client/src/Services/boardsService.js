@@ -12,7 +12,9 @@ export const getBoards = async (dispatch) => {
   dispatch(startFetchingBoards());
   try {
     const res = await axios.get(baseUrl + "/");
-    dispatch(successFetchingBoards({ boards: res.data }));
+    setTimeout(() => {
+        dispatch(successFetchingBoards({ boards: res.data }));        
+    }, 1000);
   } catch (error) {
     dispatch(failFetchingBoards());
     dispatch(

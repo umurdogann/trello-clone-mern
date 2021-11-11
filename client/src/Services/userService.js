@@ -62,12 +62,12 @@ export const login = async ({ email, password }, dispatch) => {
     const { user, message } = res.data;
     setTimeout(() => {
       dispatch(loginSuccess({ user }));
-    }, 1500);
+    }, 500);
     dispatch(
       openAlert({
         message,
         severity: "success",
-        duration: 1500,
+        duration: 500,
         nextRoute: "/boards",
       })
     );
