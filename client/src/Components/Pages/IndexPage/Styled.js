@@ -1,10 +1,7 @@
-import React from "react";
-import IndexNav from "../IndexNav";
 import styled from "styled-components";
-import { lg, sm } from "../../BreakPoints";
-import { useHistory } from "react-router-dom";
+import { lg, sm } from "../../../BreakPoints";
 
-const Container = styled.div`
+export const Container = styled.div`
   background: linear-gradient(rgb(234, 230, 255), rgb(255, 255, 255)) no-repeat;
   color: rgb(9, 30, 66);
   width: 100%;
@@ -13,7 +10,7 @@ const Container = styled.div`
   color: #091e42;
 `;
 
-const Content = styled.section`
+export const Content = styled.section`
   display: flex;
   min-height: 100vh;
   padding-top: 4rem;
@@ -24,17 +21,17 @@ const Content = styled.section`
 
   ${lg({
     flexDirection: "column-reverse",
-    paddingTop:"6rem",
-    alignItems: "stretch",    
+    paddingTop: "6rem",
+    alignItems: "stretch",
     gap: "5%",
   })}
 `;
 
-const LeftSide = styled.div`
+export const LeftSide = styled.div`
   box-sizing: border-box;
   flex: 1;
 `;
-const LeftWrapper = styled.div`
+export const LeftWrapper = styled.div`
   width: 39rem;
   display: flex;
   flex-direction: column;
@@ -42,11 +39,10 @@ const LeftWrapper = styled.div`
   ${sm({
     width: "19rem",
     alignItems: "center",
-    
   })}
 `;
 
-const Title = styled.h1`
+export const Title = styled.h1`
   font-size: 3rem;
   font-weight: 600;
   ${sm({
@@ -55,7 +51,7 @@ const Title = styled.h1`
   })}
 `;
 
-const Text = styled.h3`
+export const Text = styled.h3`
   margin-top: 0.5rem;
   font-family: "Charlie Text", sans-serif;
   font-size: 1.3rem;
@@ -68,7 +64,7 @@ const Text = styled.h3`
   })}
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   margin-top: 2rem;
   font-size: 1.25rem;
   background-color: #0065ff;
@@ -88,51 +84,22 @@ const Button = styled.button`
   })}
 `;
 
-const RightSide = styled.div`
+export const RightSide = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
   ${lg({
-    maxHeight: "300px"
+    maxHeight: "300px",
   })}
 `;
 
-const SvgItem = styled.img`
+export const SvgItem = styled.img`
   width: 400.5px;
   aspect-ratio: auto 465.5 / 602.5;
   height: 540.5px;
-  
+
   ${lg({
     width: "300px",
     height: "272px",
   })}
 `;
-
-const Index = () => {
-  let history = useHistory();
-  return (
-    <>
-      <IndexNav />
-      <Container>
-        <Content>
-          <LeftSide>
-            <LeftWrapper>
-              <Title>Trello helps teams move work forward.</Title>
-              <Text>
-                Collaborate, manage projects, and reach new productivity peaks.
-                From high rises to the home office, the way your team works is
-                unique—accomplish it all with Trello.
-              </Text>
-              <Button onClick={()=>history.push("/register")}>Sign up - it's free</Button>
-            </LeftWrapper>
-          </LeftSide>
-          <RightSide>
-            <SvgItem src="https://images.ctfassets.net/rz1oowkt5gyp/5QIzYxue6b7raOnVFtMyQs/113acb8633ee8f0c9cb305d3a228823c/hero.png?w=1200&fm=webp" />
-          </RightSide>
-        </Content>
-      </Container>
-    </>
-  );
-};
-
-export default Index;
