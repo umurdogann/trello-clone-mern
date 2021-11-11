@@ -15,7 +15,7 @@ const Boards = () => {
 
   return (
     <>
-      {pending && <LoadingScreen />}
+      {pending && <LoadingScreen/>}
       <Container>
         <Navbar />
         <Wrapper>
@@ -23,7 +23,7 @@ const Boards = () => {
           {!pending && boardsData.map(item=>{
             return <Board key={item._id} bgColor={item.color}>{item.title}</Board>
           })}
-          <AddBoard>Create new board</AddBoard>
+          {!pending && <AddBoard>Create new board</AddBoard>}
         </Wrapper>
       </Container>
     </>

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  boardsData: null,
+  boardsData: {},
   pending: true,
 };
 
