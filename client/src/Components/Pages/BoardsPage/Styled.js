@@ -46,7 +46,7 @@ export const Board = styled.div`
   width: 200px;
   height: 120px;
   border-radius: 5px;
-  background-color: red;
+  background-color: ${props=>props.bgColor};
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
@@ -55,8 +55,9 @@ export const Board = styled.div`
   will-change: opacity;
   transition: opacity 450ms;
   &:hover {
-    opacity: 100%;
+    opacity: 100%;    
     transition: opacity 150ms;
+    font-weight: 600;
   }
 `;
 
