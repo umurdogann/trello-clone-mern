@@ -25,9 +25,9 @@ const Boards = () => {
       <Container>
         <Navbar />
         <Wrapper>
-          <Title>YOUR WORKSPACES</Title>
-          {!pending && boardsData.map(item=>{
-            return <Board key={item._id} bgColor={item.color}>{item.title}</Board>
+          <Title>Your Boards</Title>
+          {!pending && boardsData && boardsData.map(item=>{
+            return <Board key={item._id} link={item.backgroundImageLink}>{item.title}</Board>
           })}
           {!pending && <AddBoard onClick={()=>setOpenModal(true)}>Create new board</AddBoard>}
           {openModal && <CreateBoard callback={handleModalClose}/>}

@@ -45,7 +45,9 @@ export const Board = styled.div`
   width: 200px;
   height: 120px;
   border-radius: 5px;
-  background-color: ${(props) => props.bgColor};
+  background-image: url(${(props) => props.link});
+background-position: center center;
+  background-size: cover;
   -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
