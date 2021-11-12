@@ -57,8 +57,23 @@ const getUser = async (req, res) => {
   });
 };
 
+const getUserWithMail = async(req,res) => {
+  const {email} = req.body;
+  await userService.getUserWithMail(email,(err,result)=>{
+    if(err) return res.status(404).send(err);
+
+    const dataTransferObject = {
+      name: result.name,
+      surname: result.surname,
+      email : result.email
+    };
+    return res.status(200).send(dataTransferObject);
+  })
+}
+
 module.exports = {
   register,
   login,
   getUser,
+  getUserWithMail,
 };

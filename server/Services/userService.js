@@ -18,7 +18,10 @@ const login = async (email, callback) => {
     if (!user) return callback({ errMessage: "Your email/password is wrong!" });
     return callback(false, { ...user.toJSON() });
   } catch (err) {
-    return callback({ errMessage: "Something went wrong", details: err.message });
+    return callback({
+      errMessage: "Something went wrong",
+      details: err.message,
+    });
   }
 };
 
@@ -29,8 +32,24 @@ const getUser = async (id, callback) => {
     return callback(false, { ...user.toJSON() });
   } catch (err) {
     return callback({
-      errMessage: "Something wen wrong",
+      errMessage: "Something went wrong",
       details: err.message,
+    });
+  }
+};
+
+const getUserWithMail = async (email, callback) => {
+  try {
+    let user = await userModel.findOne({ email });
+    if (!user)
+      return callback({
+        errMessage: "There is no registered user with this e-mail.",
+      });
+    return callback(false, { ...user.toJSON() });
+  } catch (error) {
+    return callback({
+      errMessage: "Something went wrong",
+      details: error.message,
     });
   }
 };
@@ -39,4 +58,5 @@ module.exports = {
   register,
   login,
   getUser,
+  getUserWithMail,
 };
