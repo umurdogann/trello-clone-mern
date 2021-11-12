@@ -56,9 +56,6 @@ export const PanelWrapper = styled.div`
   flex-direction: column;
   padding: 0.5rem;
   justify-content: space-around;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
 `;
 
 export const TitleInput = styled.input`
@@ -185,6 +182,11 @@ export const CreateButton = styled.button`
   &:active {
     background-color: #0079bf;
   }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: rgba(128, 128, 128, 1);
+    color: rgba(200, 200, 200, 0.5);
+  }
 `;
 
 export const CloseIcon = styled.div``;
@@ -241,12 +243,13 @@ export const DoneIconWrapper = styled.div`
   color: white;
 `;
 
-export const TitleRow = styled.div``;
-
-export const TitleRowWrapper = styled.div``;
-
-export const PanelTitle = styled.div``;
-
-export const ClosePanelButton = styled.div``;
-
-export const PhotosRow = styled.div``;
+export const ChipWrapper = styled.div`
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0 0.5rem 0.5rem 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.2rem;
+`;
