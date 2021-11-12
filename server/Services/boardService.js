@@ -3,10 +3,10 @@ const userModel = require("../Models/userModel");
 
 const create = async (req, callback) => {
   try {
-    const { title, color } = req.body;
+    const { title, backgroundImageLink, members } = req.body;
 
     // Create and save new board
-    const tempBoard = boardModel({ title, color });
+    const tempBoard = boardModel({ title, backgroundImageLink });
     const newBoard = await tempBoard.save();
 
     // Add this board to owner's boards
@@ -15,10 +15,26 @@ const create = async (req, callback) => {
     await user.save();
 
     // Add user to members of this board
-    newBoard.members.push({ user: user.id, name: user.name, role: "owner" });
+    newBoard.members.push({ user: user.id, name: user.name, surname:user.surname, role: "owner" });
 
     // Add created activity to activities of this board
     newBoard.activity.unshift({ action: `New board created by ${user.name}` });
+
+    // Save newBoard's id to boards of members and,
+    // Add ids of members to newBoard
+    members.map(async (member) => {
+      const newMember = await userModel.findOne({ email: member.email });
+      newMember.boards.unshift(newBoard.id);
+      newBoard.members.push({
+        user: newMember.id,
+        name: newMember.name,
+        surname: newMember.surname,
+        role: "member",
+      });
+      newBoard.activity.unshift({ action: `${newMember.name} was added as a collaborator by ${user.name}` });
+      await newMember.save();
+      return newMember.id;
+    });
 
     // Save new board
     const result = await newBoard.save();
