@@ -4,6 +4,7 @@ const initialState = {
   userInfo: null,
   isAuthenticated: null,
   pending: true,
+  loading: false,
   token: localStorage.getItem("token"),
 };
 
@@ -50,6 +51,12 @@ export const userSlice = createSlice({
       state.token = null;
       localStorage.removeItem("token");
     },
+    fetchingStart: (state)=>{
+      state.loading = true;
+    },
+    fetchingFinish: (state) => {
+      state.loading = false;
+    }
   },
 });
 
@@ -63,5 +70,7 @@ export const {
   loadSuccess,
   loadFailure,
   logout,
+  fetchingStart,
+  fetchingFinish,
 } = userSlice.actions;
 export default userSlice.reducer;

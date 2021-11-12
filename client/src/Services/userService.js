@@ -8,6 +8,8 @@ import {
   loadSuccess,
   loadFailure,
   loadStart,
+  fetchingStart,
+  fetchingFinish,
 } from "../Redux/Slices/userSlice";
 import { openAlert } from "../Redux/Slices/alertSlice";
 import setBearer from "../Utils/setBearer";
@@ -93,5 +95,35 @@ export const loadUser = async (dispatch) => {
     dispatch(loadSuccess({ user: res.data }));
   } catch (error) {
     dispatch(loadFailure());
+  }
+};
+
+export const getUserFromEmail = async (email, dispatch) => {
+  dispatch(fetchingStart());
+  if (!email) {
+    dispatch(
+      openAlert({
+        message: "Please write an email to invite",
+        severity: "warning",
+      })
+      );
+      dispatch(fetchingFinish());
+      return null;
+    }
+    
+  try {
+    const res = await axios.post(baseUrl + "get-user-with-email", { email });
+    dispatch(fetchingFinish());
+    return res.data;
+  } catch (error) {
+    dispatch(
+      openAlert({
+        message: error?.response?.data?.errMessage
+        ? error.response.data.errMessage
+        : error.message,
+        severity: "error",
+      })
+      );
+     dispatch(fetchingFinish());
   }
 };
