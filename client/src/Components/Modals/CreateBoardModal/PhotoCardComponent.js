@@ -4,8 +4,6 @@ import DoneRoundedIcon from "@mui/icons-material/DoneRounded";
 
 const PhotoCardComponent = (props) => {
   const { link, selectedLink, callback } = props;
-  console.log("link", link);
-  console.log("selectedImg", selectedLink);
   return (
     <style.PhotoWrapper link={link} onClick={() => callback(link)}>
       <style.Photo show={selectedLink === link}>
