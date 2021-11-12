@@ -11,9 +11,9 @@ const Boards = () => {
   const { pending, boardsData } = useSelector((state) => state.boards);
   const [openModal, setOpenModal] = useState(false);
 
-  const handleModalClose = ()=>{
+  const handleModalClose = () => {
     setOpenModal(false);
-  }
+  };
 
   useEffect(() => {
     getBoards(dispatch);
@@ -21,16 +21,26 @@ const Boards = () => {
 
   return (
     <>
-      {pending&& <LoadingScreen/>}
+      {pending && <LoadingScreen />}
       <Container>
         <Navbar />
         <Wrapper>
           <Title>Your Boards</Title>
-          {!pending && boardsData && boardsData.map(item=>{
-            return <Board key={item._id} link={item.backgroundImageLink}>{item.title}</Board>
-          })}
-          {!pending && <AddBoard onClick={()=>setOpenModal(true)}>Create new board</AddBoard>}
-          {openModal && <CreateBoard callback={handleModalClose}/>}
+          {!pending &&
+            boardsData &&
+            boardsData.map((item) => {
+              return (
+                <Board key={item._id} link={item.backgroundImageLink}>
+                  {item.title}
+                </Board>
+              );
+            })}
+          {!pending && (
+            <AddBoard onClick={() => setOpenModal(true)}>
+              Create new board
+            </AddBoard>
+          )}
+          {openModal && <CreateBoard callback={handleModalClose} />}
         </Wrapper>
       </Container>
     </>

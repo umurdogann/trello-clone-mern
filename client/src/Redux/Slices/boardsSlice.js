@@ -14,7 +14,9 @@ const initialState = {
     "https://images.unsplash.com/photo-1636207543865-acf3ad382295",
     "https://images.unsplash.com/photo-1597244211919-8a52ab2e40ea",
   ],
-  smallPostfix: "?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNjM2NjUzNDgz&ixlib=rb-1.2.1&q=80&w=400",
+  smallPostfix:
+    "?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=Mnw3MDY2fDB8MXxjb2xsZWN0aW9ufDJ8MzE3MDk5fHx8fHwyfHwxNjM2NjUzNDgz&ixlib=rb-1.2.1&q=80&w=400",
+  creating: false,
 };
 
 const boardsSlice = createSlice({
@@ -31,6 +33,16 @@ const boardsSlice = createSlice({
     failFetchingBoards: (state) => {
       state.pending = false;
     },
+    startCreatingBoard: (state) => {
+      state.creating = true;
+    },
+    successCreatingBoard: (state, action) => {
+      state.boardsData.push(action.payload);
+      state.creating = false;
+    },
+    failCreatingBoard: (state) => {
+      state.creating = true;
+    },
   },
 });
 
@@ -38,5 +50,8 @@ export const {
   startFetchingBoards,
   successFetchingBoards,
   failFetchingBoards,
+  startCreatingBoard,
+  successCreatingBoard,
+  failCreatingBoard,
 } = boardsSlice.actions;
 export default boardsSlice.reducer;
