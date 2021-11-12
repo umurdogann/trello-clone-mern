@@ -6,7 +6,7 @@ const boardSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    color: {
+    backgroundImageLink: {
       type: String,
       required: true,
     },
@@ -29,6 +29,9 @@ const boardSchema = mongoose.Schema(
           ref: "users",
         },
         name: {
+          type: String,
+        },
+        surname:{
           type: String,
         },
         role: {
