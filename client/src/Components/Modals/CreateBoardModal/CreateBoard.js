@@ -5,7 +5,7 @@ import * as style from "./Styled";
 import PhotoCardComponent from "./PhotoCardComponent";
 import TitleCardComponent from "./TitleCardComponent";
 import { useDispatch, useSelector } from "react-redux";
-import { createBoard } from "Services/boardsService";
+import { createBoard } from "../../../Services/boardsService";
 import LoadingScreen from "../../LoadingScreen";
 
 export default function CreateBoard(props) {

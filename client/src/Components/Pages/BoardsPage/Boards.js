@@ -5,15 +5,21 @@ import { getBoards } from "../../../Services/boardsService";
 import Navbar from "../../Navbar";
 import { Container, Wrapper, Title, Board, AddBoard } from "./Styled";
 import CreateBoard from "../../Modals/CreateBoardModal/CreateBoard";
+import { useHistory } from "react-router";
 
 const Boards = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { pending, boardsData } = useSelector((state) => state.boards);
   const [openModal, setOpenModal] = useState(false);
 
   const handleModalClose = () => {
     setOpenModal(false);
   };
+
+  const handleClick = (e) => {
+   history.push(`/board/${e.target.id}`)
+  }
 
   useEffect(() => {
     getBoards(dispatch);
@@ -30,7 +36,7 @@ const Boards = () => {
             boardsData &&
             boardsData.map((item) => {
               return (
-                <Board key={item._id} link={item.backgroundImageLink}>
+                <Board key={item._id} link={item.backgroundImageLink} id={item._id} onClick={(e)=>handleClick(e)}>
                   {item.title}
                 </Board>
               );
