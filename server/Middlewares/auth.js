@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-
+const userModel = require("../Models/userModel");
 const generateToken = (id, email) => {
   const token = jwt.sign({ id, email }, process.env.JWT_SECRET, {
     expiresIn: "1d",
@@ -7,7 +7,7 @@ const generateToken = (id, email) => {
   return token.toString();
 };
 
-const verifyToken = (req, res, next) => {
+const verifyToken = async(req, res, next) => {
   try {
     if (!req.headers["authorization"])
       return res
@@ -17,12 +17,14 @@ const verifyToken = (req, res, next) => {
     const header = req.headers["authorization"];
     const token = header.split(" ")[1];
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, verifiedToken) => {
+    await jwt.verify(token, process.env.JWT_SECRET, async(err, verifiedToken) => {
       if (err)
         return res
           .status(401)
           .send({ errMessage: "Authorization token invalid", details: err });
-      req.user = verifiedToken;
+      const user = await userModel.findById(verifiedToken.id);
+      console.log(verifiedToken);
+      req.user = user;
       next();
     });
   } catch (error) {
