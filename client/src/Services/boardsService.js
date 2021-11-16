@@ -9,7 +9,7 @@ import {
   startCreatingBoard,
 } from "../Redux/Slices/boardsSlice";
 import { addNewBoard } from "../Redux/Slices/userSlice";
-
+import {setLoading, successFetchingBoard} from "../Redux/Slices/boardSlice";
 const baseUrl = "http://localhost:3001/board";
 
 export const getBoards = async (dispatch) => {
@@ -55,7 +55,28 @@ export const createBoard = async (props, dispatch) => {
       })
     );
   } catch (error) {
-    //dispatch(failCreatingBoard());
+    dispatch(failCreatingBoard());
+    dispatch(
+      openAlert({
+        message: error?.response?.data?.errMessage
+          ? error.response.data.errMessage
+          : error.message,
+        severity: "error",
+      })
+    );
+  }
+};
+
+export const getBoard = async (boardId,dispatch) => {
+  dispatch(setLoading(true));
+  try {
+    const res = await axios.get(baseUrl + "/" + boardId);
+      dispatch(successFetchingBoard(res.data));    
+    setTimeout(() => {
+      dispatch(setLoading(false));      
+    }, 1000);
+  } catch (error) {
+    dispatch(setLoading(false));
     dispatch(
       openAlert({
         message: error?.response?.data?.errMessage
