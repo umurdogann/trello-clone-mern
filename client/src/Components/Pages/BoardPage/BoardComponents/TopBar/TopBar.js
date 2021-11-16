@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as style from './styled';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as common from '../../CommonStyled';
-const TopBar = (props) => {
+import { useSelector } from 'react-redux';
+const TopBar = () => {
+	const { title } = useSelector((state) => state.board);
+
+	const handleTitleChange = (e) => {
+		const newTitle = e.default.value;
+	};
 	return (
 		<style.TopBar>
 			<div>
@@ -16,8 +22,8 @@ const TopBar = (props) => {
 			<div>
 				<style.BoardNameInput
 					placeholder='Board Name'
-					value={props.boardName}
-					onChange={(e) => props.callback(e.target.value)}
+					value={title}
+					onChange={(e) => handleTitleChange(e)}
 				/>
 			</div>
 
