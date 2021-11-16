@@ -2,7 +2,7 @@ import { xs } from "../../../BreakPoints";
 import styled from "styled-components";
 
 export const Container = styled.div`
-background-image: url("https://images.unsplash.com/photo-1636207543865-acf3ad382295");
+background-image: url(${props=>props.backgroundImg});
   background-position: 50%;
   background-size: cover;
   padding: 3rem 0rem 0rem 0rem;
