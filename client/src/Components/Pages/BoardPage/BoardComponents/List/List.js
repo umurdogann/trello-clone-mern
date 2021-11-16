@@ -14,27 +14,34 @@ import {
 import { ClickableIcon } from '../../CommonStyled';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 import Card from '../Card/Card';
-const List = () => {
+import { useDispatch, useSelector } from 'react-redux';
+const List = (props) => {
+	const dispatch = useDispatch();
+	const {allLists} = useSelector(state=>state.list);
 	const [clickFooter, setClickFooter] = useState(false);
-	const [newCardTitle, setNewCardTitle] = useState('');
+	const [newListTitle, setNewListTitle] = useState('');
+
 	const handleFooterClick = () => {
 		setClickFooter(false);
 	};
 	const handleFooterCloseClick = () => {
 		setClickFooter(false);
 	};
-
+	
+	const handleTitleChange = ()=>{
+		console.log("sa")
+	}
 	return (
 		<>
 			<Container>
 				<Header>
-					<TitleInput value="List Title" />
+					<TitleInput value={props.info.title} onChange={handleTitleChange}/>
 					<ClickableIcon color='#656565'>
 						<MoreHorizIcon fontSize='0.1rem' onClick={() => {}} />
 					</ClickableIcon>
 				</Header>
 				<CardContainer>
-					<Card />
+					{/* <Card/> */}
 				</CardContainer>
 
 				{!clickFooter ? (
@@ -45,10 +52,10 @@ const List = () => {
 				) : (
 					<AddTitleCardContainer>
 						<TitleNewCardInput
-							value={newCardTitle}
+							value={newListTitle}
 							placeholder='Enter a title for this card...'
-							height={Math.floor(newCardTitle.length / 16) + 'rem'}
-							onChange={(e) => setNewCardTitle(e.target.value)}
+							height={Math.floor(newListTitle.length / 16) + 'rem'}
+							onChange={(e) => setNewListTitle(e.target.value)}
 						/>
 						<BottomButtonGroup
 							title='Add card'
