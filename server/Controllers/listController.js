@@ -25,7 +25,7 @@ const getAll = async (req, res) => {
 	const boardId = req.params.id;
 
 	// Validate whether boardId is in the user's board or not
-	
+
 	const validate = req.user.boards.filter((board) => board === boardId);
 	if (!validate)
 		return res.status(400).send({ errMessage: 'You cannot get lists, because you are not owner of this lists!' });
@@ -37,7 +37,22 @@ const getAll = async (req, res) => {
 	});
 };
 
+const deleteById = async (req, res) => {
+	// deconstruct the params
+	const { listId, boardId } = req.body;
+	const user = req.user;
+
+	// Validate the listId and boardId
+	if (!(listId && boardId)) return res.status(400).send('List or board undefined');
+
+	await listService.deleteById(listId, boardId, user, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getAll,
+	deleteById,
 };

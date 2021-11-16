@@ -36,7 +36,33 @@ const getAll = async (boardId, callback) => {
 		//get lists whose owner id equals to boardId param
 		const lists = await listModel.find({ owner: { $in: boardId } });
 
-		return callback(false,lists);
+		return callback(false, lists);
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const deleteById = async (listId, boardId, user, callback) => {
+	try {
+		// Get board to check the parent of list is this board
+		const board = await boardModel.findById(boardId);
+
+		// Validate the parent of the list
+		const validate = board.lists.filter((list) => list.id === listId);
+		if (!validate) return callback({ errMessage: 'List or board informations are wrong' });
+
+		// Validate whether the owner of the board is the user who sent the request.
+		if (!user.boards.filter((board) => board === boardId))
+			return callback({ errMessage: 'You cannot delete a list that does not hosted by your boards' });
+
+		// Delete the list
+		const result = await listModel.findByIdAndDelete(listId);
+
+		// Delete the list from lists of board
+		board.lists = board.lists.filter((list) => list !== listId);
+		board.save();
+
+		return callback(false, result);
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -45,4 +71,5 @@ const getAll = async (boardId, callback) => {
 module.exports = {
 	create,
 	getAll,
+	deleteById,
 };
