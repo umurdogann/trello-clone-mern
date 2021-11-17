@@ -16,7 +16,7 @@ const cardSchema = mongoose.Schema({
 	members: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'user',
+			ref: 'users',
 			name: {
 				type: String,
 			},
@@ -25,7 +25,7 @@ const cardSchema = mongoose.Schema({
 	watchers: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'user',
+			ref: 'users',
 			name: {
 				type: String,
 			},
@@ -45,7 +45,7 @@ const cardSchema = mongoose.Schema({
 	activities: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: 'user',
+			ref: 'users',
 			name: {
 				type: String,
 			},
