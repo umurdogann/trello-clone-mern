@@ -59,7 +59,7 @@ const deleteById = async (listId, boardId, user, callback) => {
 		const result = await listModel.findByIdAndDelete(listId);
 
 		// Delete the list from lists of board
-		board.lists = board.lists.filter((list) => list !== listId);
+		board.lists = board.lists.filter((list) => list.toString() !== listId);
 		board.save();
 
 		return callback(false, result);

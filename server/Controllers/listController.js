@@ -39,7 +39,7 @@ const getAll = async (req, res) => {
 
 const deleteById = async (req, res) => {
 	// deconstruct the params
-	const { listId, boardId } = req.body;
+	const { listId, boardId } = req.params;
 	const user = req.user;
 
 	// Validate the listId and boardId
