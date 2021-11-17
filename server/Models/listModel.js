@@ -7,22 +7,14 @@ const listSchema = mongoose.Schema({
 	},
 	cards: [
 		{
-			title: {
-				type: String,
-				required: true,
-			},
-			cards: [
-				{
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'cards',
-				},
-			],
-		},
+			type: mongoose.Schema.Types.ObjectId,
+			ref: 'card',
+		}
 	],
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'boards'
-	}
+		ref: 'board',
+	},
 });
 
 module.exports = mongoose.model('list', listSchema);
