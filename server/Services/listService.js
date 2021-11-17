@@ -34,7 +34,10 @@ const create = async (model, user, callback) => {
 const getAll = async (boardId, callback) => {
 	try {
 		//get lists whose owner id equals to boardId param
-		const lists = await listModel.find({ owner: { $in: boardId } });
+		const lists = await listModel
+			.find({ owner: { $in: boardId } })
+			.populate({ path: 'cards', select: 'title' })
+			.exec();
 
 		return callback(false, lists);
 	} catch (error) {
