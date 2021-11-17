@@ -1,5 +1,6 @@
 const listModel = require('../Models/listModel');
 const boardModel = require('../Models/boardModel');
+const cardModel = require('../Models/cardModel');
 
 const create = async (model, user, callback) => {
 	try {
@@ -69,6 +70,9 @@ const deleteById = async (listId, boardId, user, callback) => {
 			action: `${user.name + ' ' + user.surname} deleted ${result.title} from this board`,
 		});
 		board.save();
+
+		// Delete all cars in the list
+		await cardModel.deleteMany({owner: listId});
 
 		return callback(false, result);
 	} catch (error) {
