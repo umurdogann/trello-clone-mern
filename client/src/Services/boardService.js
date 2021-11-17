@@ -3,7 +3,6 @@ import { setLoading, successCreatingList, successDeletingList, successFetchingLi
 import { openAlert } from '../Redux/Slices/alertSlice';
 
 const listRoute = 'http://localhost:3001/list';
-const boardRoute = 'httpallList://localhost:3001/board';
 
 export const getLists = async (boardId, dispatch) => {
 	dispatch(setLoading(true));
@@ -47,7 +46,7 @@ export const DeleteList = async(listId,boardId,dispatch)=>{
 	dispatch(setLoading(true));
 	try {
 		await axios.delete(listRoute + "/"+boardId+"/"+listId);
-		dispatch(successDeletingList(listId));
+		await dispatch(successDeletingList(listId));
 		dispatch(setLoading(false));
 	} catch (error) {
 		dispatch(setLoading(false));
