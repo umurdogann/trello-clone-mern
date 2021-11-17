@@ -23,7 +23,6 @@ const verifyToken = async(req, res, next) => {
           .status(401)
           .send({ errMessage: "Authorization token invalid", details: err });
       const user = await userModel.findById(verifiedToken.id);
-      console.log(verifiedToken);
       req.user = user;
       next();
     });
