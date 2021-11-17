@@ -17,10 +17,13 @@ const listSlice = createSlice({
         },
         successFetchingLists: (state,action)=>{
             state.allLists = action.payload;
+        },
+        successDeletingList: (state, action) => {            
+            state.allLists = state.allLists.filter(list => list._id !== action.payload);
         }
     }
 });
 
-export const {setLoading, successCreatingList, successFetchingLists} = listSlice.actions;
+export const {setLoading, successCreatingList, successFetchingLists, successDeletingList} = listSlice.actions;
 
 export default listSlice.reducer; 

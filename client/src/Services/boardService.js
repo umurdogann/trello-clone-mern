@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setLoading, successCreatingList, successFetchingLists } from '../Redux/Slices/listSlice';
+import { setLoading, successCreatingList, successDeletingList, successFetchingLists } from '../Redux/Slices/listSlice';
 import { openAlert } from '../Redux/Slices/alertSlice';
 
 const listRoute = 'http://localhost:3001/list';
@@ -42,3 +42,20 @@ export const createList = async (title, boardId, dispatch) => {
 
 
 };
+
+export const DeleteList = async(listId,boardId,dispatch)=>{
+	dispatch(setLoading(true));
+	try {
+		await axios.delete(listRoute + "/"+boardId+"/"+listId);
+		dispatch(successDeletingList(listId));
+		dispatch(setLoading(false));
+	} catch (error) {
+		dispatch(setLoading(false));
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+}
