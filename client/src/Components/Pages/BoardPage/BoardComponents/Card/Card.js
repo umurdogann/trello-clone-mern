@@ -21,11 +21,11 @@ import {
 	MembersWrapper,
 	MemberAvatar,
 } from './styled';
-const Card = () => {
+const Card = (props) => {
 	return (
 		<>
 			<Container>
-				<LabelContainer>
+				{/* <LabelContainer>
 					<Label />
 					<Label />
 					<Label />
@@ -33,9 +33,9 @@ const Card = () => {
 					<Label />
 					<Label />
 					<Label />
-				</LabelContainer>
-				<CardTitle>Title</CardTitle>
-				<FooterContainer>
+				</LabelContainer> */}
+				<CardTitle>{props.info.title}</CardTitle>
+				{/* <FooterContainer>
 					<IconGroupContainer>
 						<IconGroupWrapper>
 							<IconWrapper>
@@ -61,7 +61,7 @@ const Card = () => {
 							<MemberAvatar>u</MemberAvatar>
 						</MembersWrapper>
 					</MembersContainer>
-				</FooterContainer>
+				</FooterContainer> */}
 			</Container>
 		</>
 	);
