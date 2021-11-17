@@ -20,10 +20,18 @@ const listSlice = createSlice({
         },
         successDeletingList: (state, action) => {            
             state.allLists = state.allLists.filter(list => list._id !== action.payload);
+        },
+        successCreatingCard: (state,action) =>{
+            state.allLists = state.allLists.map(list=>{
+                if(list._id === action.payload.listId){
+                    return action.payload.updatedList;
+                }
+                return list;
+            })
         }
     }
 });
 
-export const {setLoading, successCreatingList, successFetchingLists, successDeletingList} = listSlice.actions;
+export const {setLoading, successCreatingList, successFetchingLists, successDeletingList, successCreatingCard} = listSlice.actions;
 
 export default listSlice.reducer; 
