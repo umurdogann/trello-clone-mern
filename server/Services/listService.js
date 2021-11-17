@@ -60,6 +60,11 @@ const deleteById = async (listId, boardId, user, callback) => {
 
 		// Delete the list from lists of board
 		board.lists = board.lists.filter((list) => list.toString() !== listId);
+
+		// Add activity log to board
+		board.activity.unshift({
+			action: `${user.name + ' ' + user.surname} deleted ${result.title} from this board`,
+		});
 		board.save();
 
 		return callback(false, result);
