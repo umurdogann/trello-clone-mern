@@ -14,35 +14,80 @@ import {
 import { ClickableIcon } from '../../CommonStyled';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
 import Card from '../Card/Card';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import DeleteIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { DeleteList } from '../../../../../Services/boardService';
+import { createCard } from '../../../../../Services/listService';
+
 const List = (props) => {
 	const dispatch = useDispatch();
-	const {allLists} = useSelector(state=>state.list);
 	const [clickFooter, setClickFooter] = useState(false);
-	const [newListTitle, setNewListTitle] = useState('');
+	const [newCardTitle, setNewCardTitle] = useState('');
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
 	const handleFooterClick = () => {
-		setClickFooter(false);
+		setNewCardTitle("");
+		createCard(newCardTitle,props.info._id,props.info.owner,dispatch)
 	};
 	const handleFooterCloseClick = () => {
-		setClickFooter(false);
+		setClickFooter(false);		
+		setNewCardTitle("");
 	};
-	
-	const handleTitleChange = ()=>{
-		console.log("sa")
+
+	const handleTitleChange = () => {
+		// TODO: change title
+	};
+
+	const handleDeleteClick = () => {
+		DeleteList(props.info._id,props.info.owner,dispatch);
+		
 	}
 	return (
 		<>
 			<Container>
 				<Header>
-					<TitleInput value={props.info.title} onChange={handleTitleChange}/>
-					<ClickableIcon color='#656565'>
+					<TitleInput value={props.info.title} onChange={handleTitleChange} />
+					<ClickableIcon
+						color='#656565'
+						aria-controls='basic-menu'
+						aria-haspopup='true'
+						aria-expanded={open ? 'true' : undefined}
+						onClick={handleClick}
+					>
 						<MoreHorizIcon fontSize='0.1rem' onClick={() => {}} />
 					</ClickableIcon>
+					<Menu
+						id='basic-menu'
+						anchorEl={anchorEl}
+						open={open}
+						onClose={handleClose}
+						MenuListProps={{
+							'aria-labelledby': 'basic-button',							
+						}}
+					>
+						<MenuItem onClick={handleDeleteClick} >
+							<ListItemIcon>
+								<DeleteIcon fontSize='small' />
+							</ListItemIcon>
+							<ListItemText>Delete</ListItemText>
+						</MenuItem>
+					</Menu>
 				</Header>
-				<CardContainer>
-					{/* <Card/> */}
-				</CardContainer>
+				<CardContainer>{props.info.cards.map(card=> {
+					return <Card key={card._id} info={card}/>
+				})}</CardContainer>
 
 				{!clickFooter ? (
 					<FooterButton onClick={() => setClickFooter(true)}>
@@ -52,10 +97,10 @@ const List = (props) => {
 				) : (
 					<AddTitleCardContainer>
 						<TitleNewCardInput
-							value={newListTitle}
+							value={newCardTitle}
 							placeholder='Enter a title for this card...'
-							height={Math.floor(newListTitle.length / 16) + 'rem'}
-							onChange={(e) => setNewListTitle(e.target.value)}
+							height={Math.floor(newCardTitle.length / 16) + 'rem'}
+							onChange={(e) => setNewCardTitle(e.target.value)}
 						/>
 						<BottomButtonGroup
 							title='Add card'
