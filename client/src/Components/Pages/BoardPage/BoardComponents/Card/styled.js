@@ -15,9 +15,9 @@ margin: 0.2rem 0.3rem;
 border-radius:3px;
 color:black;
 gap:0.3rem;
-cursor:pointer;
 &:hover{
-    background-color: rgba(255,255,255,0.5);
+    cursor: pointer;
+    background-color: rgba(255,255,255,0.25);
 }
 `;
 
@@ -36,7 +36,7 @@ border-radius: 2rem;
 `;
 
 export const CardTitle = styled.div`
-
+    font-size: 0.85rem;
 `;
 
 export const FooterContainer = styled.div`

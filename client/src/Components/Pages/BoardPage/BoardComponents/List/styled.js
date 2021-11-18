@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { xs } from '../../../../../BreakPoints';
 
 export const Container = styled.div`
 	box-sizing: border-box;
@@ -72,12 +73,14 @@ export const CardWrapper = styled.div`
 	overflow-x: hidden;
 	overflow-y: auto;
 	height:fit-content;
-	max-height: ${props=> props.dock? "83vh" :"80.1vh"};
+	max-height: ${props=> props.dock? "73.5vh" :"70.6vh"};
 	justify-content: flex-start;
 	padding: 0.1rem 0rem;
 	width: 100%;
 	margin-right:3px;
-
+	${xs({
+		maxHeight: props=> props.dock? "74.6vh" :"70.6vh",
+	})}
 	::-webkit-scrollbar {
 		-webkit-appearance: none;
 		height: 0.75rem;
