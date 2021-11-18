@@ -11,6 +11,7 @@ export const AddAnotherListContainer = styled.div`
   background-color: ${props => props.show ? "#ebecf0" : "transparent"};
   color: white;
   height:fit-content;  
+  margin-left:0.2rem;
   gap: 0.3rem;
   border-radius: 3px;
   cursor: pointer;

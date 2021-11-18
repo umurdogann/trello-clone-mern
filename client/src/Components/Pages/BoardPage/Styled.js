@@ -16,7 +16,6 @@ export const ListContainer = styled.div`
 	height: calc(100vh - 3rem - 52px);
 	display: flex;
 	flex-direction: row;
-	gap: 0.4rem;
 	padding: 0rem 1rem;
 	overflow-x: auto;
 	overflow-y: hidden;
