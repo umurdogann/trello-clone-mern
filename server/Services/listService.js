@@ -72,9 +72,45 @@ const deleteById = async (listId, boardId, user, callback) => {
 		board.save();
 
 		// Delete all cars in the list
-		await cardModel.deleteMany({owner: listId});
+		await cardModel.deleteMany({ owner: listId });
 
 		return callback(false, result);
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const updateCardOrder = async (boardId, sourceId, destinationId, destinationIndex, cardId, callback) => {
+	try {
+		// Validate the parent board of the lists
+		const board = await boardModel.findById(boardId);
+		let validate = board.lists.filter((list) => list.id === sourceId);
+		const validate2 = board.lists.filter((list) => list.id === destinationId);
+		if (!validate || !validate2) return callback({ errMessage: 'List or board informations are wrong' });
+
+		// Validate the parent list of the card
+		const sourceList = await listModel.findById(sourceId);
+		validate = sourceList.cards.filter((card) => card._id.toString() === cardId);
+		if (!validate) return callback({ errMessage: 'List or card informations are wrong' });
+
+		// Remove the card from source list and save		
+		sourceList.cards = sourceList.cards.filter((card) => card._id.toString()!== cardId);		
+		await sourceList.save();
+
+		// Insert the card to destination list and save
+		const card = await cardModel.findById(cardId);				
+		const destinationList = await listModel.findById(destinationId);
+		const temp = Array.from(destinationList.cards);
+		temp.splice(destinationIndex, 0, cardId);
+		destinationList.cards = temp;
+		await destinationList.save();
+
+		// Change owner board of card
+		
+		card.owner = destinationId;
+		await card.save();
+
+		return callback(false, { message: 'Success' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -84,4 +120,5 @@ module.exports = {
 	create,
 	getAll,
 	deleteById,
+	updateCardOrder,
 };
