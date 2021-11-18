@@ -28,10 +28,13 @@ const listSlice = createSlice({
                 }
                 return list;
             })
+        },
+        updateCardDragDrop: (state, action) =>{
+            state.allLists = action.payload;
         }
     }
 });
 
-export const {setLoading, successCreatingList, successFetchingLists, successDeletingList, successCreatingCard} = listSlice.actions;
+export const {setLoading, successCreatingList, successFetchingLists, successDeletingList, successCreatingCard, updateCardDragDrop} = listSlice.actions;
 
 export default listSlice.reducer; 
