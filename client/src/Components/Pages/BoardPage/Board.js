@@ -7,6 +7,7 @@ import List from './BoardComponents/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBoard } from '../../../Services/boardsService';
 import { getLists } from '../../../Services/boardService';
+import { updateCardOrder } from '../../../Services/dragAndDropService';
 import LoadingScreen from '../../LoadingScreen';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
@@ -16,17 +17,27 @@ const Board = (props) => {
 	const { backgroundImageLink, loading } = useSelector((state) => state.board);
 	const { allLists, loadingListService } = useSelector((state) => state.list);
 	const boardId = props.match.params.id;
-
 	useEffect(() => {
 		getBoard(props.match.params.id, dispatch);
 		getLists(boardId, dispatch);
 	}, [props.match.params.id, dispatch, boardId]);
 
-	const onDragEnd = (result) => {
+	const onDragEnd = async (result) => {
 		const { draggableId, source, destination } = result;
-
 		if (!destination) return;
-		console.log(result);
+		if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+		await updateCardOrder(
+			{
+				sourceId: source.droppableId,
+				destinationId: destination.droppableId,
+				sourceIndex: source.index,
+				destinationIndex: destination.index,
+				cardId: draggableId,
+				boardId: boardId,
+				allLists: allLists,
+			},
+			dispatch
+		);
 	};
 
 	return (
