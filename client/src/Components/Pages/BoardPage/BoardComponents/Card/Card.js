@@ -21,48 +21,55 @@ import {
 	MembersWrapper,
 	MemberAvatar,
 } from './styled';
+import { Draggable } from 'react-beautiful-dnd';
 const Card = (props) => {
 	return (
 		<>
-			<Container>
-				{/* <LabelContainer>
-					<Label />
-					<Label />
-					<Label />
-					<Label />
-					<Label />
-					<Label />
-					<Label />
-				</LabelContainer> */}
-				<CardTitle>{props.info.title}</CardTitle>
-				{/* <FooterContainer>
-					<IconGroupContainer>
-						<IconGroupWrapper>
-							<IconWrapper>
-								<FollowIcon fontSize='0.5rem' />
-							</IconWrapper>
-							<DateContainer>
-								<WatchIcon fontSize='0.5rem' />
-								<Span>Nov 10</Span>
-							</DateContainer>
-							<DescriptiondIcon fontSize='0.5rem' />
-							<CommentContainer>
-								<CommentIcon fontSize='0.5rem' />
-								<Span>1</Span>
-							</CommentContainer>
-							<CheckContainer>
-								<CheckIcon fontSize='0.5rem' />
-								<Span>0/1</Span>
-							</CheckContainer>
-						</IconGroupWrapper>
-					</IconGroupContainer>
-					<MembersContainer>
-						<MembersWrapper>
-							<MemberAvatar>u</MemberAvatar>
-						</MembersWrapper>
-					</MembersContainer>
-				</FooterContainer> */}
-			</Container>
+			<Draggable draggableId={props.info._id} index={props.index}>
+				{(provided, snapshot) => {
+					return(
+					<Container
+					{...provided.dragHandleProps}
+						{...provided.draggableProps}
+						ref={provided.innerRef}
+						isDragging={snapshot.isDragging}
+					>
+						{/* <LabelContainer>
+							<Label />
+						</LabelContainer> */}
+						<CardTitle>{props.info.title}</CardTitle>
+						{/* <FooterContainer>
+							<IconGroupContainer>
+								<IconGroupWrapper>
+									<IconWrapper>
+										<FollowIcon fontSize='0.5rem' />
+									</IconWrapper>
+									<DateContainer>
+										<WatchIcon fontSize='0.5rem' />
+										<Span>Nov 10</Span>
+									</DateContainer>
+									<DescriptiondIcon fontSize='0.5rem' />
+									<CommentContainer>
+										<CommentIcon fontSize='0.5rem' />
+										<Span>1</Span>
+									</CommentContainer>
+									<CheckContainer>
+										<CheckIcon fontSize='0.5rem' />
+										<Span>0/1</Span>
+									</CheckContainer>
+								</IconGroupWrapper>
+							</IconGroupContainer>
+							<MembersContainer>
+								<MembersWrapper>
+									<MemberAvatar>u</MemberAvatar>
+								</MembersWrapper>
+							</MembersContainer>
+						</FooterContainer> */}
+					</Container>
+
+					);
+				}}
+			</Draggable>
 		</>
 	);
 };

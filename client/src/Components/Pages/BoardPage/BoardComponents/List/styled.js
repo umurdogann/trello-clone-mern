@@ -4,11 +4,9 @@ export const Container = styled.div`
 	box-sizing: border-box;
 	border: 1px solid white;
 	height: fit-content;
-	max-height: 98%;	
+	max-height: 98%;
 	min-width: 16rem;
 	max-width: 16rem;
-	overflow-x: hidden;
-	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -27,9 +25,25 @@ export const Header = styled.div`
 	gap: 0.3rem;
 `;
 
-export const TitleInput = styled.input`
+export const TitlePlaceholder = styled.div`
+	display: ${(props) => (props.show ? 'none' : 'block')};
 	width: 100%;
 	padding-left: 0.3rem;
+	border: none;
+	border-radius: 1px;
+	background-color: transparent;
+	font-size: 0.85rem;
+	font-weight: 600;
+	color: #000;
+	outline: none;
+	cursor: pointer;
+`;
+
+export const TitleInput = styled.input`
+	display: ${(props) => (props.show ? 'block' : 'none')};
+	width: 100%;
+	padding-left: 0.3rem;
+	padding-bottom: 0.2rem;
 	border: none;
 	border-radius: 1px;
 	background-color: transparent;
@@ -46,10 +60,18 @@ export const TitleInput = styled.input`
 `;
 
 export const CardContainer = styled.div`
+	height: 100%;
+	width: 100%;
+`;
+
+export const CardWrapper = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	flex-wrap: wrap;
 	align-items: center;
+	overflow-x: hidden;
+	overflow-y: auto;
+	max-height: 5rem;
 	justify-content: flex-start;
 	padding: 0.1rem 0rem;
 	gap: 0.3rem;
@@ -92,12 +114,10 @@ export const TitleNewCardInput = styled.textarea`
 	font-size: 0.75rem;
 	color: #000;
 	padding: 0.4rem 0.5rem;
-	overflow-wrap: break-word;
 	min-height: 4rem;
 	max-height: 7rem;
 	height: ${(props) => props.height};
-	overflow-y: auto;
-    transition: 500ms ease-in;
+	transition: 500ms ease-in;
 	box-shadow: 0 1px 0 #091e4240;
 	outline: none;
 	&::placeholder {

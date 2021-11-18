@@ -5,9 +5,10 @@ background-color: #fff;
 -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  
 width:100%;
-overflow-x:hidden;
-overflow-y:hidden;
+/* overflow-x:hidden;
+overflow-y:hidden; */
 display: flex;
 flex-direction: column;
 align-items: flex-start;
