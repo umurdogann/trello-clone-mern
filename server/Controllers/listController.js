@@ -43,9 +43,29 @@ const deleteById = async (req, res) => {
 	const user = req.user;
 
 	// Validate the listId and boardId
-	if (!(listId && boardId)) return res.status(400).send('List or board undefined');
+	if (!(listId && boardId)) return res.status(400).send({ errMessage: 'List or board undefined' });
 
 	await listService.deleteById(listId, boardId, user, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const updateCardOrder = async (req, res) => {
+	// deconstruct the params
+	const { boardId, sourceId, destinationId, destinationIndex, cardId } = req.body;
+	const user = req.user;
+
+	// Validate the params
+	if (!(boardId && sourceId && destinationId && cardId))
+		return res.status(400).send({ errMessage: 'All parameters not provided' });
+
+	// Validate the owner of board
+	const validate = user.boards.filter((board) => board === boardId);
+	if (!validate) return res.status(403).send({ errMessage: 'You cannot edit the board that you hasnt' });
+
+	// Call the service
+	await listService.updateCardOrder(boardId, sourceId, destinationId, destinationIndex, cardId, (err, result) => {
 		if (err) return res.status(500).send(err);
 		return res.status(200).send(result);
 	});
@@ -55,4 +75,5 @@ module.exports = {
 	create,
 	getAll,
 	deleteById,
+	updateCardOrder,
 };
