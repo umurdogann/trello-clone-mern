@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AddIcon from '@mui/icons-material/Add';
 import {
@@ -33,6 +33,7 @@ const List = (props) => {
 	const [newCardTitle, setNewCardTitle] = useState('');
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
+	const ref = useRef();
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -41,9 +42,10 @@ const List = (props) => {
 		setAnchorEl(null);
 	};
 
-	const handleFooterClick = () => {
+	const handleFooterClick = async () => {
 		setNewCardTitle('');
-		createCard(newCardTitle, props.info._id, props.info.owner, dispatch);
+		await createCard(newCardTitle, props.info._id, props.info.owner, dispatch);
+		ref.current.scrollIntoView({ behavior: 'smooth' });
 	};
 	const handleFooterCloseClick = () => {
 		setClickFooter(false);
@@ -61,14 +63,36 @@ const List = (props) => {
 	const handleTitleClick = () => {
 		setClickTitle(true);
 	};
+
+	const handleClickOutside = (e) => {
+		if (ref.current)
+			if (!ref.current.contains(e.target)) {
+				setClickFooter(false);
+				setNewCardTitle('');
+			}
+	};
+
+	useEffect(() => {
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	});
+
+	useEffect(() => {
+		if (clickFooter) {
+			ref.current.scrollIntoView();
+		}
+	}, [clickFooter]);
+
 	return (
 		<>
 			<Draggable draggableId={props.info._id} index={props.index}>
 				{(provided, snapshot) => {
 					return (
-						<Container  {...provided.draggableProps}
-						ref={provided.innerRef}
-						isDragging={snapshot.isDragging}>
+						<Container
+							{...provided.draggableProps}
+							ref={provided.innerRef}
+							isDragging={snapshot.isDragging}
+						>
 							<Header {...provided.dragHandleProps} isDragging={snapshot.isDragging}>
 								<TitlePlaceholder show={clickTitle} onClick={() => setClickTitle(true)}>
 									{props.info.title}
@@ -114,35 +138,36 @@ const List = (props) => {
 											ref={provided.innerRef}
 											isDraggingOver={snapshot.isDraggingOver}
 										>
-											<CardWrapper>
+											<CardWrapper dock={clickFooter}>
 												{props.info.cards.map((card, index) => {
 													return <Card key={card._id} index={index} info={card} />;
 												})}
+												{provided.placeholder}
+												{clickFooter && (
+													<AddTitleCardContainer ref={ref}>
+														<TitleNewCardInput
+															value={newCardTitle}
+															placeholder='Enter a title for this card...'
+															height={Math.floor(newCardTitle.length / 16) + 'rem'}
+															onChange={(e) => setNewCardTitle(e.target.value)}
+														/>
+														<BottomButtonGroup
+															title='Add card'
+															clickCallback={handleFooterClick}
+															closeCallback={handleFooterCloseClick}
+														/>
+													</AddTitleCardContainer>
+												)}
 											</CardWrapper>
-											{provided.placeholder}
 										</CardContainer>
 									);
 								}}
 							</Droppable>
-							{!clickFooter ? (
+							{!clickFooter && (
 								<FooterButton onClick={() => setClickFooter(true)}>
 									<AddIcon fontSize='small' />
 									<Span>Add a card</Span>
 								</FooterButton>
-							) : (
-								<AddTitleCardContainer>
-									<TitleNewCardInput
-										value={newCardTitle}
-										placeholder='Enter a title for this card...'
-										height={Math.floor(newCardTitle.length / 16) + 'rem'}
-										onChange={(e) => setNewCardTitle(e.target.value)}
-									/>
-									<BottomButtonGroup
-										title='Add card'
-										clickCallback={handleFooterClick}
-										closeCallback={handleFooterCloseClick}
-									/>
-								</AddTitleCardContainer>
 							)}
 						</Container>
 					);

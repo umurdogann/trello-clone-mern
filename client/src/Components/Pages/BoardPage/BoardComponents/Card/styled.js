@@ -5,15 +5,13 @@ background-color: #fff;
 -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  
 width:100%;
-/* overflow-x:hidden;
-overflow-y:hidden; */
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 justify-content: flex-start;
 padding:0.3rem 0.3rem;
+margin: 0.2rem 0.3rem;
 border-radius:3px;
 color:black;
 gap:0.3rem;

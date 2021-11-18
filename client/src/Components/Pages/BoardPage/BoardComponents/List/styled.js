@@ -71,11 +71,31 @@ export const CardWrapper = styled.div`
 	align-items: center;
 	overflow-x: hidden;
 	overflow-y: auto;
-	max-height: 5rem;
+	height:fit-content;
+	max-height: ${props=> props.dock? "83vh" :"80.1vh"};
 	justify-content: flex-start;
 	padding: 0.1rem 0rem;
-	gap: 0.3rem;
 	width: 100%;
+	margin-right:3px;
+
+	::-webkit-scrollbar {
+		-webkit-appearance: none;
+		height: 0.75rem;
+		width: 0.5rem;		
+	}
+	::-webkit-scrollbar-track {
+		background: rgba(255, 255, 255, 0.4);
+		
+		margin-left:5px;
+		border-radius: 5px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: rgba(0, 0, 0, 0.2);
+		border-radius: 5px;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: rgba(0, 0, 0, 0.2);
+	}
 `;
 
 export const FooterButton = styled.button`
@@ -102,6 +122,9 @@ export const Span = styled.span`
 `;
 
 export const AddTitleCardContainer = styled.div`
+	box-sizing: border-box;
+	margin-top: 0.2rem;
+	padding: 0rem 0.3rem;
 	width: 100%;
 	display: flex;
 	flex-flow: column wrap;
