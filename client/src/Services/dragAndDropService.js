@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { updateCardDragDrop } from '../Redux/Slices/listSlice';
+import { updateCardDragDrop, updateListDragDrop } from '../Redux/Slices/listSlice';
 import { openAlert } from '../Redux/Slices/alertSlice';
 
 const baseUrl = 'http://localhost:3001/list';
@@ -62,6 +62,42 @@ export const updateCardOrder = async (props, dispatch) => {
 		await submitCall;
 	} catch (error) {
 		await dispatch(updateCardDragDrop(savedList));
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const updateListOrder = async (props, dispatch) => {
+	// savedOrder stores the lists order in the board before manupulating because...
+	// if the request will be failed, we need to restore order...
+	// because of consistency between server and client.
+	let savedOrder = JSON.parse(JSON.stringify(props.allLists));
+
+	// Manupulate the redux state first, we don't want to make the user wait because of the response time
+	let tempList = JSON.parse(JSON.stringify(props.allLists));
+	let list = props.allLists.filter((item) => item._id === props.listId)[0];
+	tempList.splice(props.sourceIndex, 1);
+	tempList.splice(props.destinationIndex, 0, list);
+
+	await dispatch(updateListDragDrop(tempList));
+
+	// Server side requests
+	submitCall = submitCall.then(() =>
+		axios.post(baseUrl + '/change-list-order', {
+			boardId: props.boardId,
+			sourceIndex: props.sourceIndex,
+			destinationIndex: props.destinationIndex,
+			listId: props.listId,
+		})
+	);
+	try {
+		await submitCall;
+	} catch (error) {
+		await dispatch(updateCardDragDrop(savedOrder));
 		dispatch(
 			openAlert({
 				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
