@@ -71,9 +71,30 @@ const updateCardOrder = async (req, res) => {
 	});
 };
 
+const updateListOrder = async (req, res) => {
+	// deconstruct the params
+	const { boardId, sourceIndex, destinationIndex, listId } = req.body;
+	const user = req.user;
+
+	// Validate the params
+	if (!(boardId && sourceIndex != undefined && destinationIndex != undefined && listId))
+		return res.status(400).send({ errMessage: 'All parameters not provided' });
+
+	// Validate the owner of board
+	const validate = user.boards.filter((board) => board === boardId);
+	if (!validate) return res.status(403).send({ errMessage: 'You cannot edit the board that you hasnt' });
+
+	// Call the service
+	await listService.updateListOrder(boardId, sourceIndex, destinationIndex, listId, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getAll,
 	deleteById,
 	updateCardOrder,
+	updateListOrder,
 };
