@@ -40,7 +40,13 @@ const getAll = async (boardId, callback) => {
 			.populate({ path: 'cards', select: 'title' })
 			.exec();
 
-		return callback(false, lists);
+		// Order the lists
+		const board = await boardModel.findById(boardId);
+		let responseObject = board.lists.map((listId) => {
+			return lists.filter((listObject) => listObject._id.toString() === listId.toString())[0];
+		});
+
+		return callback(false, responseObject);
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -93,12 +99,12 @@ const updateCardOrder = async (boardId, sourceId, destinationId, destinationInde
 		validate = sourceList.cards.filter((card) => card._id.toString() === cardId);
 		if (!validate) return callback({ errMessage: 'List or card informations are wrong' });
 
-		// Remove the card from source list and save		
-		sourceList.cards = sourceList.cards.filter((card) => card._id.toString()!== cardId);		
+		// Remove the card from source list and save
+		sourceList.cards = sourceList.cards.filter((card) => card._id.toString() !== cardId);
 		await sourceList.save();
 
 		// Insert the card to destination list and save
-		const card = await cardModel.findById(cardId);				
+		const card = await cardModel.findById(cardId);
 		const destinationList = await listModel.findById(destinationId);
 		const temp = Array.from(destinationList.cards);
 		temp.splice(destinationIndex, 0, cardId);
@@ -106,9 +112,28 @@ const updateCardOrder = async (boardId, sourceId, destinationId, destinationInde
 		await destinationList.save();
 
 		// Change owner board of card
-		
+
 		card.owner = destinationId;
 		await card.save();
+
+		return callback(false, { message: 'Success' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const updateListOrder = async (boardId, sourceIndex, destinationIndex, listId, callback) => {
+	try {
+		// Validate the parent board of the lists
+		const board = await boardModel.findById(boardId);
+		let validate = board.lists.filter((list) => list.id === listId);
+
+		if (!validate) return callback({ errMessage: 'List or board informations are wrong' });
+
+		// Change list order
+		board.lists.splice(sourceIndex, 1);
+		board.lists.splice(destinationIndex, 0, listId);
+		await board.save();
 
 		return callback(false, { message: 'Success' });
 	} catch (error) {
@@ -121,4 +146,5 @@ module.exports = {
 	getAll,
 	deleteById,
 	updateCardOrder,
+	updateListOrder,
 };
