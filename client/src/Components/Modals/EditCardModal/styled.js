@@ -41,7 +41,6 @@ height:9rem;
 
 export const DescriptionContainer = styled.div`
 width: 100%;
-height:9.75rem;
 `;
 
 export const AttachmentContainer = styled.div`
@@ -57,9 +56,7 @@ height:9.75rem;
 `;
 
 export const ActivityContainer = styled.div`
-border: 1px solid pink;
 width: 100%;
-height:9.75rem;
 `;
 
 export const RightContainer = styled.div`

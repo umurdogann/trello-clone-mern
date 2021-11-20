@@ -2,6 +2,7 @@ import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import Actions from './Actions/Actions';
 import Activity from './Activity/Activity';
+import Comment from './Comment/Comment';
 import AddToCard from './AddToCard/AddToCard';
 import Attachments from './Attachments/Attachments';
 import Checklist from './Checklist/Checklist';
@@ -52,15 +53,17 @@ export default function EditCard() {
 							<DescriptionContainer>
 								<Description />
 							</DescriptionContainer>
-							<AttachmentContainer>
+						{/* 	<AttachmentContainer>
 								<Attachments />
 							</AttachmentContainer>
 							<ChecklistContainer>
 								<Checklist />
-							</ChecklistContainer>
+							</ChecklistContainer> */}
 							<ActivityContainer>
 								<Activity />
+								<Comment/>
 							</ActivityContainer>
+							
 						</MainContainer>
 
 						<RightContainer>
