@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomButtonGroup/BottomButtonGroup.js';
 import {
 	Container,
 	LeftContainer,
@@ -6,39 +7,43 @@ import {
 	RightContainer,
 	Title,
 	CommentWrapper,
-	SaveButton,
+	ButtonContainer,
 	CommentArea,
+	LinkContainer,
+	Link,
 } from './styled';
-import MessageIcon from '@mui/icons-material/MessageOutlined';
 
-const Activity = () => {
-	const [focusComment, setFocusComment] = useState(false);
-	const [comment, setComment] = useState("");
+const Comment = () => {
+	const [edit, setEdit] = useState(true);
+	const [comment, setComment] = useState('Hey, i think it is a good job!');
+
 	return (
 		<>
-		<Container>
-			<LeftContainer>
-				<Avatar>U</Avatar>
-			</LeftContainer>
-			<RightContainer>
-				<Title>Umur</Title>
-				<CommentWrapper>
-					<CommentArea
-						onFocus={() => {
-							setTimeout(() => {
-								setFocusComment(true);
-							}, 130);
-						}}
-						value={comment}
-						onChange={(e)=>setComment(e.target.value)}
-						onBlur={() => setFocusComment(false)}						
-					/>
-					<SaveButton disabled={!comment} show={focusComment}>Save</SaveButton>					
-				</CommentWrapper>
-			</RightContainer>			
-		</Container>
+			<Container>
+				<LeftContainer>
+					<Avatar>U</Avatar>
+				</LeftContainer>
+				<RightContainer>
+					<Title>Umur</Title>
+					<CommentWrapper>
+						<CommentArea value={comment} onChange={(e) => setComment(e.target.value)} readOnly={edit} />
+						<ButtonContainer show={!edit}>
+							<BottomButtonGroup
+								title='Save'
+								closeCallback={() => {
+									setEdit(true);
+								}}
+							/>
+						</ButtonContainer>
+						<LinkContainer show={edit}>
+							<Link onClick={() => setEdit(false)}>Edit</Link>
+							<Link>Delete</Link>
+						</LinkContainer>
+					</CommentWrapper>
+				</RightContainer>
+			</Container>
 		</>
 	);
 };
 
-export default Activity;
+export default Comment;
