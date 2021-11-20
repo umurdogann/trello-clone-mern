@@ -46,9 +46,9 @@ export default function EditCard() {
 					</TitleContainer>
 					<Wrapper>
 						<MainContainer>
-							<FeaturesContainer>
+							{/* <FeaturesContainer>
 								<Features />
-							</FeaturesContainer>
+							</FeaturesContainer> */}
 							<DescriptionContainer>
 								<Description />
 							</DescriptionContainer>

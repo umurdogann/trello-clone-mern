@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-	margin: 0.5rem 0rem 0rem 2rem;
+	margin: 0.5rem 0rem 0rem 1rem;
 	display: flex;
 	flex-direction: row;
 	align-items: flex-start;
-	gap: 0.2rem;
+	gap: 1rem;
 `;
 
 export const IconWrapper = styled.div`
@@ -19,7 +19,6 @@ export const TitleInput = styled.input`
 	border: none;
 	outline: 2px solid transparent;
 	background-color: transparent;
-	padding-left: 0.3rem;
 	border-radius: 2px;
 	overflow: auto;
 	width: 95%;
@@ -36,7 +35,7 @@ export const Description = styled.p`
 	padding: 0;
 	color: #5e6c84;
 	font-size: 0.85rem;
-	margin-left: 0.4rem;
+	padding-left:0.2rem;
 `;
 
 export const Link = styled.p`
