@@ -2,7 +2,6 @@ import * as React from 'react';
 import Modal from '@mui/material/Modal';
 import Actions from './Actions/Actions';
 import Activity from './Activity/Activity';
-import Comment from './Comment/Comment';
 import AddToCard from './AddToCard/AddToCard';
 import Attachments from './Attachments/Attachments';
 import Checklist from './Checklist/Checklist';
@@ -25,11 +24,12 @@ import {
 	ActionsContainer,
 } from './styled';
 
-export default function EditCard() {
-	const [open, setOpen] = React.useState(false);
+export default function EditCard(props) {
+	const [open, setOpen] = React.useState(true);
 
 	const handleClose = () => {
 		setOpen(false);
+    	props.callback();
 	};
 
 	const handleOpen = () => {
@@ -38,7 +38,6 @@ export default function EditCard() {
 
 	return (
 		<div style={{ position: 'relative' }}>
-			<button onClick={handleOpen}>Open Modal</button>
 			<Modal open={open} onClose={handleClose} style={{ overflow: 'auto' }}>
 				<Container>
 					<CoverContainer></CoverContainer>
@@ -47,21 +46,20 @@ export default function EditCard() {
 					</TitleContainer>
 					<Wrapper>
 						<MainContainer>
-							{/* <FeaturesContainer>
+							<FeaturesContainer>
 								<Features />
-							</FeaturesContainer> */}
+							</FeaturesContainer>
 							<DescriptionContainer>
 								<Description />
 							</DescriptionContainer>
-						{/* 	<AttachmentContainer>
+							{/* <AttachmentContainer>
 								<Attachments />
-							</AttachmentContainer>
+							</AttachmentContainer> */}
 							<ChecklistContainer>
 								<Checklist />
-							</ChecklistContainer> */}
+							</ChecklistContainer>
 							<ActivityContainer>
 								<Activity />
-								<Comment/>
 							</ActivityContainer>
 							
 						</MainContainer>
