@@ -53,9 +53,9 @@ export const CommentWrapper = styled.div`
 
 export const CommentArea = styled.textarea`
 	margin: 0;
-	box-sizing: content-box;
-	resize: none;
+	box-sizing: border-box;
 	width: 100%;
+	resize: none;
 	outline: none;
 	border-radius: 2px;
 	box-shadow: 0 4px 8px -2px #091e4240, 0 0 0 1px #091e4214;
@@ -67,12 +67,12 @@ export const CommentArea = styled.textarea`
 	cursor: pointer;
 	&:read-only {
 		margin: 0;
-		box-sizing: content-box;
-		resize: none;
+		box-sizing: border-box;
 		width: 100%;
+		resize: none;
 		outline: none;
 		border-radius: 2px;
-		height: 1rem;
+		height: 2.1rem;
 		font-size: 0.875rem;
 		padding: 0.5rem 0.75rem;
 		border: 1px solid lightgray;
