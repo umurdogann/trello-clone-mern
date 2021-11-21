@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import EditCard from '../../../../Modals/EditCardModal/EditCard';
 import FollowIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import WatchIcon from '@mui/icons-material/AccessTimeOutlined';
 import DescriptiondIcon from '@mui/icons-material/DescriptionOutlined';
@@ -23,12 +24,18 @@ import {
 } from './styled';
 import { Draggable } from 'react-beautiful-dnd';
 const Card = (props) => {
+	const [openModal, setOpenModal] = useState(false);
+
+	const handleModalClose = () => {
+		setOpenModal(false);
+	  };
+
 	return (
 		<>
 			<Draggable draggableId={props.info._id} index={props.index}>
 				{(provided, snapshot) => {
 					return(
-					<Container
+					<Container onClick={()=>setOpenModal(true)}
 					{...provided.dragHandleProps}
 						{...provided.draggableProps}
 						ref={provided.innerRef}
@@ -38,6 +45,7 @@ const Card = (props) => {
 							<Label />
 						</LabelContainer> */}
 						<CardTitle>{props.info.title}</CardTitle>
+						{openModal && <EditCard callback={handleModalClose} />}
 						{/* <FooterContainer>
 							<IconGroupContainer>
 								<IconGroupWrapper>
