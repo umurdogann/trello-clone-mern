@@ -8,13 +8,13 @@ import {
 	AddAvatar,
 	Label,
 	AddLabel,
-	CheckBox,
 	DateDropDown,
 	DateText,
 	CompleteLabel,
 } from './styled';
-import CheckIcon from '@mui/icons-material/Check';
+
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import Checkbox from '../ReUsableComponents/Checkbox';
 
 const Features = () => {
 	const [dateCheck, setDateCheck] = useState(false);
@@ -52,14 +52,10 @@ const Features = () => {
 			<FeatureContainer>
 				<Title>Dates</Title>
 				<RowContainer>
-					<CheckBox
+					<Checkbox
 						checked={dateCheck}
-						onClick={() => {
-							setDateCheck(!dateCheck);
-						}}
-					>
-						{dateCheck && <CheckIcon fontSize='0.1rem' />}
-					</CheckBox>
+						clickCallback={setDateCheck}
+					/>
 					<DateDropDown>
 						<DateText>Nov 17 - Nov 30 at 3:57 AM</DateText>
 						<CompleteLabel show={dateCheck}>complete</CompleteLabel>

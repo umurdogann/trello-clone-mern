@@ -84,23 +84,6 @@ export const AddLabel = styled(Label)`
 	}
 `;
 
-export const CheckBox = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 1rem;
-	width: 1rem;
-	border-radius: 3px;
-	border: ${(props) => (props.checked ? '2px solid #4b94bf' : '2px solid lightgray')};
-	background-color: ${(props) => (props.checked ? '#4b94bf' : 'rgba(255,255,255,0.9)')};
-	cursor: pointer;
-	transition: 200ms ease-in;
-	color: white;
-	&:hover {
-		background-color: ${(props) => (props.checked ? '#5ba4cf' : 'rgba(0,0,0,0.1)')};
-	}
-`;
-
 export const DateDropDown = styled.div`
 	background-color: rgba(0, 0, 0, 0.04);
 	height: 2rem;
