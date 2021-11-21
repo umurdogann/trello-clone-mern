@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { CommonButton } from '../CommonStyles';
+import { sm, xs } from '../../../../BreakPoints';
 
 export const Container = styled.div`
 	display: flex;
@@ -27,17 +28,18 @@ export const Title = styled.h3`
 `;
 
 export const DescriptionText = styled.p`
+	box-sizing: border-box;
+	width: 89%;
 	padding: 0;
 	margin: 0;
 	word-wrap: break-word;
 	cursor: pointer;
-	font-size: 0.875rem;
-	width: 85%;
+	font-size: 0.875rem;	
 `;
 
 export const DescriptionInput = styled.textarea`
-	box-sizing: content-box;
-	width: 100%;
+	box-sizing: border-box;
+	width: 96.7%;
 	min-height: 2.5rem;
 	background-color: rgba(0, 0, 0, 0.03);
 	border: none;
