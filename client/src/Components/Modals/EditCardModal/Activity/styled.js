@@ -9,10 +9,10 @@ export const Container = styled.div`
 `;
 
 export const LeftContainer = styled.div`
-padding-top: 0.3rem;
-display: flex;
-flex-direction: column;
-gap: 1rem;
+	padding-top: 0.3rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
 `;
 
 export const Avatar = styled.div`
@@ -29,10 +29,10 @@ export const Avatar = styled.div`
 `;
 
 export const RightContainer = styled.div`
-display: flex;
-flex-direction: column;
-gap: 1rem;
-width:100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
 `;
 
 export const Title = styled.div`
@@ -45,49 +45,49 @@ export const Title = styled.div`
 `;
 
 export const CommentWrapper = styled.div`
-width: 100%;
-height: fit-content;
-position:relative;
+	width: 100%;
+	height: fit-content;
+	position: relative;
 `;
 
 export const CommentArea = styled.textarea`
-margin: 0;
-box-sizing: content-box;
-resize: none;
-width: 100%;
-outline: none;
-border-radius: 2px;
-height: 1rem;
-font-size: 0.875rem;
-padding: 0.5rem 0.75rem;
-border: 1px solid lightgray;
-transition: 170ms ease-in;
-cursor: pointer;
-&:hover{
-    border-bottom: 1px solid #AFAFAF;
-}
-&:focus{
-    box-shadow: 0 4px 8px -2px #091e4240, 0 0 0 1px #091e4214;
-    height: 5.25rem;
-}
+	box-sizing: border-box;
+	width: 100%;
+	margin: 0;
+	resize: none;
+	outline: none;
+	border-radius: 2px;
+	height: 2.1rem;
+	font-size: 0.875rem;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid lightgray;
+	transition: 170ms ease-in;
+	cursor: pointer;
+	&:hover {
+		border-bottom: 1px solid #afafaf;
+	}
+	&:focus {
+		box-shadow: 0 4px 8px -2px #091e4240, 0 0 0 1px #091e4214;
+		height: 5.25rem;
+	}
 `;
 export const SaveButton = styled.button`
-display: ${props=> props.show?"block":"none"};
-position: absolute;
-border: none;
-background-color: #0079bf;
-color: white;
-border-radius: 3px;
-padding:0.375rem 0.75rem;
-cursor: pointer;
-z-index: 123;
-bottom:1rem;
-left:0.75rem;
-&:hover{
-    background-color:#026aa7;
-}
-&:disabled{
-    background-color: gray;
-    cursor: not-allowed;
-}
+	display: ${(props) => (props.show ? 'block' : 'none')};
+	position: absolute;
+	border: none;
+	background-color: #0079bf;
+	color: white;
+	border-radius: 3px;
+	padding: 0.375rem 0.75rem;
+	cursor: pointer;
+	z-index: 123;
+	bottom: 1rem;
+	left: 0.75rem;
+	&:hover {
+		background-color: #026aa7;
+	}
+	&:disabled {
+		background-color: gray;
+		cursor: not-allowed;
+	}
 `;
