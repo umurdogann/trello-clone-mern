@@ -33,7 +33,6 @@ export const DescriptionText = styled.p`
 	cursor: pointer;
 	font-size: 0.875rem;
 	width: 85%;
-	border: 1px solid red;
 `;
 
 export const DescriptionInput = styled.textarea`
