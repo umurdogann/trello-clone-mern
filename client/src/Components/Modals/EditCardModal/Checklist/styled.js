@@ -62,8 +62,8 @@ export const TextAreaContainer = styled.div`
 `;
 
 export const TextArea = styled.textarea`
-	box-sizing: content-box;
-	width: 100%;
+	box-sizing: border-box;
+	width: 99.8%;
 	min-height: 2.5rem;
 	background-color: rgba(0, 0, 0, 0.03);
 	border: none;
