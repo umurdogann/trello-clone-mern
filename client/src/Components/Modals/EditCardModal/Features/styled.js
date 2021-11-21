@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { CommonButton } from '../CommonStyles';
-
+import { sm, xs } from '../../../../BreakPoints';
 export const Container = styled.div`
 	padding-left: 3.5rem;
 	display: flex;
@@ -9,6 +9,9 @@ export const Container = styled.div`
 	justify-content: flex-start;
 	gap: 1rem;
 	flex-wrap: wrap;
+	${xs({
+		paddingLeft: '1rem',
+	})};
 `;
 
 export const FeatureContainer = styled.div`
@@ -29,8 +32,9 @@ export const Title = styled.div`
 export const RowContainer = styled.div`
 	display: flex;
 	flex-direction: row;
+	flex-wrap: wrap;
 	align-items: center;
-	height: 2rem;
+	min-height: 2rem;
 	gap: 0.3rem;
 `;
 
@@ -86,7 +90,7 @@ export const AddLabel = styled(Label)`
 
 export const DateDropDown = styled.div`
 	background-color: rgba(0, 0, 0, 0.04);
-	height: 2rem;
+	min-height: 2rem;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;
@@ -100,6 +104,10 @@ export const DateDropDown = styled.div`
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.1);
 	}
+	${xs({
+		textAlign: 'center',
+		width: '90%',
+	})};
 `;
 
 export const CompleteLabel = styled.div`
