@@ -26,7 +26,7 @@ const getCard = async (req, res) => {
 	// Call the card service
 	await cardService.getCard(cardId, listId, boardId, user, (err, result) => {
 		if (err) return res.status(500).send(err);
-		return res.status(201).send(result);
+		return res.status(200).send(result);
 	});
 };
 
@@ -38,7 +38,7 @@ const update = async (req, res) => {
 	// Call the card service
 	await cardService.update(cardId, listId, boardId, user, req.body, (err, result) => {
 		if (err) return res.status(500).send(err);
-		return res.status(201).send(result);
+		return res.status(200).send(result);
 	});
 };
 
