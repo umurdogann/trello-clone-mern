@@ -77,3 +77,11 @@ export const RightContainer = styled.div`
 export const AddToCardContainer = styled.div``;
 
 export const ActionsContainer = styled.div``;
+
+export const LoadingScreen = styled.div`
+background-image: url(${props=>props.image});
+background-position:center;
+background-repeat: no-repeat;
+width:100%;
+height:100%;
+`;
