@@ -140,7 +140,7 @@ const List = (props) => {
 										>
 											<CardWrapper dock={clickFooter}>
 												{props.info.cards.map((card, index) => {
-													return <Card key={card._id} index={index} info={card} />;
+													return <Card boardId={props.boardId} listId={props.info._id} key={card._id} index={index} info={card} />;
 												})}
 												{provided.placeholder}
 												{clickFooter && (

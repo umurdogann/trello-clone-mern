@@ -16,7 +16,6 @@ const Board = (props) => {
 	const dispatch = useDispatch();
 	const { backgroundImageLink, loading } = useSelector((state) => state.board);
 	const { allLists, loadingListService } = useSelector((state) => state.list);
-	;
 	const boardId = props.match.params.id;
 	useEffect(() => {
 		getBoard(props.match.params.id, dispatch);
@@ -26,15 +25,18 @@ const Board = (props) => {
 	const onDragEnd = async (result) => {
 		const { draggableId, source, destination } = result;
 		if (!destination) return;
-		if(result.type==="column"){
-			if(source.index === destination.index) return;
-			await updateListOrder({
-				sourceIndex: source.index,
-				destinationIndex: destination.index,
-				listId: draggableId,
-				boardId: boardId,
-				allLists: allLists,
-			},dispatch);
+		if (result.type === 'column') {
+			if (source.index === destination.index) return;
+			await updateListOrder(
+				{
+					sourceIndex: source.index,
+					destinationIndex: destination.index,
+					listId: draggableId,
+					boardId: boardId,
+					allLists: allLists,
+				},
+				dispatch
+			);
 			return;
 		}
 		if (source.droppableId === destination.droppableId && source.index === destination.index) return;
@@ -65,7 +67,7 @@ const Board = (props) => {
 								<style.ListContainer {...provided.droppableProps} ref={provided.innerRef}>
 									{!loading &&
 										allLists.map((list, index) => {
-											return <List key={list._id} index={index} info={list} />;
+											return <List key={list._id} index={index} info={list} boardId={boardId} />;
 										})}
 									{provided.placeholder}
 									<AddList boardId={boardId} />

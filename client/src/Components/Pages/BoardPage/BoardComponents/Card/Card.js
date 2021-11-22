@@ -27,9 +27,9 @@ const Card = (props) => {
 	const [openModal, setOpenModal] = useState(false);
 
 	const handleOpenClose = () => {
-		setOpenModal((current) =>!current);
+		setOpenModal((current) => !current);
 	};
-	
+
 	return (
 		<>
 			<Draggable draggableId={props.info._id} index={props.index}>
@@ -77,7 +77,13 @@ const Card = (props) => {
 					);
 				}}
 			</Draggable>
-			{openModal && <EditCard open={openModal} callback={handleOpenClose} />}
+			{openModal && (
+				<EditCard
+					open={openModal}
+					callback={handleOpenClose}
+					ids={{ cardId: props.info._id, listId: props.listId, boardId: props.boardId }}
+				/>
+			)}
 		</>
 	);
 };
