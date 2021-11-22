@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import EditCard from '../../../../Modals/EditCardModal/EditCard';
 import FollowIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import WatchIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -26,27 +26,27 @@ import { Draggable } from 'react-beautiful-dnd';
 const Card = (props) => {
 	const [openModal, setOpenModal] = useState(false);
 
-	const handleModalClose = () => {
-		setOpenModal(false);
-	  };
-
+	const handleOpenClose = () => {
+		setOpenModal((current) =>!current);
+	};
+	
 	return (
 		<>
 			<Draggable draggableId={props.info._id} index={props.index}>
 				{(provided, snapshot) => {
-					return(
-					<Container onClick={()=>setOpenModal(true)}
-					{...provided.dragHandleProps}
-						{...provided.draggableProps}
-						ref={provided.innerRef}
-						isDragging={snapshot.isDragging}
-					>
-						{/* <LabelContainer>
+					return (
+						<Container
+							onClick={handleOpenClose}
+							{...provided.dragHandleProps}
+							{...provided.draggableProps}
+							ref={provided.innerRef}
+							isDragging={snapshot.isDragging}
+						>
+							{/* <LabelContainer>
 							<Label />
 						</LabelContainer> */}
-						<CardTitle>{props.info.title}</CardTitle>
-						{openModal && <EditCard callback={handleModalClose} />}
-						{/* <FooterContainer>
+							<CardTitle>{props.info.title}</CardTitle>
+							{/* <FooterContainer>
 							<IconGroupContainer>
 								<IconGroupWrapper>
 									<IconWrapper>
@@ -73,11 +73,11 @@ const Card = (props) => {
 								</MembersWrapper>
 							</MembersContainer>
 						</FooterContainer> */}
-					</Container>
-
+						</Container>
 					);
 				}}
 			</Draggable>
+			{openModal && <EditCard open={openModal} callback={handleOpenClose} />}
 		</>
 	);
 };

@@ -25,20 +25,10 @@ import {
 } from './styled';
 
 export default function EditCard(props) {
-	const [open, setOpen] = React.useState(true);
-
-	const handleClose = () => {
-		setOpen(false);
-    	props.callback();
-	};
-
-	const handleOpen = () => {
-		setOpen(true);
-	};
-
+	
 	return (
 		<div style={{ position: 'relative' }}>
-			<Modal open={open} onClose={handleClose} style={{ overflow: 'auto' }}>
+			<Modal open={props.open} onClose={props.callback} style={{ overflow: 'auto' }}>
 				<Container>
 					<CoverContainer></CoverContainer>
 					<TitleContainer>
