@@ -14,6 +14,7 @@ const initialState = {
 const cardsSlice = createSlice({
 	name: 'card',
 	initialState,
+    reset: (state) => initialState,
 	reducers: {		
 		setLoading: (state, action) => {
 			state.loading = action.payload;
