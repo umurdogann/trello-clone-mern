@@ -81,8 +81,35 @@ const update = async (cardId, listId, boardId, user, updatedObj, callback) => {
 	}
 };
 
+const addComment = async (cardId, listId, boardId, user, body, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update this card';
+		}
+
+		//Add comment
+		card.activities.unshift({
+			text:body.text,
+			userName: user.name,
+			isComment: true,
+		});
+		await card.save();
+
+		return callback(false, card.activities);
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
 module.exports = {
 	create,
 	update,
 	getCard,
+	addComment,
 };

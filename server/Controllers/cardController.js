@@ -42,8 +42,21 @@ const update = async (req, res) => {
 	});
 };
 
+const addComment = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+
+	// Call the card service
+	await cardService.addComment(cardId, listId, boardId, user, req.body, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getCard,
 	update,
+	addComment,
 };
