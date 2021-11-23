@@ -48,15 +48,19 @@ export default function EditCard(props) {
 						<MainContainer>
 							{!thisCard.pending ? (
 								<>
-									<FeaturesContainer>
-										<Features />
-									</FeaturesContainer>
+									{(thisCard.date) && (
+										<FeaturesContainer>
+											<Features />
+										</FeaturesContainer>
+									)}
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
-									<ChecklistContainer>
-										<Checklist />
-									</ChecklistContainer>
+									{thisCard.checklists && (
+										<ChecklistContainer>
+											<Checklist />
+										</ChecklistContainer>
+									)}
 									<ActivityContainer>
 										<Activity />
 									</ActivityContainer>
