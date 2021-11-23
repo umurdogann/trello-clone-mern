@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomButtonGroup/BottomButtonGroup.js';
 import {
 	Container,
@@ -13,43 +13,46 @@ import {
 	LinkContainer,
 	Link,
 } from './styled';
+import { commentUpdate } from '../../../../Services/cardService.js';
 
 const Comment = (props) => {
 	const [edit, setEdit] = useState(true);
 	const [comment, setComment] = useState(props.text);
-	const user = useSelector(state=>state.user.userInfo);
-	
-	const handleSaveClick=()=>{
+	const user = useSelector((state) => state.user.userInfo);
+	const card = useSelector((state) => state.card);
+	const dispatch = useDispatch();
 
-	}
+	const handleSaveClick = async () => {
+		setEdit(true);
+		await commentUpdate(card.cardId, card.listId, card.boardId, comment, props._id, dispatch);
+	};
 
 	return (
 		<>
-		<Container>
-					<LeftContainer>
-						<Avatar>{props.userName[0]}</Avatar>
-					</LeftContainer>
-					<RightContainer>
-						<Title>{props.userName}</Title>
-						<CommentWrapper>
-							<CommentArea value={comment} onChange={(e) => setComment(e.target.value)} readOnly={edit} />
-							<ButtonContainer show={!edit}>
-								<BottomButtonGroup
-									title='Save'
-									clickCallback={handleSaveClick}
-									closeCallback={() => {
-										setEdit(true);
-									}}
-								/>
-							</ButtonContainer>
-							<LinkContainer show={edit&&(user.name === props.userName)}>
-								<Link onClick={() => setEdit(false)}>Edit</Link>
-								<Link>Delete</Link>
-							</LinkContainer>
-						</CommentWrapper>
-					</RightContainer>
-				</Container>
-			
+			<Container>
+				<LeftContainer>
+					<Avatar>{props.userName[0]}</Avatar>
+				</LeftContainer>
+				<RightContainer>
+					<Title>{props.userName}</Title>
+					<CommentWrapper>
+						<CommentArea value={comment} onChange={(e) => setComment(e.target.value)} readOnly={edit} />
+						<ButtonContainer show={!edit}>
+							<BottomButtonGroup
+								title='Save'
+								clickCallback={handleSaveClick}
+								closeCallback={() => {
+									setEdit(true);
+								}}
+							/>
+						</ButtonContainer>
+						<LinkContainer show={edit && user.name === props.userName}>
+							<Link onClick={() => setEdit(false)}>Edit</Link>
+							<Link>Delete</Link>
+						</LinkContainer>
+					</CommentWrapper>
+				</RightContainer>
+			</Container>
 		</>
 	);
 };

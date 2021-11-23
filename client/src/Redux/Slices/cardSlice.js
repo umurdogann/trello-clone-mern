@@ -33,17 +33,27 @@ const cardsSlice = createSlice({
 			state.boardId = action.payload.boardId;
 			state.description = action.payload.description;
 		},
-        updateTitle: (state,action) => {
-            state.title = action.payload;
-        },
-		updateDescription: (state,action)=>{
+		updateTitle: (state, action) => {
+			state.title = action.payload;
+		},
+		updateDescription: (state, action) => {
 			state.description = action.payload;
 		},
-		addComment: (state,action)=>{
+		addComment: (state, action) => {
 			state.activities = action.payload;
-		}
+		},
+		updateComment: (state, action) => {
+			const { commentId, text } = action.payload;
+			state.activities = state.activities.map((activity) => {
+				if (activity._id === commentId) {
+					activity.text = text;
+				}
+				return activity;
+			});
+		},
 	},
 });
 
-export const { reset, setPending, setCard, updateTitle,updateDescription,addComment } = cardsSlice.actions;
+export const { reset, setPending, setCard, updateTitle, updateDescription, addComment, updateComment } =
+	cardsSlice.actions;
 export default cardsSlice.reducer;
