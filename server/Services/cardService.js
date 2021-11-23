@@ -49,7 +49,9 @@ const getCard = async (cardId, listId, boardId, user, callback) => {
 			errMessage: 'You dont have permission to update this card';
 		}
 
-		return callback(false, card);
+		let returnObject = { ...card._doc, listTitle: list.title, listId: listId, boardId: boardId };
+
+		return callback(false, returnObject);
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
