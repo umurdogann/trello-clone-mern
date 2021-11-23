@@ -43,7 +43,7 @@ export default function EditCard(props) {
 				<Container>
 					<CoverContainer></CoverContainer>
 
-					<TitleContainer>{!thisCard.pending && <Title title='Title' list='example' />}</TitleContainer>
+					<TitleContainer>{!thisCard.pending && <Title />}</TitleContainer>
 					<Wrapper>
 						<MainContainer>
 							{!thisCard.pending ? (
