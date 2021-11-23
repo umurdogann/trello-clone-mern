@@ -7,6 +7,7 @@ const cardSchema = mongoose.Schema({
 	},
 	description: {
 		type: String,
+		default: '',
 	},
 	labels: [
 		{

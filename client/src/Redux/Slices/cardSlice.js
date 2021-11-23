@@ -8,6 +8,7 @@ const initialState = {
 	watchers: [],
 	activities: [],
 	owner: '',
+	description: '',
 	pending: false,
 };
 
@@ -30,12 +31,16 @@ const cardsSlice = createSlice({
 			state.listTitle = action.payload.listTitle;
 			state.listId = action.payload.listId;
 			state.boardId = action.payload.boardId;
+			state.description = action.payload.description;
 		},
         updateTitle: (state,action) => {
             state.title = action.payload;
-        }
+        },
+		updateDescription: (state,action)=>{
+			state.description = action.payload;
+		}
 	},
 });
 
-export const { reset, setPending, setCard, updateTitle } = cardsSlice.actions;
+export const { reset, setPending, setCard, updateTitle,updateDescription } = cardsSlice.actions;
 export default cardsSlice.reducer;

@@ -34,13 +34,13 @@ export const DescriptionText = styled.p`
 	margin: 0;
 	word-wrap: break-word;
 	cursor: pointer;
-	font-size: 0.875rem;	
+	font-size: 0.875rem;
 `;
 
 export const DescriptionInput = styled.textarea`
 	box-sizing: border-box;
 	width: 96.7%;
-	min-height: 2.5rem;
+	min-height: ${(props) => props.minHeight};
 	background-color: rgba(0, 0, 0, 0.03);
 	border: none;
 	border-radius: 2px;
@@ -50,7 +50,7 @@ export const DescriptionInput = styled.textarea`
 	padding: 0.5rem 0.75rem;
 	resize: none;
 	cursor: pointer;
-	transition: 150 ease-in;
+	transition: 200ms ease-in;
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.06);
 	}
@@ -61,6 +61,7 @@ export const DescriptionInput = styled.textarea`
 		&::placeholder {
 			color: gray;
 		}
+		transition: 200ms ease-in;
 		background-color: #fff;
 		outline: 2px solid #0079bf;
 		min-height: 5.5rem;
