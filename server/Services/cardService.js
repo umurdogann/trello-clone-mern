@@ -96,7 +96,7 @@ const addComment = async (cardId, listId, boardId, user, body, callback) => {
 
 		//Add comment
 		card.activities.unshift({
-			text:body.text,
+			text: body.text,
 			userName: user.name,
 			isComment: true,
 		});
@@ -107,9 +107,41 @@ const addComment = async (cardId, listId, boardId, user, body, callback) => {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
 };
+
+const updateComment = async (cardId, listId, boardId, commentId, user, body, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update this card';
+		}
+
+		//Update card
+		card.activities = card.activities.map((activity) => {
+			if (activity._id.toString() === commentId.toString()) {
+				if (activity.userName !== user.name) {
+					return callback({ errMessage: "You can not edit the comment that you hasn't" });
+				}
+				activity.text = body.text;
+			}
+			return activity;
+		});
+		await card.save();
+
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
 module.exports = {
 	create,
 	update,
 	getCard,
 	addComment,
+	updateComment,
 };
