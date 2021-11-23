@@ -13,7 +13,7 @@ import {
 	LinkContainer,
 	Link,
 } from './styled';
-import { commentUpdate } from '../../../../Services/cardService.js';
+import { commentDelete, commentUpdate } from '../../../../Services/cardService.js';
 
 const Comment = (props) => {
 	const [edit, setEdit] = useState(true);
@@ -26,6 +26,10 @@ const Comment = (props) => {
 		setEdit(true);
 		await commentUpdate(card.cardId, card.listId, card.boardId, comment, props._id, dispatch);
 	};
+
+	const handleDeleteClick = async()=>{
+		await commentDelete(card.cardId, card.listId, card.boardId, props._id, dispatch);
+	}
 
 	return (
 		<>
@@ -47,8 +51,8 @@ const Comment = (props) => {
 							/>
 						</ButtonContainer>
 						<LinkContainer show={edit && user.name === props.userName}>
-							<Link onClick={() => setEdit(false)}>Edit</Link>
-							<Link>Delete</Link>
+							<Link onClick={()=>setEdit(false)}>Edit</Link>
+							<Link onClick={handleDeleteClick}>Delete</Link>
 						</LinkContainer>
 					</CommentWrapper>
 				</RightContainer>

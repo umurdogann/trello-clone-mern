@@ -52,7 +52,7 @@ const Activity = () => {
 					<MessageIcon fontSize='small' />
 					<Avatar>U</Avatar>
 				</LeftContainer>
-				<RightContainer ref={ref}>
+				<RightContainer>
 					<TitleWrapper>
 						<Title>Activity</Title>
 						<Button
@@ -60,16 +60,16 @@ const Activity = () => {
 							title={details ? 'Hide details' : 'Show details'}
 						/>
 					</TitleWrapper>
-					<CommentWrapper>
+					<CommentWrapper ref={ref}>
+						<SaveButton disabled={!newComment} onClick={handleSaveClick} show={focusComment}>
+							Save
+						</SaveButton>
 						<CommentArea
 							value={newComment}
 							onChange={(e) => setNewComment(e.target.value)}
 							focus={focusComment}
 							placeholder='Write a comment...'
 						/>
-						<SaveButton disabled={!newComment} onClick={handleSaveClick} show={focusComment}>
-							Save
-						</SaveButton>
 					</CommentWrapper>
 				</RightContainer>
 			</Container>

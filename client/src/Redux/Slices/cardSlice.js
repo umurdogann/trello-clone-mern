@@ -51,9 +51,12 @@ const cardsSlice = createSlice({
 				return activity;
 			});
 		},
+		deleteComment: (state, action) => {
+			state.activities = state.activities.filter(act=> act._id !== action.payload)
+		},
 	},
 });
 
-export const { reset, setPending, setCard, updateTitle, updateDescription, addComment, updateComment } =
+export const { reset, setPending, setCard, updateTitle, updateDescription, addComment, updateComment, deleteComment } =
 	cardsSlice.actions;
 export default cardsSlice.reducer;

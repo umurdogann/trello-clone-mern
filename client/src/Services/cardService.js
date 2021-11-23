@@ -7,6 +7,7 @@ import {
 	updateDescription,
 	addComment,
 	updateComment,
+	deleteComment,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -81,11 +82,24 @@ export const comment = async (cardId, listId, boardId, text, userName, dispatch)
 
 export const commentUpdate = async (cardId, listId, boardId, text, commentId, dispatch) => {
 	try {
-		console.log(cardId,listId,boardId,text,commentId)
 		dispatch(updateComment(commentId, text));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId, {
 			text: text,
 		});
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const commentDelete = async (cardId, listId, boardId, commentId, dispatch) => {
+	try {
+		dispatch(deleteComment(commentId));
+		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId);
 	} catch (error) {
 		dispatch(
 			openAlert({
