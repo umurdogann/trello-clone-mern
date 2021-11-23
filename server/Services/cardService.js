@@ -72,7 +72,7 @@ const update = async (cardId, listId, boardId, user, updatedObj, callback) => {
 		}
 
 		//Update card
-		await card.update(updatedObj);
+		await card.updateOne(updatedObj);
 		await card.save();
 
 		return callback(false, { message: 'Success!' });
@@ -138,10 +138,36 @@ const updateComment = async (cardId, listId, boardId, commentId, user, body, cal
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
 };
+
+const deleteComment = async (cardId, listId, boardId, commentId, user, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update this card';
+		}
+
+		//Delete card
+		card.activities = card.activities.filter((activity) => activity._id.toString() !== commentId.toString());
+		await card.save();
+		
+
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
 	getCard,
 	addComment,
 	updateComment,
+	deleteComment
 };
