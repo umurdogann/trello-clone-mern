@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { openAlert } from '../Redux/Slices/alertSlice';
-import { setPending, setCard, updateTitle,updateDescription } from '../Redux/Slices/cardSlice';
+import { setPending, setCard, updateTitle,updateDescription,addComment } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
 
@@ -43,6 +43,24 @@ export const descriptionUpdate = async (cardId, listId, boardId, description, di
 		dispatch(updateDescription(description));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId, { description: description });
 	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const comment = async (cardId, listId, boardId, text,userName, dispatch) => {
+	try {
+		dispatch(setPending(true));
+		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-comment', { text: text });
+		console.log(response.data);
+		dispatch(addComment(response.data));
+		dispatch(setPending(false));
+	} catch (error) {
+		dispatch(setPending(false));
 		dispatch(
 			openAlert({
 				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,

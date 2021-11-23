@@ -72,7 +72,7 @@ export const CommentArea = styled.textarea`
 		resize: none;
 		outline: none;
 		border-radius: 2px;
-		height: 2.1rem;
+		height: 2.2rem;
 		font-size: 0.875rem;
 		padding: 0.5rem 0.75rem;
 		border: 1px solid lightgray;
@@ -89,7 +89,7 @@ export const LinkContainer = styled.div`
 	display: ${(props) => (props.show ? 'flex' : 'none')};
 	flex-direction: row;
 	gap: 0.5rem;
-	padding-left: 0.5rem;
+	padding-left: 0.2rem;
 `;
 
 export const Link = styled.div`

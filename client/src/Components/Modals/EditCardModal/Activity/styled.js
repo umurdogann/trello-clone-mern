@@ -35,6 +35,13 @@ export const RightContainer = styled.div`
 	width: 100%;
 `;
 
+export const TitleWrapper = styled.div`
+display: flex;
+flex-direction:row;
+align-items: center;
+justify-content: space-between;
+`;
+
 export const Title = styled.div`
 	margin: 0;
 	padding: 0.2rem 0rem 0rem 0rem;
@@ -57,7 +64,7 @@ export const CommentArea = styled.textarea`
 	resize: none;
 	outline: none;
 	border-radius: 2px;
-	height: 2.1rem;
+	height: ${props=>props.focus?"5.25rem":"2.1rem"};
 	font-size: 0.875rem;
 	padding: 0.5rem 0.75rem;
 	border: 1px solid lightgray;
@@ -68,7 +75,6 @@ export const CommentArea = styled.textarea`
 	}
 	&:focus {
 		box-shadow: 0 4px 8px -2px #091e4240, 0 0 0 1px #091e4214;
-		height: 5.25rem;
 	}
 `;
 export const SaveButton = styled.button`

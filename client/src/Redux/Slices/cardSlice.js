@@ -38,9 +38,12 @@ const cardsSlice = createSlice({
         },
 		updateDescription: (state,action)=>{
 			state.description = action.payload;
+		},
+		addComment: (state,action)=>{
+			state.activities = action.payload;
 		}
 	},
 });
 
-export const { reset, setPending, setCard, updateTitle,updateDescription } = cardsSlice.actions;
+export const { reset, setPending, setCard, updateTitle,updateDescription,addComment } = cardsSlice.actions;
 export default cardsSlice.reducer;
