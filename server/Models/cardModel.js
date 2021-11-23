@@ -44,17 +44,20 @@ const cardSchema = mongoose.Schema({
 		},
 	},
 	activities: [
-		{
-			user: {type: mongoose.Schema.Types.ObjectId,
-			ref: 'user'},
-			name: {
+		{			
+			userName: {
+				type: String,
+			},
+			text: {
 				type: String,
 			},
 			date: {
 				type: Date,
+				default: Date.now(),
 			},
 			isComment: {
 				type: Boolean,
+				default: false,
 			},
 		},
 	],
