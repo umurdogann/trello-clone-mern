@@ -86,7 +86,7 @@ const deleteById = async (listId, boardId, user, callback) => {
 	}
 };
 
-const updateCardOrder = async (boardId, sourceId, destinationId, destinationIndex, cardId, callback) => {
+const updateCardOrder = async (boardId, sourceId, destinationId, destinationIndex, cardId, user, callback) => {
 	try {
 		// Validate the parent board of the lists
 		const board = await boardModel.findById(boardId);
@@ -111,8 +111,14 @@ const updateCardOrder = async (boardId, sourceId, destinationId, destinationInde
 		destinationList.cards = temp;
 		await destinationList.save();
 
-		// Change owner board of card
+		// Add card activity
+		if (sourceId !== destinationId)
+			card.activities.unshift({
+				text: `moved this card from ${sourceList.title} to ${destinationList.title}`,
+				userName: user.name,
+			});
 
+		// Change owner board of card
 		card.owner = destinationId;
 		await card.save();
 

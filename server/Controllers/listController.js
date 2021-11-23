@@ -65,7 +65,7 @@ const updateCardOrder = async (req, res) => {
 	if (!validate) return res.status(403).send({ errMessage: 'You cannot edit the board that you hasnt' });
 
 	// Call the service
-	await listService.updateCardOrder(boardId, sourceId, destinationId, destinationIndex, cardId, (err, result) => {
+	await listService.updateCardOrder(boardId, sourceId, destinationId, destinationIndex, cardId, user, (err, result) => {
 		if (err) return res.status(500).send(err);
 		return res.status(200).send(result);
 	});
