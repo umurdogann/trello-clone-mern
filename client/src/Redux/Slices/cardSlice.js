@@ -27,6 +27,9 @@ const cardsSlice = createSlice({
 			state.watchers = action.payload.watchers;
 			state.activities = action.payload.activities;
 			state.owner = action.payload.owner;
+			state.listTitle = action.payload.listTitle;
+			state.listId = action.payload.listId;
+			state.boardId = action.payload.boardId;
 		},
         updateTitle: (state,action) => {
             state.title = action.payload;
