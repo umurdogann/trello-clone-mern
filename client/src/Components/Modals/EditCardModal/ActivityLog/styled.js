@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const LeftContainer = styled.div`
-	padding-top: 0.3rem;
+	padding-top: 0.5rem;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -24,8 +24,8 @@ export const Avatar = styled.div`
 	justify-content: center;
 	color: white;
 	font-weight: 600;
-	height: 1.5rem;
-	width: 1.5rem;
+	height: 1.7rem;
+	width: 1.7rem;
 `;
 
 export const RightContainer = styled.div`
