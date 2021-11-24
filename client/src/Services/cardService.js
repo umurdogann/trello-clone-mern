@@ -15,6 +15,8 @@ import {
 	deleteLabel,
 	updateLabelSelection,
 	updateCreatedLabelId,
+	createChecklist,
+	updateCreatedChecklist,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -148,13 +150,13 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 
 export const labelCreate = async (cardId, listId, boardId, text, color, backColor, dispatch) => {
 	try {
-		dispatch(createLabel({_id: 'notUpdated', text, color, backColor, selected: true }));
-		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {			
+		dispatch(createLabel({ _id: 'notUpdated', text, color, backColor, selected: true }));
+		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {
 			text,
 			color,
 			backColor,
-		});		
-		dispatch(updateCreatedLabelId(response.data.labelId))
+		});
+		dispatch(updateCreatedLabelId(response.data.labelId));
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -182,7 +184,7 @@ export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispa
 export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) => {
 	try {
 		dispatch(deleteLabel(labelId));
-		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId+ '/delete-label');
+		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/delete-label');
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -195,8 +197,29 @@ export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) =>
 
 export const labelUpdateSelection = async (cardId, listId, boardId, labelId, selected, dispatch) => {
 	try {
-		dispatch(updateLabelSelection({ labelId: labelId, selected: selected}));
-		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label-selection', {selected:selected});
+		dispatch(updateLabelSelection({ labelId: labelId, selected: selected }));
+		await axios.put(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label-selection',
+			{ selected: selected }
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistCreate = async (cardId, listId, boardId, title, dispatch) => {
+	try {
+		dispatch(createChecklist({ _id: 'notUpdated', title }));
+		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-checklist', {
+			title,
+		});
+		dispatch(updateCreatedChecklist(response.data.checklistId));
+		console.log(response.data.checklistId)
 	} catch (error) {
 		dispatch(
 			openAlert({

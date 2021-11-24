@@ -81,7 +81,9 @@ const AddToCard = () => {
 						setChecklistPopover(null);
 					}}
 					title='Checklist'
-					contents={<ChecklistPopover />}
+					contents={<ChecklistPopover closeCallback={() => {
+						setChecklistPopover(null);
+					}}/>}
 				/>
 			)}
 

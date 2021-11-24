@@ -7,6 +7,7 @@ export const Container = styled.div`
 	gap: 0.5rem;
 	width: 100%;
 	height: fit-content;
+	margin-bottom: 1rem;
 `;
 
 export const Row = styled.div`

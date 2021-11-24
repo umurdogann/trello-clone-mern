@@ -7,6 +7,7 @@ const initialState = {
 	members: [],
 	watchers: [],
 	activities: [],
+	checklists: [],
 	owner: '',
 	description: '',
 	pending: false,
@@ -32,6 +33,7 @@ const cardsSlice = createSlice({
 			state.listId = action.payload.listId;
 			state.boardId = action.payload.boardId;
 			state.description = action.payload.description;
+			state.checklists = action.payload.checklists;
 		},
 		updateTitle: (state, action) => {
 			state.title = action.payload;
@@ -62,9 +64,9 @@ const cardsSlice = createSlice({
 			const { memberId } = action.payload;
 			state.members = state.members.filter((member) => member.user !== memberId);
 		},
-		createLabel: (state,action)=> {
-			const {_id, text,color,backColor} = action.payload;
-			state.labels.unshift({_id,text,color,backColor,selected:true})
+		createLabel: (state, action) => {
+			const { _id, text, color, backColor } = action.payload;
+			state.labels.unshift({ _id, text, color, backColor, selected: true });
 		},
 		updateLabel: (state, action) => {
 			const { labelId, text, color, backColor } = action.payload;
@@ -89,16 +91,27 @@ const cardsSlice = createSlice({
 				return label;
 			});
 		},
-		updateCreatedLabelId: (state,action) => {
-			state.labels = state.labels.map((label)=>{
-				if(label._id === 'notUpdated'){
+		updateCreatedLabelId: (state, action) => {
+			state.labels = state.labels.map((label) => {
+				if (label._id === 'notUpdated') {
 					label._id = action.payload;
 				}
 				return label;
-			})
-		}
+			});
+		},
+		createChecklist: (state, action) => {
+			const { _id, title } = action.payload;
+			state.checklists.push({ _id, title });
+		},
+		updateCreatedChecklist: (state, action) => {
+			state.checklists = state.checklists.map((checklist) => {
+				if (checklist._id === 'notUpdated') {
+					checklist._id = action.payload;
+				}
+				return checklist;
+			});
+		},
 	},
-	
 });
 
 export const {
@@ -116,6 +129,8 @@ export const {
 	updateLabel,
 	deleteLabel,
 	updateLabelSelection,
-	updateCreatedLabelId
+	updateCreatedLabelId,
+	createChecklist,
+	updateCreatedChecklist,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

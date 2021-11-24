@@ -15,10 +15,30 @@ import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomBu
 import Checkbox from '../ReUsableComponents/Checkbox';
 import Button from '../ReUsableComponents/Button';
 import Progressbar from '../ReUsableComponents/Progressbar';
-const Checklist = () => {
-	const [checked, setChecked] = useState(false);
+const Checklist = (props) => {	
 	const [showAddItem, setShowAddItem] = useState(false);
 	const [newItem, setNewItem] = useState('');
+	const percentage = () => {
+		if (props.items.length === 0) return 0;
+		const completed = props.items.filter((item) => item.completed);
+		return ((props.items.length - completed) / props.items.length) * 100;
+	};
+
+	const ChecklistItem = (props)=>{
+		const [checked, setChecked] = useState(props.completed);
+		return (
+		<Row >
+			<LeftColumn>
+				<Checkbox checked={checked} clickCallback={setChecked} />
+			</LeftColumn>
+			<RightColumn>
+				<CheckText isChecked={checked}>{props.text}</CheckText>
+			</RightColumn>
+		</Row>
+		);
+	}
+
+
 	return (
 		<Container>
 			<Row>
@@ -26,27 +46,25 @@ const Checklist = () => {
 					<CheckIcon fontSize='small' />
 				</LeftColumn>
 				<RightColumn>
-					<Title>CheckList</Title>
+					<Title>{props.title}</Title>
 					<Button title='Delete' />
 				</RightColumn>
 			</Row>
 			<Row>
 				<LeftColumn>
-					<Percentage>0%</Percentage>
+					<Percentage>{percentage()}%</Percentage>
 				</LeftColumn>
 				<RightColumn>
-					<Progressbar value={50} />
+					<Progressbar value={percentage()} />
 				</RightColumn>
 			</Row>
 
-			<Row>
-				<LeftColumn>
-					<Checkbox checked={checked} clickCallback={setChecked} />
-				</LeftColumn>
-				<RightColumn>
-					<CheckText isChecked={checked}>This is a sample check text.</CheckText>
-				</RightColumn>
-			</Row>
+			{props.items.map((item) => {
+				
+				return (
+					<ChecklistItem key={item._id} {...item}/>
+				);
+			})}
 
 			<Row>
 				<LeftColumn></LeftColumn>

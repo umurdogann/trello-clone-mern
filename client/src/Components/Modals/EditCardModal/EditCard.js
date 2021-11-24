@@ -55,9 +55,13 @@ export default function EditCard(props) {
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
-									{!thisCard.checklists && (
+									{thisCard.checklists && (
 										<ChecklistContainer>
-											<Checklist />
+											{thisCard.checklists.map(list=>{
+												return (
+													<Checklist key={list._id} {...list}/>
+												);
+											})}
 										</ChecklistContainer>
 									)}
 									<ActivityContainer>
