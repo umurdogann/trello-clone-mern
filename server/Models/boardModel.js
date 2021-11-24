@@ -23,7 +23,6 @@ const boardSchema = mongoose.Schema(
 		],
 		members: [
 			{
-				_id: false,
 				user: {
 					type: mongoose.Schema.Types.ObjectId,
 					ref: 'user',
@@ -36,7 +35,7 @@ const boardSchema = mongoose.Schema(
 				},
 				role: {
 					type: String,
-					default: 'owner',
+					default: 'member',
 				},
 			},
 		],
