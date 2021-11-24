@@ -72,7 +72,31 @@ const deleteComment = async (req, res) => {
 	const { boardId, listId, cardId, commentId } = req.params;
 
 	// Call the card service
-	await cardService.deleteComment(cardId, listId, boardId, commentId, user,(err, result) => {
+	await cardService.deleteComment(cardId, listId, boardId, commentId, user, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const addMember = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+
+	// Call the card service
+	await cardService.addMember(cardId, listId, boardId, user, req.body.memberId, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const deleteMember = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, memberId } = req.params;
+
+	// Call the card service
+	await cardService.deleteMember(cardId, listId, boardId, user, memberId, (err, result) => {
 		if (err) return res.status(500).send(err);
 		return res.status(200).send(result);
 	});
@@ -85,4 +109,6 @@ module.exports = {
 	addComment,
 	updateComment,
 	deleteComment,
+	addMember,
+	deleteMember,
 };

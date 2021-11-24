@@ -16,11 +16,14 @@ const cardSchema = mongoose.Schema({
 	],
 	members: [
 		{
-			user: {type: mongoose.Schema.Types.ObjectId,
-			ref: 'user'},
-			name: {
-				type: String,
-			},
+			_id: false,
+				user: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref: 'user',
+				},
+				name: {
+					type: String,
+				},
 		},
 	],
 	watchers: [
