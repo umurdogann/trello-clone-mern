@@ -235,10 +235,10 @@ const createLabel = async (cardId, listId, boardId, user, label, callback) => {
 			selected: true,
 		});
 		await card.save();
-		
+
 		const labelId = card.labels[0]._id;
 
-		return callback(false, {labelId: labelId });
+		return callback(false, { labelId: labelId });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -325,6 +325,33 @@ const updateLabelSelection = async (cardId, listId, boardId, labelId, user, sele
 	}
 };
 
+const createChecklist = async (cardId, listId, boardId, user, title, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to add Checklist this card';
+		}
+
+		//Add label
+		card.checklists.push({
+			title: title,
+		});
+		await card.save();
+
+		const checklistId = card.checklists[card.checklists.length - 1]._id;
+
+		return callback(false, { checklistId: checklistId });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -337,5 +364,6 @@ module.exports = {
 	createLabel,
 	updateLabel,
 	deleteLabel,
-	updateLabelSelection
+	updateLabelSelection,
+	createChecklist,
 };

@@ -11,36 +11,35 @@ const cardSchema = mongoose.Schema({
 	},
 	labels: [
 		{
-			text:{
+			text: {
 				type: String,
 			},
-			color:{
+			color: {
 				type: String,
 			},
-			backColor:{
+			backColor: {
 				type: String,
 			},
-			selected:{
+			selected: {
 				type: Boolean,
-			}
+			},
 		},
 	],
 	members: [
 		{
 			_id: false,
-				user: {
-					type: mongoose.Schema.Types.ObjectId,
-					ref: 'user',
-				},
-				name: {
-					type: String,
-				},
+			user: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'user',
+			},
+			name: {
+				type: String,
+			},
 		},
 	],
 	watchers: [
 		{
-			user: {type: mongoose.Schema.Types.ObjectId,
-			ref: 'user'},
+			user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
 			name: {
 				type: String,
 			},
@@ -58,7 +57,7 @@ const cardSchema = mongoose.Schema({
 		},
 	},
 	activities: [
-		{			
+		{
 			userName: {
 				type: String,
 			},
@@ -75,10 +74,28 @@ const cardSchema = mongoose.Schema({
 			},
 		},
 	],
-    owner : {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'list'
-    }
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'list',
+	},
+	checklists: [
+		{
+			title: {
+				type: String,
+			},
+			items: [
+				{
+					text: {
+						type: String,
+					},
+					completed: {
+						type: Boolean,
+						default: false,
+					},
+				},
+			],
+		},
+	],
 });
 
 module.exports = mongoose.model('card', cardSchema);

@@ -119,7 +119,7 @@ const updateLabel = async (req, res) => {
 	// Get params
 	const user = req.user;
 	const { boardId, listId, cardId, labelId } = req.params;
-	const label= req.body;
+	const label = req.body;
 
 	// Call the card service
 	await cardService.updateLabel(cardId, listId, boardId, labelId, user, label, (err, result) => {
@@ -144,10 +144,23 @@ const updateLabelSelection = async (req, res) => {
 	// Get params
 	const user = req.user;
 	const { boardId, listId, cardId, labelId } = req.params;
-	const {selected}= req.body;
-	
+	const { selected } = req.body;
+
 	// Call the card service
 	await cardService.updateLabelSelection(cardId, listId, boardId, labelId, user, selected, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const createChecklist = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+	const title = req.body.title;
+
+	// Call the card service
+	await cardService.createChecklist(cardId, listId, boardId, user, title, (err, result) => {
 		if (err) return res.status(500).send(err);
 		return res.status(200).send(result);
 	});
@@ -165,5 +178,6 @@ module.exports = {
 	createLabel,
 	updateLabel,
 	deleteLabel,
-	updateLabelSelection
+	updateLabelSelection,
+	createChecklist,
 };
