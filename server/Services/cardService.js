@@ -272,6 +272,28 @@ const updateLabel = async (cardId, listId, boardId, labelId, user, label, callba
 	}
 };
 
+const deleteLabel = async (cardId, listId, boardId, labelId, user, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to delete this label';
+		}
+
+		//Delete label
+		card.labels = card.labels.filter((label) => label._id.toString() !== labelId.toString());
+		await card.save();
+
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
 
 module.exports = {
 	create,
@@ -284,4 +306,5 @@ module.exports = {
 	deleteMember,
 	createLabel,
 	updateLabel,
+	deleteLabel,
 };
