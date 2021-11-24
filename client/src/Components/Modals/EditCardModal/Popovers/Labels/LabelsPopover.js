@@ -17,14 +17,14 @@ import {
 	ButtonContainer,
 	RedButton,
 } from './styled';
-import { labelCreate, labelUpdate } from '../../../../../Services/cardService';
+import { labelCreate, labelDelete, labelUpdate } from '../../../../../Services/cardService';
 import { openAlert } from '../../../../../Redux/Slices/alertSlice';
 
 const LabelsPopover = (props) => {
 	const { currentPage } = props;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
-	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor:'' });
+	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor: '' });
 	const colors = [
 		{ bg: '#61bd4f', hbg: '#519839' },
 		{ bg: '#f2d600', hbg: '#d9b51c' },
@@ -45,14 +45,20 @@ const LabelsPopover = (props) => {
 	const handleSaveClick = async (labelId, text, color, backColor) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');
-		 await labelUpdate(
+		await labelUpdate(
 			thisCard.cardId,
 			thisCard.listId,
 			thisCard.boardId,
 			labelId,
 			{ text, color, backColor },
 			dispatch
-		); 
+		);
+	};
+
+	const handleDeleteClick = async (labelId) => {
+		props.arrowCallback(false);
+		props.titleCallback('Labels');
+		await labelDelete(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, dispatch);
 	};
 
 	const LabelComponent = (props) => {
@@ -64,7 +70,12 @@ const LabelsPopover = (props) => {
 				</Colorbox>
 				<IconWrapper
 					onClick={() => {
-						setSelectedCard({ _id: props._id, color: props.color, text: props.text, backColor: props.backColor });
+						setSelectedCard({
+							_id: props._id,
+							color: props.color,
+							text: props.text,
+							backColor: props.backColor,
+						});
 						props.arrowCallback(true);
 						props.titleCallback('Change');
 					}}
@@ -179,7 +190,7 @@ const LabelsPopover = (props) => {
 					>
 						Save
 					</BlueButton>
-					<RedButton> Delete</RedButton>
+					<RedButton onClick={() => handleDeleteClick(selectedCard._id)}> Delete</RedButton>
 				</ButtonContainer>
 			</Container>
 		);

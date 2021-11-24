@@ -77,6 +77,9 @@ const cardsSlice = createSlice({
 				return label;
 			});
 		},
+		deleteLabel: (state, action) => {
+			state.labels = state.labels.filter((label) => label._id !== action.payload);
+		}
 	},
 });
 
@@ -93,5 +96,6 @@ export const {
 	deleteMember,
 	createLabel,
 	updateLabel,
+	deleteLabel,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;
