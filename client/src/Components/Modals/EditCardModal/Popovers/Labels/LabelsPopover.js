@@ -40,6 +40,7 @@ const LabelsPopover = (props) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');
 		await labelCreate(thisCard.cardId, thisCard.listId, thisCard.boardId, text, color, backColor, dispatch);
+		
 	};
 
 	const handleSaveClick = async (labelId, text, color, backColor) => {

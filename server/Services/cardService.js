@@ -235,8 +235,10 @@ const createLabel = async (cardId, listId, boardId, user, label, callback) => {
 			selected: true,
 		});
 		await card.save();
+		
+		const labelId = card.labels[0]._id;
 
-		return callback(false, { message: 'success' });
+		return callback(false, {labelId: labelId });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}

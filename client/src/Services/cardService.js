@@ -14,6 +14,7 @@ import {
 	updateLabel,
 	deleteLabel,
 	updateLabelSelection,
+	updateCreatedLabelId,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -147,12 +148,13 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 
 export const labelCreate = async (cardId, listId, boardId, text, color, backColor, dispatch) => {
 	try {
-		dispatch(createLabel({ text, color, backColor, selected: true }));
-		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {
+		dispatch(createLabel({_id: 'notUpdated', text, color, backColor, selected: true }));
+		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {			
 			text,
 			color,
 			backColor,
-		});
+		});		
+		dispatch(updateCreatedLabelId(response.data.labelId))
 	} catch (error) {
 		dispatch(
 			openAlert({

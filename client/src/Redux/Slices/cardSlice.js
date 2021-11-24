@@ -63,8 +63,8 @@ const cardsSlice = createSlice({
 			state.members = state.members.filter((member) => member.user !== memberId);
 		},
 		createLabel: (state,action)=> {
-			const {text,color,backColor} = action.payload;
-			state.labels.unshift({text,color,backColor,selected:true})
+			const {_id, text,color,backColor} = action.payload;
+			state.labels.unshift({_id,text,color,backColor,selected:true})
 		},
 		updateLabel: (state, action) => {
 			const { labelId, text, color, backColor } = action.payload;
@@ -89,6 +89,14 @@ const cardsSlice = createSlice({
 				return label;
 			});
 		},
+		updateCreatedLabelId: (state,action) => {
+			state.labels = state.labels.map((label)=>{
+				if(label._id === 'notUpdated'){
+					label._id = action.payload;
+				}
+				return label;
+			})
+		}
 	},
 	
 });
@@ -108,5 +116,6 @@ export const {
 	updateLabel,
 	deleteLabel,
 	updateLabelSelection,
+	updateCreatedLabelId
 } = cardsSlice.actions;
 export default cardsSlice.reducer;
