@@ -17,13 +17,14 @@ import {
 	ButtonContainer,
 	RedButton,
 } from './styled';
-import { labelCreate } from '../../../../../Services/cardService';
+import { labelCreate, labelUpdate } from '../../../../../Services/cardService';
+import { openAlert } from '../../../../../Redux/Slices/alertSlice';
 
 const LabelsPopover = (props) => {
 	const { currentPage } = props;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
-	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '' });
+	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor:'' });
 	const colors = [
 		{ bg: '#61bd4f', hbg: '#519839' },
 		{ bg: '#f2d600', hbg: '#d9b51c' },
@@ -38,7 +39,20 @@ const LabelsPopover = (props) => {
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');
-		await labelCreate(thisCard.cardId,thisCard.listId,thisCard.boardId,text,color,backColor,dispatch);
+		await labelCreate(thisCard.cardId, thisCard.listId, thisCard.boardId, text, color, backColor, dispatch);
+	};
+
+	const handleSaveClick = async (labelId, text, color, backColor) => {
+		props.arrowCallback(false);
+		props.titleCallback('Labels');
+		 await labelUpdate(
+			thisCard.cardId,
+			thisCard.listId,
+			thisCard.boardId,
+			labelId,
+			{ text, color, backColor },
+			dispatch
+		); 
 	};
 
 	const LabelComponent = (props) => {
@@ -50,7 +64,7 @@ const LabelsPopover = (props) => {
 				</Colorbox>
 				<IconWrapper
 					onClick={() => {
-						setSelectedCard({ _id: props._id, color: props.color, text: props.text });
+						setSelectedCard({ _id: props._id, color: props.color, text: props.text, backColor: props.backColor });
 						props.arrowCallback(true);
 						props.titleCallback('Change');
 					}}
@@ -89,8 +103,8 @@ const LabelsPopover = (props) => {
 
 	const CreatePage = () => {
 		const [createText, setCreateText] = useState('');
-		const [createColor, setCreateColor] = useState('');
-		const [createBackColor, setCreateBackColor] = useState('');
+		const [createColor, setCreateColor] = useState('#0079bf');
+		const [createBackColor, setCreateBackColor] = useState('#055a8c');
 
 		return (
 			<Container>
@@ -117,7 +131,9 @@ const LabelsPopover = (props) => {
 				<ButtonContainer>
 					<BlueButton
 						onClick={() => {
-							handleCreateClick(createText, createColor, createBackColor);
+							if (createText && createColor && createBackColor)
+								handleCreateClick(createText, createColor, createBackColor);
+							else dispatch(openAlert({ severity: 'error', message: 'Please fill all required areas!' }));
 						}}
 					>
 						Create
@@ -130,6 +146,7 @@ const LabelsPopover = (props) => {
 	const ChangePage = () => {
 		const [changeText, setChangeText] = useState(selectedCard.text);
 		const [changeColor, setChangeColor] = useState(selectedCard.color);
+		const [changeBackColor, setChangeBackColor] = useState(selectedCard.backColor);
 		return (
 			<Container>
 				<Title>Name</Title>
@@ -142,7 +159,10 @@ const LabelsPopover = (props) => {
 								key={color.bg}
 								bg={color.bg}
 								hbg={color.hbg}
-								onClick={() => setChangeColor(color.bg)}
+								onClick={() => {
+									setChangeColor(color.bg);
+									setChangeBackColor(color.hbg);
+								}}
 							>
 								{changeColor === color.bg && <DoneIcon fontSize='1rem' />}
 							</SmallColorBox>
@@ -150,7 +170,15 @@ const LabelsPopover = (props) => {
 					})}
 				</SmallColorsContainer>
 				<ButtonContainer>
-					<BlueButton>Save</BlueButton>
+					<BlueButton
+						onClick={() => {
+							if (changeText && changeColor && changeBackColor)
+								handleSaveClick(selectedCard._id, changeText, changeColor, changeBackColor);
+							else dispatch(openAlert({ severity: 'error', message: 'Please fill all required areas!' }));
+						}}
+					>
+						Save
+					</BlueButton>
 					<RedButton> Delete</RedButton>
 				</ButtonContainer>
 			</Container>

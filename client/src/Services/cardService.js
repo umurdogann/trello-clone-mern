@@ -11,6 +11,7 @@ import {
 	addMember,
 	deleteMember,
 	createLabel,
+	updateLabel,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -114,7 +115,7 @@ export const commentDelete = async (cardId, listId, boardId, commentId, dispatch
 
 export const memberAdd = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
 	try {
-		dispatch(addMember({memberId,memberName}));
+		dispatch(addMember({ memberId, memberName }));
 		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-member', {
 			memberId: memberId,
 		});
@@ -130,8 +131,8 @@ export const memberAdd = async (cardId, listId, boardId, memberId, memberName, d
 
 export const memberDelete = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
 	try {
-		dispatch(deleteMember({memberId}));
-		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/'+ memberId+'/delete-member');
+		dispatch(deleteMember({ memberId }));
+		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + memberId + '/delete-member');
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -142,14 +143,29 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 	}
 };
 
-export const labelCreate = async (cardId, listId, boardId, text,color,backColor,  dispatch) => {
+export const labelCreate = async (cardId, listId, boardId, text, color, backColor, dispatch) => {
 	try {
-		dispatch(createLabel({text,color,backColor,selected:true}));
+		dispatch(createLabel({ text, color, backColor, selected: true }));
 		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {
 			text,
 			color,
-			backColor
+			backColor,
 		});
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispatch) => {
+	try {
+		console.log(cardId, listId, boardId, labelId, label);
+		dispatch(updateLabel({ labelId: labelId, text: label.text, color: label.color, backColor: label.backColor }));
+		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label', label);
 	} catch (error) {
 		dispatch(
 			openAlert({

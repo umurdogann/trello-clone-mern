@@ -65,7 +65,18 @@ const cardsSlice = createSlice({
 		createLabel: (state,action)=> {
 			const {text,color,backColor} = action.payload;
 			state.labels.unshift({text,color,backColor,selected:true})
-		}
+		},
+		updateLabel: (state, action) => {
+			const { labelId, text, color, backColor } = action.payload;
+			state.labels = state.labels.map((label) => {
+				if (label._id === labelId) {
+					label.text = text;
+					label.color = color;
+					label.backColor = backColor;
+				}
+				return label;
+			});
+		},
 	},
 });
 
@@ -81,5 +92,6 @@ export const {
 	addMember,
 	deleteMember,
 	createLabel,
+	updateLabel,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;
