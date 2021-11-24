@@ -13,6 +13,7 @@ import {
 	createLabel,
 	updateLabel,
 	deleteLabel,
+	updateLabelSelection,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -164,7 +165,6 @@ export const labelCreate = async (cardId, listId, boardId, text, color, backColo
 
 export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispatch) => {
 	try {
-		console.log(cardId, listId, boardId, labelId, label);
 		dispatch(updateLabel({ labelId: labelId, text: label.text, color: label.color, backColor: label.backColor }));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label', label);
 	} catch (error) {
@@ -181,6 +181,20 @@ export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) =>
 	try {
 		dispatch(deleteLabel(labelId));
 		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId+ '/delete-label');
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const labelUpdateSelection = async (cardId, listId, boardId, labelId, selected, dispatch) => {
+	try {
+		dispatch(updateLabelSelection({ labelId: labelId, selected: selected}));
+		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label-selection', {selected:selected});
 	} catch (error) {
 		dispatch(
 			openAlert({

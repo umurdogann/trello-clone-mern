@@ -79,8 +79,18 @@ const cardsSlice = createSlice({
 		},
 		deleteLabel: (state, action) => {
 			state.labels = state.labels.filter((label) => label._id !== action.payload);
-		}
+		},
+		updateLabelSelection: (state, action) => {
+			const { labelId, selected } = action.payload;
+			state.labels = state.labels.map((label) => {
+				if (label._id === labelId) {
+					label.selected = selected;
+				}
+				return label;
+			});
+		},
 	},
+	
 });
 
 export const {
@@ -97,5 +107,6 @@ export const {
 	createLabel,
 	updateLabel,
 	deleteLabel,
+	updateLabelSelection,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

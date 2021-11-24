@@ -17,7 +17,7 @@ import {
 	ButtonContainer,
 	RedButton,
 } from './styled';
-import { labelCreate, labelDelete, labelUpdate } from '../../../../../Services/cardService';
+import { labelCreate, labelDelete, labelUpdate, labelUpdateSelection } from '../../../../../Services/cardService';
 import { openAlert } from '../../../../../Redux/Slices/alertSlice';
 
 const LabelsPopover = (props) => {
@@ -55,6 +55,10 @@ const LabelsPopover = (props) => {
 		);
 	};
 
+	const handleColorBoxClick = async (labelId, selected) => {
+		await labelUpdateSelection(thisCard.cardId, thisCard.listId, thisCard.boardId, labelId, selected, dispatch);
+	};
+
 	const handleDeleteClick = async (labelId) => {
 		props.arrowCallback(false);
 		props.titleCallback('Labels');
@@ -64,7 +68,13 @@ const LabelsPopover = (props) => {
 	const LabelComponent = (props) => {
 		return (
 			<Row>
-				<Colorbox bg={props.color} hbg={props.backColor}>
+				<Colorbox
+					bg={props.color}
+					hbg={props.backColor}
+					onClick={() => {
+						handleColorBoxClick(props._id, !props.selected);
+					}}
+				>
 					<ColorText>{props.text}</ColorText>
 					{props.selected && <DoneIcon fontSize='1rem' />}
 				</Colorbox>
