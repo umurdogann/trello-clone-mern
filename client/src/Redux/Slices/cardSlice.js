@@ -62,6 +62,10 @@ const cardsSlice = createSlice({
 			const { memberId } = action.payload;
 			state.members = state.members.filter((member) => member.user !== memberId);
 		},
+		createLabel: (state,action)=> {
+			const {text,color,backColor} = action.payload;
+			state.labels.unshift({text,color,backColor,selected:true})
+		}
 	},
 });
 
@@ -76,5 +80,6 @@ export const {
 	deleteComment,
 	addMember,
 	deleteMember,
+	createLabel,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

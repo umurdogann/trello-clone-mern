@@ -10,6 +10,7 @@ import {
 	deleteComment,
 	addMember,
 	deleteMember,
+	createLabel,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -131,6 +132,24 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 	try {
 		dispatch(deleteMember({memberId}));
 		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/'+ memberId+'/delete-member');
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const labelCreate = async (cardId, listId, boardId, text,color,backColor,  dispatch) => {
+	try {
+		dispatch(createLabel({text,color,backColor,selected:true}));
+		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {
+			text,
+			color,
+			backColor
+		});
 	} catch (error) {
 		dispatch(
 			openAlert({
