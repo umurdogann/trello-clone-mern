@@ -2,6 +2,7 @@ const cardController = require('../Controllers/cardController');
 const express = require('express');
 const router = express.Router();
 
+router.put('/:boardId/:listId/:cardId/:labelId/update-label', cardController.updateLabel);
 router.post('/:boardId/:listId/:cardId/create-label', cardController.createLabel);
 router.post('/:boardId/:listId/:cardId/add-member', cardController.addMember);
 router.delete('/:boardId/:listId/:cardId/:memberId/delete-member', cardController.deleteMember);

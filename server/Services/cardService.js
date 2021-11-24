@@ -242,6 +242,37 @@ const createLabel = async (cardId, listId, boardId, user, label, callback) => {
 	}
 };
 
+const updateLabel = async (cardId, listId, boardId, labelId, user, label, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update this card';
+		}
+
+		//Update label
+		card.labels = card.labels.map((item) => {
+			if (item._id.toString() === labelId.toString()) {
+				item.text = label.text;
+				item.color = label.color;
+				item.backColor = label.backColor;
+			}
+			return item;
+		});
+		await card.save();
+
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+
 module.exports = {
 	create,
 	update,
@@ -252,4 +283,5 @@ module.exports = {
 	addMember,
 	deleteMember,
 	createLabel,
+	updateLabel,
 };

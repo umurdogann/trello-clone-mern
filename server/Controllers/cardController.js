@@ -115,6 +115,19 @@ const createLabel = async (req, res) => {
 	});
 };
 
+const updateLabel = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, labelId } = req.params;
+	const label= req.body;
+
+	// Call the card service
+	await cardService.updateLabel(cardId, listId, boardId, labelId, user, label, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -125,4 +138,5 @@ module.exports = {
 	addMember,
 	deleteMember,
 	createLabel,
+	updateLabel,
 };
