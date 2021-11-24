@@ -11,7 +11,18 @@ const cardSchema = mongoose.Schema({
 	},
 	labels: [
 		{
-			type: String,
+			text:{
+				type: String,
+			},
+			color:{
+				type: String,
+			},
+			backColor:{
+				type: String,
+			},
+			selected:{
+				type: Boolean,
+			}
 		},
 	],
 	members: [

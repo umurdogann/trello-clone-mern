@@ -193,7 +193,7 @@ const addMember = async (cardId, listId, boardId, user, memberId, callback) => {
 
 const deleteMember = async (cardId, listId, boardId, user, memberId, callback) => {
 	try {
-		// Get models		
+		// Get models
 		const card = await cardModel.findById(cardId);
 		const list = await listModel.findById(listId);
 		const board = await boardModel.findById(boardId);
@@ -204,8 +204,36 @@ const deleteMember = async (cardId, listId, boardId, user, memberId, callback) =
 			errMessage: 'You dont have permission to add member this card';
 		}
 
-		//delete member	
+		//delete member
 		card.members = card.members.filter((a) => a.user.toString() !== memberId.toString());
+		await card.save();
+
+		return callback(false, { message: 'success' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const createLabel = async (cardId, listId, boardId, user, label, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to add label this card';
+		}
+
+		//Add label
+		card.labels.unshift({
+			text: label.text,
+			color: label.color,
+			backcolor: label.backColor,
+			selected: true,
+		});
 		await card.save();
 
 		return callback(false, { message: 'success' });
@@ -223,4 +251,5 @@ module.exports = {
 	deleteComment,
 	addMember,
 	deleteMember,
+	createLabel,
 };
