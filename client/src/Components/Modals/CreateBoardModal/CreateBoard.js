@@ -67,7 +67,7 @@ export default function CreateBoard(props) {
             </style.PhotosCard>
           </style.Wrapper>
           <style.CreateButton onClick={() => handleClick()}>
-            "Create Board"
+            Create Board
           </style.CreateButton>
         </style.Container>
       </Modal>

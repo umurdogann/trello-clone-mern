@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Popover from '@mui/material/Popover';
 import styled from 'styled-components';
 import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
-const Container = styled.div`
+const Container = styled.div`	
 	width: 20vw;
-	min-width: 15rem;
+	min-width: 15.5rem;
 	height: fit-content;
 	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	padding: 0.5rem;
+	padding: 0.8rem;
 	position: relative;
 `;
 
