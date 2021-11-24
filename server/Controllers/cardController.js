@@ -140,6 +140,18 @@ const deleteLabel = async (req, res) => {
 	});
 };
 
+const updateLabelSelection = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, labelId } = req.params;
+	const {selected}= req.body;
+	
+	// Call the card service
+	await cardService.updateLabelSelection(cardId, listId, boardId, labelId, user, selected, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
 
 module.exports = {
 	create,
@@ -153,4 +165,5 @@ module.exports = {
 	createLabel,
 	updateLabel,
 	deleteLabel,
+	updateLabelSelection
 };
