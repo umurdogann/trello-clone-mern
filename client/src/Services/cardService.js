@@ -8,6 +8,8 @@ import {
 	addComment,
 	updateComment,
 	deleteComment,
+	addMember,
+	deleteMember,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -66,7 +68,6 @@ export const comment = async (cardId, listId, boardId, text, userName, dispatch)
 		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-comment', {
 			text: text,
 		});
-		console.log(response.data);
 		dispatch(addComment(response.data));
 		dispatch(setPending(false));
 	} catch (error) {
@@ -100,6 +101,36 @@ export const commentDelete = async (cardId, listId, boardId, commentId, dispatch
 	try {
 		dispatch(deleteComment(commentId));
 		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + commentId);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const memberAdd = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
+	try {
+		dispatch(addMember({memberId,memberName}));
+		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-member', {
+			memberId: memberId,
+		});
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const memberDelete = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
+	try {
+		dispatch(deleteMember({memberId}));
+		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/'+ memberId+'/delete-member');
 	} catch (error) {
 		dispatch(
 			openAlert({

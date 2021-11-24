@@ -52,11 +52,29 @@ const cardsSlice = createSlice({
 			});
 		},
 		deleteComment: (state, action) => {
-			state.activities = state.activities.filter(act=> act._id !== action.payload)
+			state.activities = state.activities.filter((act) => act._id !== action.payload);
+		},
+		addMember: (state, action) => {
+			const { memberId, memberName } = action.payload;
+			state.members.unshift({ user: memberId, name: memberName });
+		},
+		deleteMember: (state, action) => {
+			const { memberId } = action.payload;
+			state.members = state.members.filter((member) => member.user !== memberId);
 		},
 	},
 });
 
-export const { reset, setPending, setCard, updateTitle, updateDescription, addComment, updateComment, deleteComment } =
-	cardsSlice.actions;
+export const {
+	reset,
+	setPending,
+	setCard,
+	updateTitle,
+	updateDescription,
+	addComment,
+	updateComment,
+	deleteComment,
+	addMember,
+	deleteMember,
+} = cardsSlice.actions;
 export default cardsSlice.reducer;

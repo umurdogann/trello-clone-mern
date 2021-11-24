@@ -30,7 +30,6 @@ export default function EditCard(props) {
 	const { cardId, listId, boardId } = props.ids;
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
-
 	React.useEffect(() => {
 		if (props.open) {
 			getCard(cardId, listId, boardId, dispatch);
@@ -48,7 +47,7 @@ export default function EditCard(props) {
 						<MainContainer>
 							{!thisCard.pending ? (
 								<>
-									{(thisCard.date) && (
+									{(thisCard.members.length>0) && (
 										<FeaturesContainer>
 											<Features />
 										</FeaturesContainer>
