@@ -101,7 +101,7 @@ const cardsSlice = createSlice({
 		},
 		createChecklist: (state, action) => {
 			const { _id, title } = action.payload;
-			state.checklists.push({ _id, title, items:[] });
+			state.checklists.push({ _id, title, items: [] });
 		},
 		updateCreatedChecklist: (state, action) => {
 			state.checklists = state.checklists.map((checklist) => {
@@ -113,6 +113,61 @@ const cardsSlice = createSlice({
 		},
 		deleteChecklist: (state, action) => {
 			state.checklists = state.checklists.filter((list) => list._id !== action.payload);
+		},
+		addChecklistItem: (state, action) => {
+			const { checklistId, _id, text } = action.payload;
+			state.checklists = state.checklists.map((list) => {
+				if (list._id.toString() === checklistId.toString()) {
+					list.items.push({ _id: _id, text: text, completed: false });
+				}
+				return list;
+			});
+		},
+		updateAddedChecklistItemId: (state, action) => {
+			const { checklistId, checklistItemId } = action.payload;
+			state.checklists = state.checklists.map((list) => {
+				if (list._id.toString() === checklistId.toString()) {
+					list.items[list.items.length - 1]._id = checklistItemId;
+				}
+				return list;
+			});
+		},
+		setChecklistItemCompleted: (state, action) => {
+			const { checklistId, checklistItemId, completed } = action.payload;
+			state.checklists = state.checklists.map((list) => {
+				if (list._id.toString() === checklistId.toString()) {
+					list.items = list.items.map((item) => {
+						if (item._id === checklistItemId) {
+							item.completed = completed;
+						}
+						return item;
+					});
+				}
+				return list;
+			});
+		},
+		setChecklistItemText: (state, action) => {
+			const { checklistId, checklistItemId, text } = action.payload;
+			state.checklists = state.checklists.map((list) => {
+				if (list._id.toString() === checklistId.toString()) {
+					list.items = list.items.map((item) => {
+						if (item._id === checklistItemId) {
+							item.text = text;
+						}
+						return item;
+					});
+				}
+				return list;
+			});
+		},
+		deleteChecklistItem: (state, action) => {
+			const { checklistId, checklistItemId } = action.payload;
+			state.checklists = state.checklists.map((list) => {
+				if (list._id.toString() === checklistId.toString()) {
+					list.items = list.items.filter((item) =>item._id !== checklistItemId);
+				}
+				return list;
+			});
 		},
 	},
 });
@@ -136,5 +191,10 @@ export const {
 	createChecklist,
 	updateCreatedChecklist,
 	deleteChecklist,
+	addChecklistItem,
+	updateAddedChecklistItemId,
+	setChecklistItemCompleted,
+	setChecklistItemText,
+	deleteChecklistItem
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

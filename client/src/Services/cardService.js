@@ -18,6 +18,11 @@ import {
 	createChecklist,
 	updateCreatedChecklist,
 	deleteChecklist,
+	addChecklistItem,
+	updateAddedChecklistItemId,
+	setChecklistItemCompleted,
+	deleteChecklistItem,
+	setChecklistItemText,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -235,6 +240,129 @@ export const checklistDelete = async (cardId, listId, boardId, checklistId, disp
 		dispatch(deleteChecklist(checklistId));
 		await axios.delete(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + checklistId + '/delete-checklist'
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistItemAdd = async (cardId, listId, boardId, checklistId, text, dispatch) => {
+	try {
+		dispatch(addChecklistItem({ checklistId: checklistId, _id: 'notUpdated', text: text }));
+		const response = await axios.post(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + checklistId + '/add-checklist-item',
+			{
+				text,
+			}
+		);
+		dispatch(
+			updateAddedChecklistItemId({ checklistId: checklistId, checklistItemId: response.data.checklistItemId })
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistItemCompletedSet = async (
+	cardId,
+	listId,
+	boardId,
+	checklistId,
+	checklistItemId,
+	completed,
+	dispatch
+) => {
+	try {
+		dispatch(
+			setChecklistItemCompleted({
+				checklistId: checklistId,
+				checklistItemId: checklistItemId,
+				completed: completed,
+			})
+		);
+		await axios.put(
+			baseUrl +
+				'/' +
+				boardId +
+				'/' +
+				listId +
+				'/' +
+				cardId +
+				'/' +
+				checklistId +
+				'/' +
+				checklistItemId +
+				'/set-checklist-item-completed',
+			{
+				completed,
+			}
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistItemTextSet = async (cardId, listId, boardId, checklistId, checklistItemId, text, dispatch) => {
+	try {
+		dispatch(setChecklistItemText({ checklistId: checklistId, checklistItemId: checklistItemId, text: text }));
+		await axios.put(
+			baseUrl +
+				'/' +
+				boardId +
+				'/' +
+				listId +
+				'/' +
+				cardId +
+				'/' +
+				checklistId +
+				'/' +
+				checklistItemId +
+				'/set-checklist-item-text',
+			{
+				text,
+			}
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistItemDelete = async (cardId, listId, boardId, checklistId, checklistItemId, dispatch) => {
+	try {
+		dispatch(deleteChecklistItem({ checklistId: checklistId, checklistItemId: checklistItemId }));
+		await axios.delete(
+			baseUrl +
+				'/' +
+				boardId +
+				'/' +
+				listId +
+				'/' +
+				cardId +
+				'/' +
+				checklistId +
+				'/' +
+				checklistItemId +
+				'/delete-checklist-item'
 		);
 	} catch (error) {
 		dispatch(

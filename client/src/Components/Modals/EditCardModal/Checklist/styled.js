@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { xs } from '../../../../BreakPoints';
 
 export const Container = styled.div`
 	padding-left: 1rem;
@@ -16,13 +17,18 @@ export const Row = styled.div`
 	flex-direction: row;
 	align-items: center;
 	gap: 1rem;
+	cursor: ${(props) => (props.showHover ? 'pointer' : 'default')};
+	transition: 150ms ease-in;
+	&:hover {
+		background-color: ${(props) => (props.showHover ? 'rgba(0,0,0,0.02)' : 'transparent')};
+	}
 `;
 
 export const LeftColumn = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 2rem;
+	width: 2rem;	
 `;
 
 export const RightColumn = styled.div`
@@ -30,7 +36,8 @@ export const RightColumn = styled.div`
 	width: 100%;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-between;
+	gap:0.5rem;
+	justify-content: space-between;	
 `;
 
 export const Title = styled.div`
@@ -42,6 +49,15 @@ export const Title = styled.div`
 	font-weight: 800;
 `;
 
+export const RowRightButtonsWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 0.5rem;
+
+`;
+
 export const Percentage = styled.div`
 	color: #5e6c84;
 	font-size: 0.75rem;
@@ -51,8 +67,26 @@ export const Percentage = styled.div`
 
 export const CheckText = styled.div`
 	text-decoration: ${(props) => (props.isChecked ? 'line-through' : 'none')};
+	width: 100%;
+	padding: 0.3rem 0rem;
 	color: ${(props) => (props.isChecked ? '#5e6c84' : '#172b4d')};
 	font-size: 0.875rem;
+`;
+
+export const IconWrapper = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 0.5rem;
+	width: 1.2rem;
+	height: 1.2rem;
+	border-radius: 3px;
+	color: #9f9f9f;
+	cursor: pointer;
+	&:hover {
+		color: lightgray;
+		background-color: rgba(0, 0, 0, 0.3);
+	}
 `;
 
 export const TextAreaContainer = styled.div`

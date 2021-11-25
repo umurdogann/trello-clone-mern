@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { xs } from '../../../../BreakPoints';
 
 export const ButtonStyled = styled.button`
 	display: inline-flex;

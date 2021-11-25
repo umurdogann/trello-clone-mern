@@ -41,6 +41,7 @@ export const Wrapper = styled.div`
 export const MainContainer = styled.div`
 	flex: 3;
 	min-height: 50vh;
+	padding-right:0.5rem;
 	width: 100%;
 	overflow-x: hidden;
 	gap: 1.5rem;

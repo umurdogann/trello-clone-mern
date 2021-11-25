@@ -6,6 +6,7 @@ export const CheckBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin-left: 0.1rem;
 	height: 1rem;
 	width: 1rem;
 	border-radius: 3px;
