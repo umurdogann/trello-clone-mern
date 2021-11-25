@@ -352,6 +352,29 @@ const createChecklist = async (cardId, listId, boardId, user, title, callback) =
 	}
 };
 
+const deleteChecklist = async (cardId, listId, boardId, checklistId, user, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to delete this checklist';
+		}
+
+		//Delete label
+		card.checklists = card.checklists.filter((list) => list._id.toString() !== checklistId.toString());
+		await card.save();
+
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -366,4 +389,5 @@ module.exports = {
 	deleteLabel,
 	updateLabelSelection,
 	createChecklist,
+	deleteChecklist,
 };

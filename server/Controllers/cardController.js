@@ -166,6 +166,18 @@ const createChecklist = async (req, res) => {
 	});
 };
 
+const deleteChecklist = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, checklistId } = req.params;
+
+	// Call the card service
+	await cardService.deleteChecklist(cardId, listId, boardId, checklistId, user, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -180,4 +192,5 @@ module.exports = {
 	deleteLabel,
 	updateLabelSelection,
 	createChecklist,
+	deleteChecklist,
 };
