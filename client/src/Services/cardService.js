@@ -17,6 +17,7 @@ import {
 	updateCreatedLabelId,
 	createChecklist,
 	updateCreatedChecklist,
+	deleteChecklist,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -219,7 +220,22 @@ export const checklistCreate = async (cardId, listId, boardId, title, dispatch) 
 			title,
 		});
 		dispatch(updateCreatedChecklist(response.data.checklistId));
-		console.log(response.data.checklistId)
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const checklistDelete = async (cardId, listId, boardId, checklistId, dispatch) => {
+	try {
+		dispatch(deleteChecklist(checklistId));
+		await axios.delete(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + checklistId + '/delete-checklist'
+		);
 	} catch (error) {
 		dispatch(
 			openAlert({

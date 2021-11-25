@@ -15,7 +15,12 @@ import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomBu
 import Checkbox from '../ReUsableComponents/Checkbox';
 import Button from '../ReUsableComponents/Button';
 import Progressbar from '../ReUsableComponents/Progressbar';
-const Checklist = (props) => {	
+import { useDispatch, useSelector } from 'react-redux';
+import { checklistDelete } from '../../../../Services/cardService';
+
+const Checklist = (props) => {
+	const dispatch = useDispatch();
+	const card = useSelector((state) => state.card);
 	const [showAddItem, setShowAddItem] = useState(false);
 	const [newItem, setNewItem] = useState('');
 	const percentage = () => {
@@ -24,20 +29,23 @@ const Checklist = (props) => {
 		return ((props.items.length - completed) / props.items.length) * 100;
 	};
 
-	const ChecklistItem = (props)=>{
+	const handleChecklistDelete = async (checklistId) => {
+		await checklistDelete(card.cardId, card.listId, card.boardId, checklistId, dispatch);
+	};
+
+	const ChecklistItem = (props) => {
 		const [checked, setChecked] = useState(props.completed);
 		return (
-		<Row >
-			<LeftColumn>
-				<Checkbox checked={checked} clickCallback={setChecked} />
-			</LeftColumn>
-			<RightColumn>
-				<CheckText isChecked={checked}>{props.text}</CheckText>
-			</RightColumn>
-		</Row>
+			<Row>
+				<LeftColumn>
+					<Checkbox checked={checked} clickCallback={setChecked} />
+				</LeftColumn>
+				<RightColumn>
+					<CheckText isChecked={checked}>{props.text}</CheckText>
+				</RightColumn>
+			</Row>
 		);
-	}
-
+	};
 
 	return (
 		<Container>
@@ -47,7 +55,7 @@ const Checklist = (props) => {
 				</LeftColumn>
 				<RightColumn>
 					<Title>{props.title}</Title>
-					<Button title='Delete' />
+					<Button clickCallback={() => handleChecklistDelete(props._id)} title='Delete' />
 				</RightColumn>
 			</Row>
 			<Row>
@@ -60,10 +68,7 @@ const Checklist = (props) => {
 			</Row>
 
 			{props.items.map((item) => {
-				
-				return (
-					<ChecklistItem key={item._id} {...item}/>
-				);
+				return <ChecklistItem key={item._id} {...item} />;
 			})}
 
 			<Row>

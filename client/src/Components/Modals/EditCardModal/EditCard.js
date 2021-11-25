@@ -47,7 +47,8 @@ export default function EditCard(props) {
 						<MainContainer>
 							{!thisCard.pending ? (
 								<>
-									{(thisCard.members.length>0 || thisCard.labels.filter(label=>label.selected).length>0) && (
+									{(thisCard.members.length > 0 ||
+										thisCard.labels.filter((label) => label.selected).length > 0) && (
 										<FeaturesContainer>
 											<Features />
 										</FeaturesContainer>
@@ -55,12 +56,10 @@ export default function EditCard(props) {
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
-									{thisCard.checklists && (
+									{thisCard.checklists.length > 0 && (
 										<ChecklistContainer>
-											{thisCard.checklists.map(list=>{
-												return (
-													<Checklist key={list._id} {...list}/>
-												);
+											{thisCard.checklists.map((list) => {
+												return <Checklist key={list._id} {...list} />;
 											})}
 										</ChecklistContainer>
 									)}

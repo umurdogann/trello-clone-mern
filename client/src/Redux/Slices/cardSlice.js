@@ -101,7 +101,7 @@ const cardsSlice = createSlice({
 		},
 		createChecklist: (state, action) => {
 			const { _id, title } = action.payload;
-			state.checklists.push({ _id, title });
+			state.checklists.push({ _id, title, items:[] });
 		},
 		updateCreatedChecklist: (state, action) => {
 			state.checklists = state.checklists.map((checklist) => {
@@ -110,6 +110,9 @@ const cardsSlice = createSlice({
 				}
 				return checklist;
 			});
+		},
+		deleteChecklist: (state, action) => {
+			state.checklists = state.checklists.filter((list) => list._id !== action.payload);
 		},
 	},
 });
@@ -132,5 +135,6 @@ export const {
 	updateCreatedLabelId,
 	createChecklist,
 	updateCreatedChecklist,
+	deleteChecklist,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;
