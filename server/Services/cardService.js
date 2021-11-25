@@ -338,7 +338,7 @@ const createChecklist = async (cardId, listId, boardId, user, title, callback) =
 			errMessage: 'You dont have permission to add Checklist this card';
 		}
 
-		//Add label
+		//Add checklist
 		card.checklists.push({
 			title: title,
 		});
@@ -365,10 +365,146 @@ const deleteChecklist = async (cardId, listId, boardId, checklistId, user, callb
 			errMessage: 'You dont have permission to delete this checklist';
 		}
 
-		//Delete label
+		//Delete checklist
 		card.checklists = card.checklists.filter((list) => list._id.toString() !== checklistId.toString());
 		await card.save();
 
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const addChecklistItem = async (cardId, listId, boardId, user, checklistId, text, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to add item this checklist';
+		}
+
+		//Add checklistItem
+		card.checklists = card.checklists.map((list) => {
+			if (list._id.toString() == checklistId.toString()) {
+				list.items.push({ text: text });
+			}
+			return list;
+		});
+		await card.save();
+
+		// Get to created ChecklistItem's id
+		let checklistItemId = '';
+		card.checklists = card.checklists.map((list) => {
+			if (list._id.toString() == checklistId.toString()) {
+				checklistItemId = list.items[list.items.length - 1]._id;
+			}
+			return list;
+		});
+		return callback(false, { checklistItemId: checklistItemId });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const setChecklistItemCompleted = async (
+	cardId,
+	listId,
+	boardId,
+	user,
+	checklistId,
+	checklistItemId,
+	completed,
+	callback
+) => {
+	try {		
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to set complete of this checklist item';
+		}
+
+		//Update completed of checklistItem
+		card.checklists = card.checklists.map((list) => {
+			if (list._id.toString() == checklistId.toString()) {
+				list.items = list.items.map((item) => {
+					if (item._id.toString() === checklistItemId) {
+						item.completed = completed;
+					}
+					return item;
+				});
+			}
+			return list;
+		});
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const setChecklistItemText = async (cardId, listId, boardId, user, checklistId, checklistItemId, text, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to set text of this checklist item';
+		}
+
+		//Update text of checklistItem
+		card.checklists = card.checklists.map((list) => {
+			if (list._id.toString() == checklistId.toString()) {
+				list.items = list.items.map((item) => {
+					if (item._id.toString() === checklistItemId) {
+						item.text = text;
+					}
+					return item;
+				});
+			}
+			return list;
+		});
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const deleteChecklistItem = async (cardId, listId, boardId, user, checklistId, checklistItemId, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to delete this checklist item';
+		}
+
+		//Delete checklistItem
+		card.checklists = card.checklists.map((list) => {
+			if (list._id.toString() == checklistId.toString()) {
+				list.items = list.items.filter((item) => item._id.toString() !== checklistItemId);
+			}
+			return list;
+		});
+		await card.save();
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -390,4 +526,8 @@ module.exports = {
 	updateLabelSelection,
 	createChecklist,
 	deleteChecklist,
+	addChecklistItem,
+	setChecklistItemCompleted,
+	setChecklistItemText,
+	deleteChecklistItem,
 };

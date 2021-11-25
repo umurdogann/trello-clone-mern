@@ -178,6 +178,84 @@ const deleteChecklist = async (req, res) => {
 	});
 };
 
+const addChecklistItem = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, checklistId } = req.params;
+	const text = req.body.text;
+
+	// Call the card service
+	await cardService.addChecklistItem(cardId, listId, boardId, user, checklistId, text, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const setChecklistItemCompleted = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, checklistId, checklistItemId } = req.params;
+	const completed = req.body.completed;
+
+	// Call the card service
+	await cardService.setChecklistItemCompleted(
+		cardId,
+		listId,
+		boardId,
+		user,
+		checklistId,
+		checklistItemId,
+		completed,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
+const setChecklistItemText = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, checklistId, checklistItemId } = req.params;
+	const text = req.body.text;
+
+	// Call the card service
+	await cardService.setChecklistItemText(
+		cardId,
+		listId,
+		boardId,
+		user,
+		checklistId,
+		checklistItemId,
+		text,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
+const deleteChecklistItem = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, checklistId, checklistItemId } = req.params;
+	console.log("here")
+
+	// Call the card service
+	await cardService.deleteChecklistItem(
+		cardId,
+		listId,
+		boardId,
+		user,
+		checklistId,
+		checklistItemId,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -193,4 +271,8 @@ module.exports = {
 	updateLabelSelection,
 	createChecklist,
 	deleteChecklist,
+	addChecklistItem,
+	setChecklistItemCompleted,
+	setChecklistItemText,
+	deleteChecklistItem,
 };
