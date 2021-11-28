@@ -256,6 +256,28 @@ const deleteChecklistItem = async (req, res) => {
 	);
 };
 
+const updateStartDueDates = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+	const {startDate, dueDate, dueTime} = req.body;
+
+	// Call the card service
+	await cardService.updateStartDueDates(
+		cardId,
+		listId,
+		boardId,
+		user,
+		startDate,
+		dueDate,
+		dueTime,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -275,4 +297,5 @@ module.exports = {
 	setChecklistItemCompleted,
 	setChecklistItemText,
 	deleteChecklistItem,
+	updateStartDueDates,
 };
