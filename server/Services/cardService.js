@@ -511,6 +511,31 @@ const deleteChecklistItem = async (cardId, listId, boardId, user, checklistId, c
 	}
 };
 
+const updateStartDueDates = async (cardId, listId, boardId, user, startDate, dueDate, dueTime , callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to set text of this checklist item';
+		}
+
+		//Update dates
+		card.date.startDate = startDate;
+		card.date.dueDate = dueDate;
+		card.date.dueTime = dueTime;
+
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -530,4 +555,5 @@ module.exports = {
 	setChecklistItemCompleted,
 	setChecklistItemText,
 	deleteChecklistItem,
+	updateStartDueDates,
 };
