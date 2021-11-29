@@ -196,6 +196,9 @@ const cardsSlice = createSlice({
 			const { attachmentId } = action.payload;
 			state.attachments[0]._id = attachmentId;
 		},
+		deleteAttachment: (state, action) => {
+			state.attachments = state.attachments.filter((attachment) => attachment._id !== action.payload);
+		},
 	},
 });
 
@@ -227,5 +230,6 @@ export const {
 	updateDateCompleted,
 	addAttachment,
 	updateAddedAttachmentId,
+	deleteAttachment
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

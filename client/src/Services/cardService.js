@@ -27,6 +27,7 @@ import {
 	updateDateCompleted,
 	addAttachment,
 	updateAddedAttachmentId,
+	deleteAttachment,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -435,3 +436,18 @@ export const attachmentAdd = async (cardId, listId, boardId, link,name, dispatch
 	}
 };
 
+export const attachmentDelete = async (cardId, listId, boardId, attachmentId, dispatch) => {
+	try {
+		dispatch(deleteAttachment(attachmentId));
+		await axios.delete(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId + '/delete-attachment'
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};

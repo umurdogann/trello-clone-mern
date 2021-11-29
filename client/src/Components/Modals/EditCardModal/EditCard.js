@@ -58,9 +58,11 @@ export default function EditCard(props) {
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
-									<AttachmentContainer>
-										<Attachments />
-									</AttachmentContainer>
+									{thisCard.attachments.length > 0 && (
+										<AttachmentContainer>
+											<Attachments />
+										</AttachmentContainer>
+									)}
 									{thisCard.checklists.length > 0 && (
 										<ChecklistContainer>
 											{thisCard.checklists.map((list) => {

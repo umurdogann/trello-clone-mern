@@ -15,7 +15,7 @@ const Container = styled.div`
 
 const EditAttachmentPopover = (props) => {
 	const [link, setLink] = useState(props.link);
-	const [linkName, setLinkName] = useState(props.linkName?props.linkName:props.link);
+	const [linkName, setLinkName] = useState(props.name?props.name:props.link);
 	const handleAttachClick = async () => {};
 	return (
 		<Container>
