@@ -2,6 +2,8 @@ const cardController = require('../Controllers/cardController');
 const express = require('express');
 const router = express.Router();
 
+router.put('/:boardId/:listId/:cardId/update-dates', cardController.updateStartDueDates);
+router.put('/:boardId/:listId/:cardId/update-date-completed', cardController.updateDateCompleted);
 router.delete('/:boardId/:listId/:cardId/:checklistId/:checklistItemId/delete-checklist-item', cardController.deleteChecklistItem);
 router.put('/:boardId/:listId/:cardId/:checklistId/:checklistItemId/set-checklist-item-text', cardController.setChecklistItemText);
 router.put('/:boardId/:listId/:cardId/:checklistId/:checklistItemId/set-checklist-item-completed', cardController.setChecklistItemCompleted);
