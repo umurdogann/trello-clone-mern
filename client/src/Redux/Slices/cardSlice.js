@@ -10,6 +10,12 @@ const initialState = {
 	checklists: [],
 	owner: '',
 	description: '',
+	date : {
+		startDate: null,
+		dueDate: null,
+		dueTime: null,
+		completed: false,
+	},
 	pending: false,
 };
 
@@ -34,6 +40,7 @@ const cardsSlice = createSlice({
 			state.boardId = action.payload.boardId;
 			state.description = action.payload.description;
 			state.checklists = action.payload.checklists;
+			state.date = action.payload.date;
 		},
 		updateTitle: (state, action) => {
 			state.title = action.payload;
@@ -169,6 +176,16 @@ const cardsSlice = createSlice({
 				return list;
 			});
 		},
+		updateStartDueDates: (state,action) => {
+			const {startDate, dueDate, dueTime} = action.payload;
+			state.date.startDate = startDate;
+			state.date.dueDate = dueDate;
+			state.date.dueTime = dueTime;
+			if(dueDate === null) state.date.completed = false;
+		},
+		updateDateCompleted: (state,action) => {
+			state.date.completed = action.payload;
+		}
 	},
 });
 
@@ -195,6 +212,8 @@ export const {
 	updateAddedChecklistItemId,
 	setChecklistItemCompleted,
 	setChecklistItemText,
-	deleteChecklistItem
+	deleteChecklistItem,
+	updateStartDueDates,
+	updateDateCompleted,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;
