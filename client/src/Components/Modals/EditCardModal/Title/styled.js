@@ -30,7 +30,7 @@ export const TitleInput = styled.input`
 	}
 `;
 
-export const Description = styled.p`
+export const Description = styled.div`
 	margin: 0;
 	padding: 0;
 	color: #5e6c84;
@@ -38,11 +38,15 @@ export const Description = styled.p`
 	padding-left:0.2rem;
 `;
 
-export const Link = styled.p`
+export const Link = styled.a`
 	display: inline;
 	font-size: inherit;
 	cursor: pointer;
 	text-decoration: underline;
+	color:inherit;
+	&:hover{
+		color: #172b4d;
+	}
 `;
 
 export const RightContainer = styled.div`
