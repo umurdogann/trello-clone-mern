@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
 	Container,
 	FeatureContainer,
@@ -9,22 +9,43 @@ import {
 	DateDropDown,
 	DateText,
 	CompleteLabel,
+	OverDueLabel,
 } from './styled';
 import MembersFeature from './MembersFeature';
 import ArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Checkbox from '../ReUsableComponents/Checkbox';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
+import moment from 'moment';
+import { dateCompletedUpdate } from '../../../../Services/cardService';
+import DatePopover from '../Popovers/Date/DatePopover';
 
 const Features = () => {
-	const [dateCheck, setDateCheck] = useState(false);
+	const dispatch = useDispatch();
+	const card = useSelector((state) => state.card);
+	const [dateCheck, setDateCheck] = useState(card.date.completed);
 	const [labelPopover, setLabelPopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
-	const card = useSelector((state) => state.card);
+	const [datePopover, setDatePopover] = React.useState(null);
+
+	useEffect(() => {
+		setDateCheck(card.date.completed);
+	}, [card.date.completed]);
+
 	const anySelectedLabel = () => {
 		return card.labels.filter((label) => label.selected);
+	};
+
+	const handleDateCompletedClick = async (param) => {
+		setDateCheck(param);
+		await dateCompletedUpdate(card.cardId, card.listId, card.boardId, param, dispatch);
+	};
+
+	const formatDate = (date) => {
+		if (moment(date).toDate().getFullYear() < new Date().getFullYear()) return moment(date).format('MMM DD, yyyy');
+		else return moment(date).format('MMM DD');
 	};
 	return (
 		<Container>
@@ -38,7 +59,6 @@ const Features = () => {
 					<Title>Labels</Title>
 					<RowContainer>
 						{anySelectedLabel().map((label) => {
-							console.log(label._id);
 							return (
 								<Label
 									onClick={(event) => setLabelPopover(event.currentTarget)}
@@ -80,18 +100,46 @@ const Features = () => {
 					</RowContainer>
 				</FeatureContainer>
 			)}
-			{card.date && (
+			{(card.date.startDate || card.date.dueDate) && (
 				<FeatureContainer>
-					<Title>Dates</Title>
+					<Title>{card.date.startDate ? (card.date.dueDate ? 'Dates' : 'Start date') : 'Due date'}</Title>
 					<RowContainer>
-						<Checkbox checked={dateCheck} clickCallback={setDateCheck} />
-						<DateDropDown>
-							<DateText>Nov 17 - Nov 30 at 3:57 AM</DateText>
-							<CompleteLabel show={dateCheck}>complete</CompleteLabel>
+						<Checkbox
+							checked={dateCheck}
+							clickCallback={handleDateCompletedClick}
+							hidden={!card.date.dueDate ? true : false}
+						/>
+						<DateDropDown onClick={(event) => setDatePopover(event.currentTarget)}>
+							<DateText>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${
+								card.date.startDate ? (card.date.dueDate ? ' - ' : '') : ''
+							}${card.date.dueDate ? formatDate(card.date.dueDate) : ''}${
+								card.date.dueTime ? ' at ' + card.date.dueTime : ''
+							}`}</DateText>
+							{moment(card.date.dueDate).toDate().getTime() < new Date().getTime() ? (
+								<OverDueLabel show={true}>overdue</OverDueLabel>
+							) : (
+								<CompleteLabel show={dateCheck}>complete</CompleteLabel>
+							)}
 							<ArrowDownIcon style={{ marginBottom: '0.2rem' }} fontSize='small' />
 						</DateDropDown>
 					</RowContainer>
 				</FeatureContainer>
+			)}
+			{datePopover && (
+				<BasePopover
+					anchorElement={datePopover}
+					closeCallback={() => {
+						setDatePopover(null);
+					}}
+					title='Date'
+					contents={
+						<DatePopover
+							closeCallback={() => {
+								setDatePopover(null);
+							}}
+						/>
+					}
+				/>
 			)}
 		</Container>
 	);

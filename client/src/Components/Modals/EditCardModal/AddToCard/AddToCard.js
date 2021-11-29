@@ -11,11 +11,13 @@ import BasePopover from '../ReUsableComponents/BasePopover';
 import MembersPopover from '../Popovers/Members/MembersPopover';
 import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 import ChecklistPopover from '../Popovers/Checklist/ChecklistPopover';
+import DatePopover from '../Popovers/Date/DatePopover';
 
 const AddToCard = () => {
 	const [memberPopover, setMemberPopover] = React.useState(null);
 	const [labelPopover, setLabelPopover] = React.useState(null);
 	const [checklistPopover, setChecklistPopover] = React.useState(null);
+	const [datePopover, setDatePopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
 	return (
@@ -87,7 +89,23 @@ const AddToCard = () => {
 				/>
 			)}
 
-			<Button title='Dates' icon={<DateIcon fontSize='small' />}></Button>
+			<Button
+				clickCallback={(event) => setDatePopover(event.currentTarget)}
+				title='Dates'
+				icon={<DateIcon fontSize='small' />}
+			></Button>
+			{datePopover && (
+				<BasePopover
+					anchorElement={datePopover}
+					closeCallback={() => {
+						setDatePopover(null);
+					}}
+					title='Date'
+					contents={<DatePopover closeCallback={() => {
+						setDatePopover(null);
+					}}/>}
+				/>
+			)}
 
 			<Button title='Attachment' icon={<AttachmentIcon fontSize='small' />}></Button>
 

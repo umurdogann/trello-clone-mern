@@ -120,6 +120,10 @@ export const CompleteLabel = styled.div`
 	border-radius: 2px;
 `;
 
+export const OverDueLabel = styled(CompleteLabel)`
+	background-color: #ec9488;
+`;
+
 export const DateText = styled.span`
 	font-size: 0.87rem;
 	color: #172b4d;

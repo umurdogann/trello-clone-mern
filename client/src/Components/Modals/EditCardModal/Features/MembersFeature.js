@@ -10,8 +10,8 @@ const MembersFeature = (props) => {
 		<>
 			<Title>Members</Title>
 			<RowContainer>
-				{card.members.map((member) => {
-					return <Avatar>{member.name[0]}</Avatar>;
+				{card.members.map((member,index) => {
+					return <Avatar key={index}>{member.name[0]}</Avatar>;
 				})}
 				<AddAvatar onClick={(event) => setMemberPopover(event.currentTarget)}>+</AddAvatar>
 			</RowContainer>
