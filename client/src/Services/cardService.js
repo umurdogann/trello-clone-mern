@@ -28,6 +28,7 @@ import {
 	addAttachment,
 	updateAddedAttachmentId,
 	deleteAttachment,
+	updateAttachment,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -381,11 +382,12 @@ export const checklistItemDelete = async (cardId, listId, boardId, checklistId, 
 
 export const startDueDatesUpdate = async (cardId, listId, boardId, startDate, dueDate, dueTime, dispatch) => {
 	try {
-		dispatch(updateStartDueDates({ startDate,dueDate,dueTime }));
-		await axios.put(
-			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-dates',
-			{ startDate, dueDate,dueTime }
-		);
+		dispatch(updateStartDueDates({ startDate, dueDate, dueTime }));
+		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-dates', {
+			startDate,
+			dueDate,
+			dueTime,
+		});
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -399,10 +401,9 @@ export const startDueDatesUpdate = async (cardId, listId, boardId, startDate, du
 export const dateCompletedUpdate = async (cardId, listId, boardId, completed, dispatch) => {
 	try {
 		dispatch(updateDateCompleted(completed));
-		await axios.put(
-			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-date-completed',
-			{ completed}
-		);
+		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-date-completed', {
+			completed,
+		});
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -413,19 +414,14 @@ export const dateCompletedUpdate = async (cardId, listId, boardId, completed, di
 	}
 };
 
-export const attachmentAdd = async (cardId, listId, boardId, link,name, dispatch) => {
+export const attachmentAdd = async (cardId, listId, boardId, link, name, dispatch) => {
 	try {
-		dispatch(addAttachment({ link:link,name:name, _id: 'notUpdated'}));
-		const response = await axios.post(
-			baseUrl + '/' + boardId + '/' + listId + '/' + cardId  + '/add-attachment',
-			{
-				link:link,
-				name:name,
-			}
-		);
-		dispatch(
-			updateAddedAttachmentId({ attachmentId:response.data.attachmentId})
-		);
+		dispatch(addAttachment({ link: link, name: name, _id: 'notUpdated', date: Date() }));
+		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-attachment', {
+			link: link,
+			name: name,
+		});
+		dispatch(updateAddedAttachmentId(response.data.attachmentId));
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -441,6 +437,23 @@ export const attachmentDelete = async (cardId, listId, boardId, attachmentId, di
 		dispatch(deleteAttachment(attachmentId));
 		await axios.delete(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId + '/delete-attachment'
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const attachmentUpdate = async (cardId, listId, boardId, attachmentId, link, name, dispatch) => {
+	try {
+		dispatch(updateAttachment({ attachmentId: attachmentId, link: link, name: name }));
+		await axios.put(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId + '/update-attachment',
+			{ link: link, name: name }
 		);
 	} catch (error) {
 		dispatch(

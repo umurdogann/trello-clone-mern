@@ -20,15 +20,18 @@ import {
 import { attachmentDelete } from '../../../../Services/cardService';
 import BasePopover from '../ReUsableComponents/BasePopover';
 import EditAttachmentPopover from '../Popovers/Attachment/EditAttachmentPopover';
+import moment from 'moment';
+import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
 
 const Attachments = (props) => {
 	const card = useSelector((state) => state.card);
 	const dispatch = useDispatch();
 	const [editPopover, setEditPopover] = useState(null);
 	const [popoverComponent, setPopoverComponent] = useState(null);
+	const [attachmentPopover, setAttachmentPopover] = useState(null);
 
 	const handleDeleteClick = async (attachmentId) => {
-		await attachmentDelete(card.cardId, card.listId, card.boardId, attachmentId, dispatch);
+		await attachmentDelete(card.cardId, card.listId, card.boardId, attachmentId, dispatch);		
 	};
 	return (
 		<>
@@ -55,7 +58,7 @@ const Attachments = (props) => {
 									</AttachmentTitleWrapper>
 									<AttachmentFooterWrapper>
 										<AttachmentDate>
-											{'Added at Nov 12, 2021'}
+											{'Added ' + moment(attachment.date).format('MMM, DD [at] HH.mm')}
 											<AttachmentOperations
 												onClick={(e) => {
 													e.stopPropagation();
@@ -80,26 +83,46 @@ const Attachments = (props) => {
 							</Row>
 						);
 					})}
-					<Button style={{ width: '9rem', marginTop: '0.7rem' }} title='Add an Attachment' />
+					<Button
+						style={{ width: '9rem', marginTop: '0.7rem' }}
+						clickCallback={(event) => setAttachmentPopover(event.currentTarget)}
+						title='Add an Attachment'
+					/>
 				</RightWrapper>
+				{editPopover && (
+					<BasePopover
+						anchorElement={editPopover}
+						closeCallback={() => {
+							setEditPopover(null);
+						}}
+						title='Edit'
+						contents={
+							<EditAttachmentPopover
+								{...popoverComponent}
+								closeCallback={() => {
+									setEditPopover(null);
+								}}
+							/>
+						}
+					/>
+				)}
+				{attachmentPopover && (
+					<BasePopover
+						anchorElement={attachmentPopover}
+						closeCallback={() => {
+							setAttachmentPopover(null);
+						}}
+						title='Attach from...'
+						contents={
+							<AddAttachmentPopover
+								closeCallback={() => {
+									setAttachmentPopover(null);
+								}}
+							/>
+						}
+					/>
+				)}
 			</Container>
-			{editPopover && (
-				<BasePopover
-					anchorElement={editPopover}
-					closeCallback={() => {
-						setEditPopover(null);
-					}}
-					title='Edit'
-					contents={
-						<EditAttachmentPopover
-							{...popoverComponent}
-							closeCallback={() => {
-								setEditPopover(null);
-							}}
-						/>
-					}
-				/>
-			)}
 		</>
 	);
 };

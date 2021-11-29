@@ -189,16 +189,30 @@ const cardsSlice = createSlice({
 			state.date.completed = action.payload;
 		},
 		addAttachment: (state, action) => {
-			const { link, name } = action.payload;
-			state.attachments.push({ link: link, name: name });
+			const { link, name, _id,date } = action.payload;
+			state.attachments.push({ link: link, name: name, _id:_id, date: date });
 		},
 		updateAddedAttachmentId: (state, action) => {
-			const { attachmentId } = action.payload;
-			state.attachments[0]._id = attachmentId;
+			state.attachments = state.attachments.map(attachment =>{
+				if(attachment._id === 'notUpdated'){
+					attachment._id = action.payload;
+				}
+				return attachment;
+			})
 		},
 		deleteAttachment: (state, action) => {
 			state.attachments = state.attachments.filter((attachment) => attachment._id !== action.payload);
 		},
+		updateAttachment: (state,action) => {
+			const {attachmentId, link, name} = action.payload;
+			state.attachments = state.attachments.map(attachment =>{
+				if(attachment._id === attachmentId){
+					attachment.link = link;
+					attachment.name = name;
+				}
+				return attachment;
+			})
+		}
 	},
 });
 
@@ -230,6 +244,7 @@ export const {
 	updateDateCompleted,
 	addAttachment,
 	updateAddedAttachmentId,
-	deleteAttachment
+	deleteAttachment,
+	updateAttachment,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

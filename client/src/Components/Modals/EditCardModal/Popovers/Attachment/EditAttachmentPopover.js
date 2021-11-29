@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { SearchArea, Title, BlueButton } from '../Labels/styled';
 import styled from 'styled-components';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { attachmentUpdate } from '../../../../../Services/cardService';
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -14,9 +15,14 @@ const Container = styled.div`
 `;
 
 const EditAttachmentPopover = (props) => {
+	const dispatch = useDispatch();
+	const card = useSelector((state) => state.card);
 	const [link, setLink] = useState(props.link);
-	const [linkName, setLinkName] = useState(props.name?props.name:props.link);
-	const handleAttachClick = async () => {};
+	const [linkName, setLinkName] = useState(props.name ? props.name : props.link);
+	const handleAttachClick = async () => {
+		props.closeCallback();
+		await attachmentUpdate(card.cardId, card.listId, card.boardId, props._id, new RegExp(/^https?:\/\//).test(link) ? link : 'http://' + link, linkName, dispatch);
+	};
 	return (
 		<Container>
 			<Title>Link</Title>
