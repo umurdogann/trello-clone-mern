@@ -6,10 +6,10 @@ const ActivityLog = () => {
 	const card = useSelector((state) => state.card);
 	return (
 		<>
-			{card.activities.map((activity) => {
+			{card.activities.map((activity,index) => {
 				if (!activity.isComment)
 					return (
-						<Container>
+						<Container key={index}>
 							<LeftContainer>
 								<Avatar>{activity.userName[0]}</Avatar>
 							</LeftContainer>
