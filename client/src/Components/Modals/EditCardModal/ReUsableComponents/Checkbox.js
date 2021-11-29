@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import CheckIcon from '@mui/icons-material/Check';
 
 export const CheckBox = styled.div`
-	display: flex;
+	display: ${props=>props.hidden?'none':'flex'};
 	align-items: center;
 	justify-content: center;
 	margin-left: 0.1rem;
@@ -21,13 +21,14 @@ export const CheckBox = styled.div`
 `;
 
 const Checkbox = (props) => {
-	const { checked, clickCallback } = props;
+	const { checked, clickCallback,hidden } = props;
 	return (
 		<CheckBox
 			checked={checked}
 			onClick={() => {
 				clickCallback(!checked);
 			}}
+			hidden={hidden}
 		>
 			{checked && <CheckIcon fontSize='0.1rem' />}
 		</CheckBox>
