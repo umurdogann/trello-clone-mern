@@ -5,6 +5,7 @@ import Activity from './Activity/Activity';
 import AddToCard from './AddToCard/AddToCard';
 import Checklist from './Checklist/Checklist';
 import Description from './Description/Description';
+import Attachments from './Attachments/Attachments';
 import Features from './Features/Features';
 import Title from './Title/Title';
 import CardLoadingSvg from '../../../Images/cardLoading.svg';
@@ -24,6 +25,7 @@ import {
 	AddToCardContainer,
 	ActionsContainer,
 	LoadingScreen,
+	AttachmentContainer,
 } from './styled';
 
 export default function EditCard(props) {
@@ -56,6 +58,9 @@ export default function EditCard(props) {
 									<DescriptionContainer>
 										<Description />
 									</DescriptionContainer>
+									<AttachmentContainer>
+										<Attachments />
+									</AttachmentContainer>
 									{thisCard.checklists.length > 0 && (
 										<ChecklistContainer>
 											{thisCard.checklists.map((list) => {

@@ -63,6 +63,7 @@ export const SearchArea = styled.input`
 	border-radius: 3px;
 	padding-left: 0.5rem;
 	outline: none;
+	font-size: 0.875rem;
 	background-color: rgba(0, 0, 0, 0.02);
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.05);

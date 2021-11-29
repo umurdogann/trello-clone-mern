@@ -22,7 +22,7 @@ export const Title = styled.h3`
 	margin: 0;
 	padding: 0.2rem 0rem 0rem 0rem;
 	display: inline;
-	color: black;
+	color: #172b4d;
 	font-size: 1rem;
 	font-weight: 800;
 `;
