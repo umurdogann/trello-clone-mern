@@ -62,21 +62,23 @@ const cardSchema = mongoose.Schema({
 		completed: {
 			type: Boolean,
 			default: false,
-		}
+		},
 	},
-	attachments: [{
-		link:{
-			type: String,
+	attachments: [
+		{
+			link: {
+				type: String,
+			},
+			name: {
+				type: String,
+				default: null,
+			},
+			date: {
+				type: Date,
+				default: Date(),
+			},
 		},
-		name:{
-			type: String,
-			default: null,
-		},
-		date:{
-			type: Date,
-			default: new Date()
-		}
-	}],
+	],
 	activities: [
 		{
 			userName: {

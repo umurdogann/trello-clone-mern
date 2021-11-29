@@ -2,7 +2,7 @@ const cardController = require('../Controllers/cardController');
 const express = require('express');
 const router = express.Router();
 
-
+router.put('/:boardId/:listId/:cardId/:attachmentId/update-attachment', cardController.updateAttachment);
 router.delete('/:boardId/:listId/:cardId/:attachmentId/delete-attachment', cardController.deleteAttachment);
 router.post('/:boardId/:listId/:cardId/add-attachment', cardController.addAttachment);
 router.put('/:boardId/:listId/:cardId/update-dates', cardController.updateStartDueDates);

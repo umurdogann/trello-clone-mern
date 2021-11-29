@@ -578,7 +578,7 @@ const addAttachment = async (cardId, listId, boardId, user, link, name, callback
 		card.attachments.push({ link: validLink, name: name });
 		await card.save();
 
-		return callback(false, { attachmentId: card.attachments[0]._id.toString() });
+		return callback(false, { attachmentId: card.attachments[card.attachments.length - 1]._id.toString() });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -599,6 +599,35 @@ const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, cal
 
 		//Delete checklistItem
 		card.attachments = card.attachments.filter(attachment => attachment._id.toString() !== attachmentId.toString())
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const updateAttachment = async (cardId, listId, boardId, user, attachmentId, link, name, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update attachment of this card';
+		}
+
+		//Update date completed event
+		card.attachments = card.attachments.map(attachment=>{
+			if(attachment._id.toString() === attachmentId.toString()){
+				attachment.link = link;
+				attachment.name = name;
+			}
+			return attachment;
+		})
+
 		await card.save();
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -629,4 +658,5 @@ module.exports = {
 	updateDateCompleted,
 	addAttachment,
 	deleteAttachment,	
+	updateAttachment,
 };

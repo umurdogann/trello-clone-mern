@@ -338,6 +338,29 @@ const deleteAttachment = async (req, res) => {
 	);
 };
 
+const updateAttachment = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, attachmentId } = req.params;
+	const {link,name} = req.body;
+	
+
+	// Call the card service
+	await cardService.updateAttachment(
+		cardId,
+		listId,
+		boardId,
+		user,
+		attachmentId,
+		link,
+		name,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -360,5 +383,6 @@ module.exports = {
 	updateStartDueDates,
 	updateDateCompleted,
 	addAttachment,
-	deleteAttachment
+	deleteAttachment,
+	updateAttachment,
 };
