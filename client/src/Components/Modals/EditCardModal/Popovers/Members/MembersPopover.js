@@ -108,7 +108,6 @@ const MemberComponent = (props) => {
 
 const MembersPopover = () => {
 	const members = useSelector((state) => state.board.members);
-	console.log(members)
 	return (
 		<Container>
 			<SearchArea placeholder='Search member...' />
