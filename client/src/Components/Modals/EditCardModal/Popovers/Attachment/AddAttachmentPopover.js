@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { SearchArea, Title } from '../Labels/styled';
 import Button from '../../ReUsableComponents/Button';
 import styled from 'styled-components';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { attachmentAdd } from '../../../../../Services/cardService';
 const Container = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -15,9 +16,20 @@ const Container = styled.div`
 `;
 
 const AddAttachmentPopover = (props) => {
+	const dispatch = useDispatch();
+	const card = useSelector((state) => state.card);
 	const [link, setLink] = useState('');
 	const [linkName, setLinkName] = useState('');
-	const handleAttachClick = async () => {};
+	const handleAttachClick = async () => {
+		await attachmentAdd(
+			card.cardId,
+			card.listId,
+			card.boardId,
+			new RegExp(/^https?:\/\//).test(link) ? link : 'http://' + link,
+			linkName,
+			dispatch
+		);
+	};
 	return (
 		<Container>
 			<Title>Attach a link</Title>

@@ -10,12 +10,13 @@ const initialState = {
 	checklists: [],
 	owner: '',
 	description: '',
-	date : {
+	date: {
 		startDate: null,
 		dueDate: null,
 		dueTime: null,
 		completed: false,
 	},
+	attachments: [],
 	pending: false,
 };
 
@@ -41,6 +42,7 @@ const cardsSlice = createSlice({
 			state.description = action.payload.description;
 			state.checklists = action.payload.checklists;
 			state.date = action.payload.date;
+			state.attachments = action.payload.attachments;
 		},
 		updateTitle: (state, action) => {
 			state.title = action.payload;
@@ -171,21 +173,29 @@ const cardsSlice = createSlice({
 			const { checklistId, checklistItemId } = action.payload;
 			state.checklists = state.checklists.map((list) => {
 				if (list._id.toString() === checklistId.toString()) {
-					list.items = list.items.filter((item) =>item._id !== checklistItemId);
+					list.items = list.items.filter((item) => item._id !== checklistItemId);
 				}
 				return list;
 			});
 		},
-		updateStartDueDates: (state,action) => {
-			const {startDate, dueDate, dueTime} = action.payload;
+		updateStartDueDates: (state, action) => {
+			const { startDate, dueDate, dueTime } = action.payload;
 			state.date.startDate = startDate;
 			state.date.dueDate = dueDate;
 			state.date.dueTime = dueTime;
-			if(dueDate === null) state.date.completed = false;
+			if (dueDate === null) state.date.completed = false;
 		},
-		updateDateCompleted: (state,action) => {
+		updateDateCompleted: (state, action) => {
 			state.date.completed = action.payload;
-		}
+		},
+		addAttachment: (state, action) => {
+			const { link, name } = action.payload;
+			state.attachments.push({ link: link, name: name });
+		},
+		updateAddedAttachmentId: (state, action) => {
+			const { attachmentId } = action.payload;
+			state.attachments[0]._id = attachmentId;
+		},
 	},
 });
 
@@ -215,5 +225,7 @@ export const {
 	deleteChecklistItem,
 	updateStartDueDates,
 	updateDateCompleted,
+	addAttachment,
+	updateAddedAttachmentId,
 } = cardsSlice.actions;
 export default cardsSlice.reducer;

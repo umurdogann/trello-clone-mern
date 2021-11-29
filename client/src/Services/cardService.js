@@ -25,6 +25,8 @@ import {
 	setChecklistItemText,
 	updateStartDueDates,
 	updateDateCompleted,
+	addAttachment,
+	updateAddedAttachmentId,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -399,6 +401,29 @@ export const dateCompletedUpdate = async (cardId, listId, boardId, completed, di
 		await axios.put(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-date-completed',
 			{ completed}
+		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const attachmentAdd = async (cardId, listId, boardId, link,name, dispatch) => {
+	try {
+		dispatch(addAttachment({ link:link,name:name, _id: 'notUpdated'}));
+		const response = await axios.post(
+			baseUrl + '/' + boardId + '/' + listId + '/' + cardId  + '/add-attachment',
+			{
+				link:link,
+				name:name,
+			}
+		);
+		dispatch(
+			updateAddedAttachmentId({ attachmentId:response.data.attachmentId})
 		);
 	} catch (error) {
 		dispatch(
