@@ -239,7 +239,6 @@ const deleteChecklistItem = async (req, res) => {
 	// Get params
 	const user = req.user;
 	const { boardId, listId, cardId, checklistId, checklistItemId } = req.params;
-	console.log("here")
 
 	// Call the card service
 	await cardService.deleteChecklistItem(
@@ -319,6 +318,26 @@ const addAttachment = async (req, res) => {
 	);
 };
 
+const deleteAttachment = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId, attachmentId } = req.params;
+	
+
+	// Call the card service
+	await cardService.deleteAttachment(
+		cardId,
+		listId,
+		boardId,
+		user,
+		attachmentId,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -340,5 +359,6 @@ module.exports = {
 	deleteChecklistItem,
 	updateStartDueDates,
 	updateDateCompleted,
-	addAttachment
+	addAttachment,
+	deleteAttachment
 };

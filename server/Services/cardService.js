@@ -584,6 +584,28 @@ const addAttachment = async (cardId, listId, boardId, user, link, name, callback
 	}
 };
 
+const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to delete this attachment';
+		}
+
+		//Delete checklistItem
+		card.attachments = card.attachments.filter(attachment => attachment._id.toString() !== attachmentId.toString())
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -606,4 +628,5 @@ module.exports = {
 	updateStartDueDates,
 	updateDateCompleted,
 	addAttachment,
+	deleteAttachment,	
 };
