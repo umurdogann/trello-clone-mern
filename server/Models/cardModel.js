@@ -46,15 +46,23 @@ const cardSchema = mongoose.Schema({
 		},
 	],
 	date: {
+		_id: false,
 		startDate: {
 			type: Date,
 		},
 		dueDate: {
 			type: Date,
 		},
+		dueTime: {
+			type: String,
+		},
 		reminder: {
 			type: Boolean,
 		},
+		completed: {
+			type: Boolean,
+			default: false,
+		}
 	},
 	activities: [
 		{
