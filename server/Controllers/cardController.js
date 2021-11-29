@@ -278,6 +278,26 @@ const updateStartDueDates = async (req, res) => {
 	);
 };
 
+const updateDateCompleted = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+	const {completed} = req.body;
+
+	// Call the card service
+	await cardService.updateDateCompleted(
+		cardId,
+		listId,
+		boardId,
+		user,
+		completed,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -298,4 +318,5 @@ module.exports = {
 	setChecklistItemText,
 	deleteChecklistItem,
 	updateStartDueDates,
+	updateDateCompleted,
 };
