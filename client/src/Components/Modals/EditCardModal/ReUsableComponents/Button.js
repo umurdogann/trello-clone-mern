@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { xs } from '../../../../BreakPoints';
 
 export const ButtonStyled = styled.button`
 	display: inline-flex;
@@ -24,8 +23,8 @@ export const ButtonStyled = styled.button`
 `;
 
 const Button = (props) => {
-	const { title, icon, clickCallback } = props;
-	return <ButtonStyled onClick={clickCallback}>{title}</ButtonStyled>;
+	const { title, clickCallback} = props;
+	return <ButtonStyled {...props} onClick={clickCallback}>{title}</ButtonStyled>;
 };
 
 export default Button;
