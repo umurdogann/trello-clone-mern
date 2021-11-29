@@ -421,7 +421,7 @@ const setChecklistItemCompleted = async (
 	completed,
 	callback
 ) => {
-	try {		
+	try {
 		// Get models
 		const card = await cardModel.findById(cardId);
 		const list = await listModel.findById(listId);
@@ -511,7 +511,7 @@ const deleteChecklistItem = async (cardId, listId, boardId, user, checklistId, c
 	}
 };
 
-const updateStartDueDates = async (cardId, listId, boardId, user, startDate, dueDate, dueTime , callback) => {
+const updateStartDueDates = async (cardId, listId, boardId, user, startDate, dueDate, dueTime, callback) => {
 	try {
 		// Get models
 		const card = await cardModel.findById(cardId);
@@ -521,13 +521,36 @@ const updateStartDueDates = async (cardId, listId, boardId, user, startDate, due
 		// Validate owner
 		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
 		if (!validate) {
-			errMessage: 'You dont have permission to set text of this checklist item';
+			errMessage: 'You dont have permission to update date of this card';
 		}
 
 		//Update dates
 		card.date.startDate = startDate;
 		card.date.dueDate = dueDate;
 		card.date.dueTime = dueTime;
+		if (dueDate === null) card.date.completed = false;
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const updateDateCompleted = async (cardId, listId, boardId, user, completed, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update date of this card';
+		}
+
+		//Update date completed event
+		card.date.completed = completed;
 
 		await card.save();
 		return callback(false, { message: 'Success!' });
@@ -556,4 +579,5 @@ module.exports = {
 	setChecklistItemText,
 	deleteChecklistItem,
 	updateStartDueDates,
+	updateDateCompleted,
 };
