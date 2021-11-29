@@ -559,6 +559,31 @@ const updateDateCompleted = async (cardId, listId, boardId, user, completed, cal
 	}
 };
 
+const addAttachment = async (cardId, listId, boardId, user, link, name, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update date of this card';
+		}
+
+		//Add attachment
+		const validLink = new RegExp(/^https?:\/\//).test(link) ? link : 'http://' + link;
+
+		card.attachments.push({ link: validLink, name: name });
+		await card.save();
+
+		return callback(false, { attachmentId: card.attachments[0]._id.toString() });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -580,4 +605,5 @@ module.exports = {
 	deleteChecklistItem,
 	updateStartDueDates,
 	updateDateCompleted,
+	addAttachment,
 };

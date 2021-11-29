@@ -64,6 +64,19 @@ const cardSchema = mongoose.Schema({
 			default: false,
 		}
 	},
+	attachments: [{
+		link:{
+			type: String,
+		},
+		name:{
+			type: String,
+			default: null,
+		},
+		date:{
+			type: Date,
+			default: new Date()
+		}
+	}],
 	activities: [
 		{
 			userName: {

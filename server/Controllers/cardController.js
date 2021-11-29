@@ -298,6 +298,27 @@ const updateDateCompleted = async (req, res) => {
 	);
 };
 
+const addAttachment = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+	const {link,name} = req.body;
+
+	// Call the card service
+	await cardService.addAttachment(
+		cardId,
+		listId,
+		boardId,
+		user,
+		link,
+		name,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -319,4 +340,5 @@ module.exports = {
 	deleteChecklistItem,
 	updateStartDueDates,
 	updateDateCompleted,
+	addAttachment
 };
