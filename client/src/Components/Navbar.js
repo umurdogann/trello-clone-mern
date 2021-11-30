@@ -91,34 +91,11 @@ const DropdownContainer = styled.div`
 `;
 
 const Navbar = () => {
-  const boards = useSelector(state=>state.boards.boardsData);
-  const history = useHistory();
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    if(!Object.keys(boards).length)
-      getBoards(dispatch);
-  },[boards, dispatch]);
 
 
-  const menuItems = ()=>{
-    let temp = [];
-    try {
-      boards.map(board => {
-        temp.push({
-          title: board.title,
-          id: board._id,
-          cb: ()=>{
-            history.push('/board/'+board._id);
-          }
-        })
-        return null;
-      })
-    } catch (error) {
-      
-    }
-   
-    return temp;
-  }
+
+
+  
   return (
     <Container>
       <LeftSide>
@@ -128,7 +105,6 @@ const Navbar = () => {
         <DropdownContainer>
           <DropdownMenu
             title="Your Boards"
-            menu={menuItems()}
           />
         </DropdownContainer>
       </LeftSide>

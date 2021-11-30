@@ -1,38 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as style from './styled';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as common from '../../CommonStyled';
-import { useSelector } from 'react-redux';
-const TopBar = () => {
-	const { title } = useSelector((state) => state.board);
+import { useDispatch, useSelector } from 'react-redux';
+import { boardTitleUpdate } from '../../../../../Services/boardsService';
 
-	const handleTitleChange = (e) => {
-		const newTitle = e.default.value;
+const TopBar = () => {
+	const board = useSelector((state) => state.board);
+	const [currentTitle, setCurrentTitle] = useState(board.title);
+	const dispatch = useDispatch();
+	useEffect(()=>{
+		if(!board.loading)
+			setCurrentTitle(board.title);
+	},[board.loading, board.title]);
+	const handleTitleChange = () => {
+		boardTitleUpdate(currentTitle,board.id,dispatch);
 	};
 	return (
 		<style.TopBar>
-			<div>
+			<style.LeftWrapper>
 				<style.InviteButton>
 					<PersonAddAltIcon />
 					<style.TextSpan>Invite</style.TextSpan>
 				</style.InviteButton>
-			</div>
 
-			<div>
 				<style.BoardNameInput
 					placeholder='Board Name'
-					value={title}
-					onChange={(e) => handleTitleChange(e)}
+					value={currentTitle}
+					onChange={(e) => setCurrentTitle(e.target.value)}
+					onBlur={handleTitleChange}
 				/>
-			</div>
+			</style.LeftWrapper>
 
-			<div>
+			<style.RightWrapper>
 				<common.Button>
 					<MoreHorizIcon />
 					<style.TextSpan>Show menu</style.TextSpan>
 				</common.Button>
-			</div>
+			</style.RightWrapper>
 		</style.TopBar>
 	);
 };

@@ -5,15 +5,35 @@ export const TopBar = styled.div`
 	height: 52px;
 	width: 100%;
 	display: flex;
-	align-items: center;
+	flex-direction: column;
+	align-items: space-between;
 	padding: 0rem 1rem;
-	justify-content: space-between;
+	justify-content: center;
 	flex-wrap: wrap;
 	gap: 0.3rem;
 
 	${xs({
 		gap: '0.1rem',
 	})}
+`;
+
+export const LeftWrapper = styled.div`
+	display: flex;
+	flex-direction: row;
+	flex: 3;
+	width: 75%;
+	align-items: center;
+	justify-content: flex-start;
+	height: 100%;
+	gap: 1rem;
+`;
+export const RightWrapper = styled.div`
+	display: flex;
+	flex: 1;
+	height: 100%;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
 `;
 
 export const InviteButton = styled.button`
@@ -51,6 +71,8 @@ export const BoardNameInput = styled.input`
 	min-width: 6.5rem;
 	max-width: 10rem;
 	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 	width: ${(props) => props.value.length * 0.75 + 'rem'};
 	font-weight: 600;
 	color: white;

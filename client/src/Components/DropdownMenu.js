@@ -5,6 +5,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { styled } from '@mui/material/styles';
 import DownIcon from '@mui/icons-material/KeyboardArrowDown';
 import styledComponent from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getBoards } from '../Services/boardsService';
 const BootstrapButton = styled(Button)({
 	boxShadow: 'none',
 	textTransform: 'none',
@@ -37,11 +40,19 @@ const StyledIcon = styled(DownIcon)({
 });
 
 export default function DropdownMenu(props) {
+	const boardsData = useSelector((state) => state.boards.boardsData);
+	const history = useHistory();
+	const dispatch = useDispatch();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
+
+	React.useEffect(() => {
+		if (!Object.keys(boardsData).length) getBoards(dispatch);
+	}, [boardsData, dispatch]);
+
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -60,35 +71,37 @@ export default function DropdownMenu(props) {
 					<StyledIcon />
 				</Span>
 			</BootstrapButton>
-			<Menu
-				id='demo-positioned-menu'
-				aria-labelledby='demo-positioned-button'
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'right',
-				}}
-				transformOrigin={{
-					vertical: 'top',
-					horizontal: 'right',
-				}}
-			>
-				{props.menu.map((item) => {
-					return (
-						<MenuItem
-							key={item.id}
-							onClick={() => {
-								setAnchorEl(null);
-								item.cb();
-							}}
-						>
-							{item.title}
-						</MenuItem>
-					);
-				})}
-			</Menu>
+			{Object.keys(boardsData).length > 0 && (
+				<Menu
+					id='demo-positioned-menu'
+					aria-labelledby='demo-positioned-button'
+					anchorEl={anchorEl}
+					open={open}
+					onClose={handleClose}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'right',
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'right',
+					}}
+				>
+					{boardsData.map((item) => {
+						return (
+							<MenuItem
+								key={item._id}
+								onClick={() => {
+									setAnchorEl(null);
+									history.push('/board/' + item._id);
+								}}
+							>
+								{item.title}
+							</MenuItem>
+						);
+					})}
+				</Menu>
+			)}
 		</div>
 	);
 }

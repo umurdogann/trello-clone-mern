@@ -18,15 +18,18 @@ const boardSlice = createSlice({
 			state.loading = action.payload;
 		},
 		successFetchingBoard: (state, action) => {
-			state.id = action.payload.id;
+			state.id = action.payload._id;
 			state.title = action.payload.title;
 			state.backgroundImageLink = action.payload.backgroundImageLink;
 			state.lists = action.payload.lists;
 			state.members = action.payload.members;
 			state.activity = action.payload.activity;
 		},
+		updateTitle: (state,action) => {
+			state.title = action.payload;
+		}
 	},
 });
 
-export const { setLoading, successFetchingBoard } = boardSlice.actions;
+export const { setLoading, successFetchingBoard, updateTitle } = boardSlice.actions;
 export default boardSlice.reducer;
