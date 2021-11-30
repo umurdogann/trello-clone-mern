@@ -77,15 +77,27 @@ const getById = async (id, callback) => {
 	try {
 		// Get board by id
 		const board = await boardModel.findById(id);
-		console.log(board.members);
 		return callback(false, board);
 	} catch (error) {
 		return callback({ message: 'Something went wrong', details: error.message });
 	}
 };
 
+const updateBoardTitle = async (boardId, title, callback)=>{
+	try {
+		// Get board by id
+		const board = await boardModel.findById(boardId);
+		board.title = title;
+		await board.save();
+		return callback(false, {message: 'Success!'});
+	} catch (error) {
+		return callback({ message: 'Something went wrong', details: error.message });
+	}
+}
+
 module.exports = {
 	create,
 	getAll,
 	getById,
+	updateBoardTitle,
 };

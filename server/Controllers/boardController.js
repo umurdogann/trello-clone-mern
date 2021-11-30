@@ -34,8 +34,25 @@ const getById = async (req, res) => {
 	});
 };
 
+const updateBoardTitle = async (req, res) => {
+	// Validate whether params.id is in the user's boards or not
+	const validate = req.user.boards.filter((board) => board === req.params.id);
+	if (!validate)
+		return res
+			.status(400)
+			.send({ errMessage: 'You can not change title of this board, you are not a member or owner!' });
+	const {boardId} = req.params;
+	const {title} = req.body;
+	// Call the service
+	await boardService.updateBoardTitle(boardId,title, (err, result) => {
+		if (err) return res.status(400).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getAll,
 	getById,
+	updateBoardTitle,
 };
