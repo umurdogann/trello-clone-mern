@@ -635,6 +635,30 @@ const updateAttachment = async (cardId, listId, boardId, user, attachmentId, lin
 	}
 };
 
+const updateCover = async (cardId, listId, boardId, user, color, isSizeOne, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update attachment of this card';
+		}
+
+		//Update date cover color
+		card.cover.color= color;
+		card.cover.isSizeOne = isSizeOne;
+
+		await card.save();
+		return callback(false, { message: 'Success!' });
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	update,
@@ -659,4 +683,5 @@ module.exports = {
 	addAttachment,
 	deleteAttachment,	
 	updateAttachment,
+	updateCover,
 };

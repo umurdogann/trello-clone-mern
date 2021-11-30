@@ -101,6 +101,16 @@ const cardSchema = mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'list',
 	},
+	cover: {
+		color: {
+			type: String,
+			default: null,
+		},
+		isSizeOne: {
+			type: Boolean,
+			default: null,
+		}
+	},
 	checklists: [
 		{
 			title: {

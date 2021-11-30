@@ -361,6 +361,28 @@ const updateAttachment = async (req, res) => {
 	);
 };
 
+const updateCover = async (req, res) => {
+	// Get params
+	const user = req.user;
+	const { boardId, listId, cardId } = req.params;
+	const {color, isSizeOne} = req.body;
+	
+
+	// Call the card service
+	await cardService.updateCover(
+		cardId,
+		listId,
+		boardId,
+		user,
+		color,
+		isSizeOne,
+		(err, result) => {
+			if (err) return res.status(500).send(err);
+			return res.status(200).send(result);
+		}
+	);
+};
+
 module.exports = {
 	create,
 	getCard,
@@ -385,4 +407,5 @@ module.exports = {
 	addAttachment,
 	deleteAttachment,
 	updateAttachment,
+	updateCover,
 };
