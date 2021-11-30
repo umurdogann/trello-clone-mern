@@ -147,10 +147,34 @@ const updateListOrder = async (boardId, sourceIndex, destinationIndex, listId, c
 	}
 };
 
+const updateListTitle = async (listId, boardId, user, title, callback) => {
+	try {
+		// Get board to check the parent of list is this board
+		const board = await boardModel.findById(boardId);
+		const list = await listModel.findById(listId.toString());
+		// Validate the parent of the list
+		const validate = board.lists.filter((list) => list.id === listId);
+		if (!validate) return callback({ errMessage: 'List or board informations are wrong' });
+
+		// Validate whether the owner of the board is the user who sent the request.
+		if (!user.boards.filter((board) => board === boardId))
+			return callback({ errMessage: 'You cannot delete a list that does not hosted by your boards' });
+
+		// Change title of list
+		list.title = title;
+		await list.save();
+
+		return callback(false, {message:'Success'});
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	getAll,
 	deleteById,
 	updateCardOrder,
 	updateListOrder,
+	updateListTitle
 };

@@ -91,10 +91,26 @@ const updateListOrder = async (req, res) => {
 	});
 };
 
+const updateListTitle = async (req, res) => {
+	// deconstruct the params
+	const { listId, boardId } = req.params;
+	const user = req.user;
+	const {title} = req.body;
+
+	// Validate the listId and boardId
+	if (!(listId && boardId)) return res.status(400).send({ errMessage: 'List or board undefined' });
+
+	await listService.updateListTitle(listId, boardId, user,title, (err, result) => {
+		if (err) return res.status(500).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getAll,
 	deleteById,
 	updateCardOrder,
 	updateListOrder,
+	updateListTitle,
 };
