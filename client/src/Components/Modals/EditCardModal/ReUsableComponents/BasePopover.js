@@ -5,8 +5,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 const Container = styled.div`	
-	width: ${props=>props.changeWidth};
-	min-width: 15.5rem;
+	/* width: ${props=>props.changeWidth}; */
+	min-width: 16.3rem;
 	height: fit-content;
 	background-color: #fff;
 	display: flex;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Wrapper, Row, DateInput, DateTitle, SaveButton } from './styled';
+import { Container, DateRangeWrapper, Wrapper, Row, DateInput, DateTitle, SaveButton } from './styled';
 import { DateRange } from 'react-date-range';
 import CheckBox from '../../ReUsableComponents/Checkbox';
 import Button from '../../ReUsableComponents/Button';
@@ -14,7 +14,7 @@ const DatePopover = (props) => {
 	const [state, setState] = useState([
 		{
 			startDate:
-				card.date.startDate !==null
+				card.date.startDate !== null
 					? moment(card.date.startDate).toDate()
 					: card.date.dueDate !== null
 					? moment(card.date.dueDate).toDate()
@@ -90,32 +90,34 @@ const DatePopover = (props) => {
 
 	return (
 		<Container>
-			<DateRange
-				editableDateInputs={false}
-				onChange={(item) => {
-					enableStartDate && enableDueDate
-						? setState([item.selection])
-						: state[0].startDate !== item.selection.startDate
-						? setState([
-								{
-									startDate: item.selection.startDate,
-									endDate: item.selection.startDate,
-									key: 'selection',
-								},
-						  ])
-						: setState([
-								{
-									startDate: item.selection.endDate,
-									endDate: item.selection.endDate,
-									key: 'selection',
-								},
-						  ]);
-				}}
-				format={'DD/MM/yyyy'}
-				showPreview={enableStartDate && enableDueDate ? true : false}
-				moveRangeOnFirstSelection={false}
-				ranges={state}
-			/>
+			<DateRangeWrapper>
+				<DateRange
+					editableDateInputs={false}
+					onChange={(item) => {
+						enableStartDate && enableDueDate
+							? setState([item.selection])
+							: state[0].startDate !== item.selection.startDate
+							? setState([
+									{
+										startDate: item.selection.startDate,
+										endDate: item.selection.startDate,
+										key: 'selection',
+									},
+							  ])
+							: setState([
+									{
+										startDate: item.selection.endDate,
+										endDate: item.selection.endDate,
+										key: 'selection',
+									},
+							  ]);
+					}}
+					format={'DD/MM/yyyy'}
+					showPreview={enableStartDate && enableDueDate ? true : false}
+					moveRangeOnFirstSelection={false}
+					ranges={state}
+				/>
+			</DateRangeWrapper>
 			<Wrapper>
 				<DateTitle focus={focusStart}>Start Date</DateTitle>
 				<Row>

@@ -90,7 +90,7 @@ export const SmallColorsContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: flex-start;
 	flex-wrap: wrap;
 	gap: 0.3rem;
 `;
@@ -100,7 +100,7 @@ export const SmallColorBox = styled.div`
 	align-items: center;
 	justify-content: center;
 	height: 2rem;
-	width: 3.2rem;
+	width: 23%;
 	color: white;
 	border-radius: 3px;
 	background-color: ${(props) => props.bg};

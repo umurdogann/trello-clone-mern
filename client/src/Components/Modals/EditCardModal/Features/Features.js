@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
 	Container,
 	FeatureContainer,
@@ -21,15 +21,15 @@ import moment from 'moment';
 import { dateCompletedUpdate } from '../../../../Services/cardService';
 import DatePopover from '../Popovers/Date/DatePopover';
 
-const Features = () => {
+const Features = (props) => {
 	const dispatch = useDispatch();
 	const card = useSelector((state) => state.card);
+	const ref = useRef();
 	const [dateCheck, setDateCheck] = useState(card.date.completed);
 	const [labelPopover, setLabelPopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
-	const [datePopover, setDatePopover] = React.useState(null);
-
+	const [datePopover, setDatePopover] = React.useState(null);	
 	useEffect(() => {
 		setDateCheck(card.date.completed);
 	}, [card.date.completed]);
@@ -56,12 +56,13 @@ const Features = () => {
 			)}
 			{anySelectedLabel().length > 0 && (
 				<FeatureContainer>
-					<Title>Labels</Title>
-					<RowContainer>
+					<Title ref={ref}>Labels</Title>
+					<RowContainer >
 						{anySelectedLabel().map((label) => {
 							return (
 								<Label
-									onClick={(event) => setLabelPopover(event.currentTarget)}
+									onClick={(event) => {
+										setLabelPopover(ref.current)}}
 									key={label._id}
 									color={label.color}
 									hoverColor={label.backColor}
@@ -71,9 +72,9 @@ const Features = () => {
 							);
 						})}
 
-						<AddLabel onClick={(event) => setLabelPopover(event.currentTarget)}>+</AddLabel>
+						<AddLabel  onClick={(event) => setLabelPopover(event.currentTarget)}>+</AddLabel>
 						{labelPopover && (
-							<BasePopover
+							<BasePopover 
 								anchorElement={labelPopover}
 								closeCallback={() => {
 									setLabelPopover(null);

@@ -9,6 +9,12 @@ flex-direction: column;
 gap: 1rem;
 `;
 
+export const DateRangeWrapper = styled.div`
+display:flex;
+width:100%;
+align-items:center;
+justify-content:center;
+`;
 
 export const Wrapper = styled.div`
 display:flex;
