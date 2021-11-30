@@ -11,6 +11,8 @@ import Title from './Title/Title';
 import CardLoadingSvg from '../../../Images/cardLoading.svg';
 import { getCard } from '../../../Services/cardService';
 import { useSelector, useDispatch } from 'react-redux';
+import IconButton from './ReUsableComponents/IconButton';
+import CoverIcon from '@mui/icons-material/TableChartOutlined';
 import {
 	Container,
 	Wrapper,
@@ -26,6 +28,7 @@ import {
 	ActionsContainer,
 	LoadingScreen,
 	AttachmentContainer,
+	CoverButtonWrapper,
 } from './styled';
 
 export default function EditCard(props) {
@@ -42,15 +45,20 @@ export default function EditCard(props) {
 		<div style={{ position: 'relative' }}>
 			<Modal open={props.open} onClose={props.callback} style={{ overflow: 'auto' }}>
 				<Container>
-					<CoverContainer></CoverContainer>
-
+					<CoverContainer color={!thisCard.pending?thisCard.cover.color:null}>
+						<CoverButtonWrapper>
+							<IconButton title='Cover' icon={<CoverIcon fontSize='small' />} />
+						</CoverButtonWrapper>
+					</CoverContainer>
 					<TitleContainer>{!thisCard.pending && <Title />}</TitleContainer>
 					<Wrapper>
 						<MainContainer>
 							{!thisCard.pending ? (
 								<>
 									{(thisCard.members.length > 0 ||
-										thisCard.labels.filter((label) => label.selected).length > 0) && (
+										thisCard.labels.filter((label) => label.selected).length > 0 ||
+										thisCard.date.startDate ||
+										thisCard.date.dueDate) && (
 										<FeaturesContainer>
 											<Features />
 										</FeaturesContainer>

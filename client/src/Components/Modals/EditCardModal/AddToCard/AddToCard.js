@@ -13,6 +13,7 @@ import LabelsPopover from '../Popovers/Labels/LabelsPopover';
 import ChecklistPopover from '../Popovers/Checklist/ChecklistPopover';
 import DatePopover from '../Popovers/Date/DatePopover';
 import AddAttachmentPopover from '../Popovers/Attachment/AddAttachmentPopover';
+import CoverPopover from '../Popovers/Cover/CoverPopover';
 
 const AddToCard = () => {
 	const [memberPopover, setMemberPopover] = React.useState(null);
@@ -20,6 +21,7 @@ const AddToCard = () => {
 	const [checklistPopover, setChecklistPopover] = React.useState(null);
 	const [datePopover, setDatePopover] = React.useState(null);
 	const [attachmentPopover, setAttachmentPopover] = React.useState(null);
+	const [coverPopover, setCoverPopover] = React.useState(null);
 	const [labelsBackArrow, setLabelsBackArrow] = React.useState(false);
 	const [labelsTitle, setLabelsTitle] = React.useState('Labels');
 	return (
@@ -127,7 +129,20 @@ const AddToCard = () => {
 				/>
 			)}
 
-			<Button title='Cover' icon={<CoverIcon fontSize='small' />}></Button>
+			<Button title='Cover' clickCallback={(event) => setCoverPopover(event.currentTarget)} icon={<CoverIcon fontSize='small' />}></Button>
+			{coverPopover && (
+				<BasePopover
+					anchorElement={coverPopover}
+					closeCallback={() => {
+						setCoverPopover(null);
+					}}
+					title='Cover'
+					contents={<CoverPopover closeCallback={() => {
+						setCoverPopover(null);
+					}}/>}
+				/>
+			)}
+			
 		</Container>
 	);
 };

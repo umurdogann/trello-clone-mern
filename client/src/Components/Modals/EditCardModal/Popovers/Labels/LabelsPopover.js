@@ -25,16 +25,7 @@ const LabelsPopover = (props) => {
 	const dispatch = useDispatch();
 	const thisCard = useSelector((state) => state.card);
 	const [selectedCard, setSelectedCard] = useState({ _id: '', color: '', text: '', backColor: '' });
-	const colors = [
-		{ bg: '#61bd4f', hbg: '#519839' },
-		{ bg: '#f2d600', hbg: '#d9b51c' },
-		{ bg: '#ff9f1a', hbg: '#cd8313' },
-		{ bg: '#eb5a46', hbg: '#b04632' },
-		{ bg: '#c377e0', hbg: '#89609e' },
-		{ bg: '#0079bf', hbg: '#055a8c' },
-		{ bg: '#344563', hbg: '#172b4d' },
-		{ bg: '#ff78cb', hbg: '#c75bad' },
-	];
+	const colors = thisCard.colors;
 
 	const handleCreateClick = async (text, color, backColor) => {
 		props.arrowCallback(false);

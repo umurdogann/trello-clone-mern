@@ -6,12 +6,13 @@ export const Container = styled.div`
 	outline: none;
 	box-sizing: border-box;
 	background-color: #f4f5f7;
-	border-radius: 2px;
+	border-radius: 3px;
 	width: 48rem;
 	min-height: 97vh;
 	height: fit-content;
 	margin: 3rem auto 5rem auto;
 	padding: 0.5rem 0rem 1rem 0.25rem;
+	position:relative;
 	${sm({
 		width: '90%',
 	})}
@@ -20,7 +21,23 @@ export const Container = styled.div`
 	})}
 `;
 
-export const CoverContainer = styled.div``;
+export const CoverContainer = styled.div`
+display: ${props=>props.color?'block':'none'};
+min-height: 7.25rem;
+width: 48rem;
+background-color: ${props=>props.color};
+margin:-0.5rem 0rem 0rem -0.25rem;
+border-top-left-radius:3px;
+border-top-right-radius:3px;
+position: relative;
+`;
+
+export const CoverButtonWrapper = styled.div`
+	position: absolute;
+	bottom:0.5rem;
+	right:0.5rem;
+	width:5.5rem;
+`;
 
 export const TitleContainer = styled.div`
 	width: 100%;

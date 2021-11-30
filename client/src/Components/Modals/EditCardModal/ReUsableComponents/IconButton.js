@@ -15,6 +15,7 @@ export const ButtonStyled = styled.button`
 	padding: 0.375rem;
 	height:2rem;
 	gap: 0.5rem;
+	width:100%;
 	&:hover {
 		background-color: rgba(0, 0, 0, 0.1);
 	}

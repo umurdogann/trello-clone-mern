@@ -29,6 +29,7 @@ import {
 	updateAddedAttachmentId,
 	deleteAttachment,
 	updateAttachment,
+	updateCover,
 } from '../Redux/Slices/cardSlice';
 import { setCardTitle } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
@@ -455,6 +456,23 @@ export const attachmentUpdate = async (cardId, listId, boardId, attachmentId, li
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId + '/update-attachment',
 			{ link: link, name: name }
 		);
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const coverUpdate = async (cardId, listId, boardId, color, isSizeOne, dispatch) => {
+	try {
+		dispatch(updateCover({ color: color, isSizeOne: isSizeOne }));
+		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-cover', {
+			color: color,
+			isSizeOne: isSizeOne,
+		});
 	} catch (error) {
 		dispatch(
 			openAlert({
