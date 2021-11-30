@@ -22,7 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import DeleteIcon from '@mui/icons-material/DeleteForeverOutlined';
-import { DeleteList } from '../../../../../Services/boardService';
+import { DeleteList, listTitleUpdate } from '../../../../../Services/boardService';
 import { createCard } from '../../../../../Services/listService';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -31,6 +31,7 @@ const List = (props) => {
 	const [clickTitle, setClickTitle] = useState(false);
 	const [clickFooter, setClickFooter] = useState(false);
 	const [newCardTitle, setNewCardTitle] = useState('');
+	const [currentListTitle, setCurrentListTitle] = useState(props.info.title);
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const ref = useRef();
@@ -52,16 +53,16 @@ const List = (props) => {
 		setNewCardTitle('');
 	};
 
-	const handleTitleChange = () => {
-		// TODO: change title
+	const handleOnChangeTitle = (e) => {
+		setCurrentListTitle(e.target.value);
+	};
+	const handleChangeTitle = async() => {		
+		if(props.info.title !== currentListTitle)
+		await listTitleUpdate(props.info._id,props.info.owner, currentListTitle,dispatch);
 	};
 
 	const handleDeleteClick = () => {
 		DeleteList(props.info._id, props.info.owner, dispatch);
-	};
-
-	const handleTitleClick = () => {
-		setClickTitle(true);
 	};
 
 	const handleClickOutside = (e) => {
@@ -95,14 +96,17 @@ const List = (props) => {
 						>
 							<Header {...provided.dragHandleProps} isDragging={snapshot.isDragging}>
 								<TitlePlaceholder show={clickTitle} onClick={() => setClickTitle(true)}>
-									{props.info.title}
+									{currentListTitle}
 								</TitlePlaceholder>
 								<TitleInput
-									onBlur={() => setClickTitle(false)}
+									onBlur={() => {
+										setClickTitle(false);
+										handleChangeTitle();
+									}}
 									ref={(input) => input && input.focus()}
 									show={clickTitle}
-									value={props.info.title}
-									onChange={handleTitleChange}
+									value={currentListTitle}
+									onChange={handleOnChangeTitle}
 								/>
 								<ClickableIcon
 									color='#656565'
@@ -140,7 +144,15 @@ const List = (props) => {
 										>
 											<CardWrapper dock={clickFooter}>
 												{props.info.cards.map((card, index) => {
-													return <Card boardId={props.boardId} listId={props.info._id} key={card._id} index={index} info={card} />;
+													return (
+														<Card
+															boardId={props.boardId}
+															listId={props.info._id}
+															key={card._id}
+															index={index}
+															info={card}
+														/>
+													);
 												})}
 												{provided.placeholder}
 												{clickFooter && (

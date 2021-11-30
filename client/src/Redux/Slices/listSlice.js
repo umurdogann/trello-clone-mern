@@ -47,6 +47,15 @@ const listSlice = createSlice({
 				return list;
 			});
 		},
+		updateListTitle: (state, action) => {
+			const { listId,  title } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.title = title;
+				}
+				return list;
+			});
+		},
 	},
 });
 
@@ -59,6 +68,7 @@ export const {
 	updateCardDragDrop,
 	updateListDragDrop,
 	setCardTitle,
+	updateListTitle,
 } = listSlice.actions;
 
 export default listSlice.reducer;
