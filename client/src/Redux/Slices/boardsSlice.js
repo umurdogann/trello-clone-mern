@@ -43,6 +43,9 @@ const boardsSlice = createSlice({
     failCreatingBoard: (state) => {
       state.creating = true;
     },
+    reset:(state)=>{
+      state=initialState;
+    }
   },
 });
 
@@ -53,5 +56,6 @@ export const {
   startCreatingBoard,
   successCreatingBoard,
   failCreatingBoard,
+  reset
 } = boardsSlice.actions;
 export default boardsSlice.reducer;

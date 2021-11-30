@@ -28,12 +28,12 @@ const Boards = () => {
   return (
     <>
       {pending && <LoadingScreen />}
-      <Container>
+      <Container>        
         <Navbar />
         <Wrapper>
           <Title>Your Boards</Title>
           {!pending &&
-            boardsData &&
+            boardsData.length>0 &&
             boardsData.map((item) => {
               return (
                 <Board key={item._id} link={item.backgroundImageLink} id={item._id} onClick={(e)=>handleClick(e)}>
