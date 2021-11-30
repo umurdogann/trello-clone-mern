@@ -24,7 +24,6 @@ export const Container = styled.div`
 export const CoverContainer = styled.div`
 display: ${props=>props.color?'block':'none'};
 min-height: 7.25rem;
-width: 48rem;
 background-color: ${props=>props.color};
 margin:-0.5rem 0rem 0rem -0.25rem;
 border-top-left-radius:3px;
