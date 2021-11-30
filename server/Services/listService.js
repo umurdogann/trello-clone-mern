@@ -37,7 +37,7 @@ const getAll = async (boardId, callback) => {
 		//get lists whose owner id equals to boardId param
 		const lists = await listModel
 			.find({ owner: { $in: boardId } })
-			.populate({ path: 'cards', select: 'title' })
+			.populate({path:'cards', select:'title'})/* { path: 'cards', select: 'title' }) */
 			.exec();
 
 		// Order the lists

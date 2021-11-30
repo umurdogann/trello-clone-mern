@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import DropdownMenu from "./DropdownMenu";
 import SearchBar from "./SearchBar";
 import { xs } from "../BreakPoints";
 import ProfileBox from "./ProfileBox";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { getBoards } from "../Services/boardsService";
 const Container = styled.div`
   height: 3rem;
   width: 100%;
@@ -88,6 +91,34 @@ const DropdownContainer = styled.div`
 `;
 
 const Navbar = () => {
+  const boards = useSelector(state=>state.boards.boardsData);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    if(!Object.keys(boards).length)
+      getBoards(dispatch);
+  },[boards, dispatch]);
+
+
+  const menuItems = ()=>{
+    let temp = [];
+    try {
+      boards.map(board => {
+        temp.push({
+          title: board.title,
+          id: board._id,
+          cb: ()=>{
+            history.push('/board/'+board._id);
+          }
+        })
+        return null;
+      })
+    } catch (error) {
+      
+    }
+   
+    return temp;
+  }
   return (
     <Container>
       <LeftSide>
@@ -96,30 +127,8 @@ const Navbar = () => {
         </LogoContainer>
         <DropdownContainer>
           <DropdownMenu
-            title="Workspaces"
-            menu={[
-              {
-                title: "Workspace 1",
-                cb: () => {
-                  alert("Workspace 1");
-                },
-                id: "1",
-              },
-              {
-                title: "Workspace 2",
-                cb: () => {
-                  alert("Workspace 2");
-                },
-                id: "2",
-              },
-              {
-                title: "Workspace 3",
-                cb: () => {
-                  alert("Workspace 3");
-                },
-                id: "3",
-              },
-            ]}
+            title="Your Boards"
+            menu={menuItems()}
           />
         </DropdownContainer>
       </LeftSide>
