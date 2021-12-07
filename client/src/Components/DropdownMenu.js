@@ -8,6 +8,8 @@ import styledComponent from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { getBoards } from '../Services/boardsService';
+import CardLoadingSvg from '../Images/cardLoading.svg';
+
 const BootstrapButton = styled(Button)({
 	boxShadow: 'none',
 	textTransform: 'none',
@@ -29,6 +31,16 @@ const BootstrapButton = styled(Button)({
 	},
 });
 
+const LoadingBox = styledComponent.div`
+	height: 3rem;
+	width: 8rem;
+	padding: 0.5rem 3rem;
+	background-image: url(${(props) => props.image});
+	background-position: center;
+	background-repeat: no-repeat;
+`;
+
+
 const Span = styledComponent.span`
 font-size: 0.85rem;
 display:block;
@@ -44,14 +56,18 @@ export default function DropdownMenu(props) {
 	const history = useHistory();
 	const dispatch = useDispatch();
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [loading, setLoading] = React.useState(false);
 	const open = Boolean(anchorEl);
-	const handleClick = (event) => {
+	const handleClick = async (event) => {
 		setAnchorEl(event.currentTarget);
+		setLoading(true);
+		await getBoards(dispatch);
+		setLoading(false);
 	};
 
 	React.useEffect(() => {
 		if (!Object.keys(boardsData).length) getBoards(dispatch);
-	}, [boardsData, dispatch]);
+	}, []);
 
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -87,19 +103,23 @@ export default function DropdownMenu(props) {
 						horizontal: 'right',
 					}}
 				>
-					{boardsData.map((item) => {
-						return (
-							<MenuItem
-								key={item._id}
-								onClick={() => {
-									setAnchorEl(null);
-									history.push('/board/' + item._id);
-								}}
-							>
-								{item.title}
-							</MenuItem>
-						);
-					})}
+					{!loading ? (
+						boardsData.map((item) => {
+							return (
+								<MenuItem
+									key={item._id}
+									onClick={() => {
+										setAnchorEl(null);
+										history.push('/board/' + item._id);
+									}}
+								>
+									<Span>{item.title}</Span>
+								</MenuItem>
+							);
+						})
+					) : (
+						<LoadingBox image={CardLoadingSvg} />
+					)}
 				</Menu>
 			)}
 		</div>
