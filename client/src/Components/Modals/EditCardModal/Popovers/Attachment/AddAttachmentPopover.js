@@ -21,6 +21,8 @@ const AddAttachmentPopover = (props) => {
 	const [link, setLink] = useState('');
 	const [linkName, setLinkName] = useState('');
 	const handleAttachClick = async () => {
+		setLink('');
+		setLinkName('');
 		await attachmentAdd(
 			card.cardId,
 			card.listId,
@@ -29,6 +31,7 @@ const AddAttachmentPopover = (props) => {
 			linkName,
 			dispatch
 		);
+		
 	};
 	return (
 		<Container>
