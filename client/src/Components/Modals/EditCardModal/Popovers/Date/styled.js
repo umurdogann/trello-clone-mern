@@ -3,7 +3,7 @@ import { Title} from '../Labels/styled';
 
 export const Container = styled.div`
 height: fit-content;
-width:100%;
+width:14rem;
 display: flex;
 flex-direction: column;
 gap: 1rem;
