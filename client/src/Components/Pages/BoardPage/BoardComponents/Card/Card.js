@@ -5,7 +5,9 @@ import WatchIcon from '@mui/icons-material/AccessTimeOutlined';
 import DescriptiondIcon from '@mui/icons-material/DescriptionOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import CheckIcon from '@mui/icons-material/LibraryAddCheckOutlined';
+import AttachmentIcon from '@mui/icons-material/InsertLinkRounded';
 import {
+	AttachmentContainer,
 	CardTitle,
 	CommentContainer,
 	Container,
@@ -79,6 +81,14 @@ const Card = (props) => {
 												<FollowIcon fontSize='0.5rem' />
 											</IconWrapper>
 										)}
+										{card.attachments.length>0 &&
+										<AttachmentContainer>
+											<AttachmentIcon fontSize='small' />		
+											<Span>{card.attachments.length}</Span>								
+										</AttachmentContainer>
+										
+										}
+										
 										{(card.date.dueDate || card.date.startDate) && ( //#ec9488, #eb5a46 #61bd4f
 											<DateContainer
 												backColor={

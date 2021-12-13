@@ -306,6 +306,49 @@ const listSlice = createSlice({
 				return list;
 			});
 		},
+		addAttachmentForCard: (state, action) => {
+			const { listId, cardId, link, name, _id,date } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.attachments.push({ link: link, name: name, _id:_id, date: date });
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		deleteAttachmentOfCard: (state, action) => {
+			const { listId, cardId, attachmentId } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.attachments = card.attachments.filter((attachment) => attachment._id !== attachmentId);
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		updateCoverOfCard: (state, action) => {
+			const { listId, cardId, color, isSizeOne} = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.cover.color = color;
+							card.cover.isSizeOne = isSizeOne;
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
 	},
 });
 
@@ -325,7 +368,7 @@ export const {
 	updateLabelSelectionOfCard,
 	updateLabelOfCard,
 	createLabelForCard,
-	deleteLabelOfCard, ///////
+	deleteLabelOfCard,
 	createChecklistForCard,
 	deleteChecklistOfCard,
 	addChecklistItemForCard,
@@ -333,7 +376,10 @@ export const {
 	deleteChecklistItemOfCard,
 	setChecklistItemTextOfCard,
 	updateStartDueDatesOfCard,
-	updateDateCompletedOfCard
+	updateDateCompletedOfCard,
+	addAttachmentForCard,
+	deleteAttachmentOfCard,
+	updateCoverOfCard,
 
 } = listSlice.actions;
 

@@ -32,9 +32,11 @@ import {
 	updateCover,
 } from '../Redux/Slices/cardSlice';
 import {
+	addAttachmentForCard,
 	addChecklistItemForCard,
 	createChecklistForCard,
 	createLabelForCard,
+	deleteAttachmentOfCard,
 	deleteChecklistItemOfCard,
 	deleteChecklistOfCard,
 	deleteLabelOfCard,
@@ -42,6 +44,7 @@ import {
 	setCardTitle,
 	setChecklistItemCompletedOfCard,
 	setChecklistItemTextOfCard,
+	updateCoverOfCard,
 	updateDateCompletedOfCard,
 	updateDescriptionOfCard,
 	updateLabelOfCard,
@@ -495,6 +498,7 @@ export const attachmentAdd = async (cardId, listId, boardId, link, name, dispatc
 			name: name,
 		});
 		dispatch(updateAddedAttachmentId(response.data.attachmentId));
+		dispatch(addAttachmentForCard({listId,cardId,link: link, name: name, _id: response.data.attachmentId, date: Date() }))
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -508,6 +512,7 @@ export const attachmentAdd = async (cardId, listId, boardId, link, name, dispatc
 export const attachmentDelete = async (cardId, listId, boardId, attachmentId, dispatch) => {
 	try {
 		dispatch(deleteAttachment(attachmentId));
+		dispatch(deleteAttachmentOfCard({listId,cardId,attachmentId}));
 		await axios.delete(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + attachmentId + '/delete-attachment'
 		);
@@ -541,6 +546,7 @@ export const attachmentUpdate = async (cardId, listId, boardId, attachmentId, li
 export const coverUpdate = async (cardId, listId, boardId, color, isSizeOne, dispatch) => {
 	try {
 		dispatch(updateCover({ color: color, isSizeOne: isSizeOne }));
+		dispatch(updateCoverOfCard({listId,cardId,color,isSizeOne}));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-cover', {
 			color: color,
 			isSizeOne: isSizeOne,

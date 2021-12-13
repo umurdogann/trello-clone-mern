@@ -66,6 +66,16 @@ width: 100%;
 height: fit-content;
 
 `;
+
+export const AttachmentContainer = styled.div`
+display:flex;
+flex-direction:row;
+gap:0.2rem;
+width:fit-content;
+justify-content:center;
+align-items:center;
+`;
+
 export const IconGroupContainer = styled.div`
 flex:3;
 display: inline-block;
