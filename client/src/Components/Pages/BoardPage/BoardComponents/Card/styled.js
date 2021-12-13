@@ -98,16 +98,18 @@ align-items:center;
 padding: 0.1rem 0.3rem;
 border-radius: 3px;
 gap:0.2rem;
-background-color:#ec9488;
+background-color: ${props=>props.isRed?'#ec9488':'transparent'};
+color: ${props=>props.isRed?'white':'gray'};
 cursor:pointer;
 color:white;
 &:hover{
-    background-color:#eb5a46;
+    background-color:${props=>props.isRed?'#eb5a46':'lightgray'};
 }
 `;
 
 export const Span = styled.div`
 font-size: 0.75rem;
+color: ${props=>props.isRed?'white':'gray'};
 `;
 
 export const CommentContainer = styled.div`

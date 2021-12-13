@@ -24,6 +24,7 @@ import {
 	MemberAvatar,
 } from './styled';
 import { Draggable } from 'react-beautiful-dnd';
+import moment from 'moment';
 const Card = (props) => {
 	const [openModal, setOpenModal] = useState(false);
 	const card = props.info;
@@ -36,9 +37,14 @@ const Card = (props) => {
 			return item;
 		});
 	});
-	let labels = card.labels.filter(i=>i.selected);
+	let labels = card.labels.filter((i) => i.selected);
 	const handleOpenClose = () => {
 		setOpenModal((current) => !current);
+	};
+
+	const formatDate = (date) => {
+		if (moment(date).toDate().getFullYear() < new Date().getFullYear()) return moment(date).format('MMM DD, yyyy');
+		else return moment(date).format('MMM DD');
 	};
 
 	return (
@@ -52,19 +58,18 @@ const Card = (props) => {
 							{...provided.draggableProps}
 							ref={provided.innerRef}
 							isDragging={snapshot.isDragging}
-							color={!card.cover.isSizeOne?card.cover.color:'#fff'}
-							padding={card.cover.color&&card.cover.isSizeOne}
+							color={!card.cover.isSizeOne ? card.cover.color : '#fff'}
+							padding={card.cover.color && card.cover.isSizeOne}
 						>
-							{card.cover.isSizeOne&&
-							<Cover color={card.cover.color}/>}
+							{card.cover.isSizeOne && <Cover color={card.cover.color} />}
 							{labels && (
 								<LabelContainer>
-									{labels.map(label=>{
-										return (<Label color={label.color}/>);
+									{labels.map((label) => {
+										return <Label color={label.color} />;
 									})}
 								</LabelContainer>
 							)}
-							
+
 							<CardTitle>{card.title}</CardTitle>
 							<FooterContainer>
 								<IconGroupContainer>
@@ -74,10 +79,16 @@ const Card = (props) => {
 												<FollowIcon fontSize='0.5rem' />
 											</IconWrapper>
 										)}
-										<DateContainer>
-											<WatchIcon fontSize='0.5rem' />
-											<Span>Nov 10</Span>
-										</DateContainer>
+										{(card.date.dueDate || card.date.startDate) && (
+											<DateContainer isRed={moment(card.date.dueDate).toDate().getTime() < new Date().getTime()}>
+												<WatchIcon style={{color:moment(card.date.dueDate).toDate().getTime() < new Date().getTime()?'white':'darkgray'}} fontSize='0.5rem' />
+												<Span isRed={moment(card.date.dueDate).toDate().getTime() < new Date().getTime()}>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${
+													card.date.startDate ? (card.date.dueDate ? ' - ' : '') : ''
+												}${card.date.dueDate ? formatDate(card.date.dueDate) : ''}${
+													card.date.dueTime ? ' at ' + card.date.dueTime : ''
+												}`}</Span>
+											</DateContainer>
+										)}
 										{card.description && <DescriptiondIcon fontSize='0.5rem' />}
 										{comment > 0 && (
 											<CommentContainer>
