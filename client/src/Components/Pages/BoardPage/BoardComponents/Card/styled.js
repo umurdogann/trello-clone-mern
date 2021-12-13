@@ -10,15 +10,29 @@ display: flex;
 flex-direction: column;
 align-items: flex-start;
 justify-content: flex-start;
-padding:0.3rem 0.3rem;
+padding: 0.3rem 0.3rem;
 margin: 0.2rem 0.3rem;
 border-radius:3px;
 color:black;
 gap:0.3rem;
+background-color: ${props=>props.color?props.color:'#fff'};
+padding-top: ${props=>props.padding?'2.3rem':'0.3rem'};
 &:hover{
     cursor: pointer;
-    background-color: rgba(255,255,255,0.25);
+    background-color: ${props=>props.color?props.color:'rgba(255,255,255,0.25);'};
 }
+position: relative;
+`;
+
+export const Cover = styled.div`
+position:absolute;
+top:0;
+left:0;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
+width:100%;
+height: 2rem;
+background-color: ${props=>props.color};
 `;
 
 export const LabelContainer = styled.div`
@@ -31,7 +45,11 @@ gap:0.2rem;
 export const Label = styled.div`
 width:2.5rem;
 height:0.5rem;
-background-color: darkgreen;
+-webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
+background-color: ${props=>props.color};
+border: 1px solid rgba(0,0,0,0.1);
 border-radius: 2rem;
 `;
 
