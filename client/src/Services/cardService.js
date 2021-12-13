@@ -31,7 +31,22 @@ import {
 	updateAttachment,
 	updateCover,
 } from '../Redux/Slices/cardSlice';
-import { setCardTitle } from '../Redux/Slices/listSlice';
+import {
+	addChecklistItemForCard,
+	createChecklistForCard,
+	createLabelForCard,
+	deleteChecklistItemOfCard,
+	deleteChecklistOfCard,
+	deleteLabelOfCard,
+	deleteMemberOfCard,
+	setCardTitle,
+	setChecklistItemCompletedOfCard,
+	setChecklistItemTextOfCard,
+	updateDescriptionOfCard,
+	updateLabelOfCard,
+	updateLabelSelectionOfCard,
+	updateMemberOfCard,
+} from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
 
 export const getCard = async (cardId, listId, boardId, dispatch) => {
@@ -71,6 +86,7 @@ export const titleUpdate = async (cardId, listId, boardId, title, dispatch) => {
 export const descriptionUpdate = async (cardId, listId, boardId, description, dispatch) => {
 	try {
 		dispatch(updateDescription(description));
+		dispatch(updateDescriptionOfCard({ listId, cardId, description }));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId, { description: description });
 	} catch (error) {
 		dispatch(
@@ -134,6 +150,8 @@ export const commentDelete = async (cardId, listId, boardId, commentId, dispatch
 export const memberAdd = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
 	try {
 		dispatch(addMember({ memberId, memberName }));
+		dispatch(updateMemberOfCard({ listId, cardId, memberId, memberName }));
+		console.log(memberId, memberName);
 		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-member', {
 			memberId: memberId,
 		});
@@ -150,6 +168,7 @@ export const memberAdd = async (cardId, listId, boardId, memberId, memberName, d
 export const memberDelete = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
 	try {
 		dispatch(deleteMember({ memberId }));
+		dispatch(deleteMemberOfCard({ listId, cardId, memberId }));
 		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + memberId + '/delete-member');
 	} catch (error) {
 		dispatch(
@@ -164,12 +183,16 @@ export const memberDelete = async (cardId, listId, boardId, memberId, memberName
 export const labelCreate = async (cardId, listId, boardId, text, color, backColor, dispatch) => {
 	try {
 		dispatch(createLabel({ _id: 'notUpdated', text, color, backColor, selected: true }));
+
 		const response = await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/create-label', {
 			text,
 			color,
 			backColor,
 		});
 		dispatch(updateCreatedLabelId(response.data.labelId));
+		dispatch(
+			createLabelForCard({ listId, cardId, _id: response.data.labelId, text, color, backColor, selected: true })
+		);
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -183,6 +206,16 @@ export const labelCreate = async (cardId, listId, boardId, text, color, backColo
 export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispatch) => {
 	try {
 		dispatch(updateLabel({ labelId: labelId, text: label.text, color: label.color, backColor: label.backColor }));
+		dispatch(
+			updateLabelOfCard({
+				listId,
+				cardId,
+				labelId: labelId,
+				text: label.text,
+				color: label.color,
+				backColor: label.backColor,
+			})
+		);
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label', label);
 	} catch (error) {
 		dispatch(
@@ -197,6 +230,7 @@ export const labelUpdate = async (cardId, listId, boardId, labelId, label, dispa
 export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) => {
 	try {
 		dispatch(deleteLabel(labelId));
+		dispatch(deleteLabelOfCard({ listId, cardId, labelId }));
 		await axios.delete(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/delete-label');
 	} catch (error) {
 		dispatch(
@@ -211,6 +245,7 @@ export const labelDelete = async (cardId, listId, boardId, labelId, dispatch) =>
 export const labelUpdateSelection = async (cardId, listId, boardId, labelId, selected, dispatch) => {
 	try {
 		dispatch(updateLabelSelection({ labelId: labelId, selected: selected }));
+		dispatch(updateLabelSelectionOfCard({ listId, cardId, labelId, selected }));
 		await axios.put(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + labelId + '/update-label-selection',
 			{ selected: selected }
@@ -232,6 +267,7 @@ export const checklistCreate = async (cardId, listId, boardId, title, dispatch) 
 			title,
 		});
 		dispatch(updateCreatedChecklist(response.data.checklistId));
+		dispatch(createChecklistForCard({ listId, cardId, _id: response.data.checklistId, title }));
 	} catch (error) {
 		dispatch(
 			openAlert({
@@ -245,6 +281,7 @@ export const checklistCreate = async (cardId, listId, boardId, title, dispatch) 
 export const checklistDelete = async (cardId, listId, boardId, checklistId, dispatch) => {
 	try {
 		dispatch(deleteChecklist(checklistId));
+		dispatch(deleteChecklistOfCard({ listId, cardId, checklistId }));
 		await axios.delete(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + checklistId + '/delete-checklist'
 		);
@@ -261,6 +298,7 @@ export const checklistDelete = async (cardId, listId, boardId, checklistId, disp
 export const checklistItemAdd = async (cardId, listId, boardId, checklistId, text, dispatch) => {
 	try {
 		dispatch(addChecklistItem({ checklistId: checklistId, _id: 'notUpdated', text: text }));
+
 		const response = await axios.post(
 			baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/' + checklistId + '/add-checklist-item',
 			{
@@ -269,6 +307,15 @@ export const checklistItemAdd = async (cardId, listId, boardId, checklistId, tex
 		);
 		dispatch(
 			updateAddedChecklistItemId({ checklistId: checklistId, checklistItemId: response.data.checklistItemId })
+		);
+		dispatch(
+			addChecklistItemForCard({
+				listId,
+				cardId,
+				checklistId: checklistId,
+				_id: response.data.checklistItemId,
+				text: text,
+			})
 		);
 	} catch (error) {
 		dispatch(
@@ -292,6 +339,15 @@ export const checklistItemCompletedSet = async (
 	try {
 		dispatch(
 			setChecklistItemCompleted({
+				checklistId: checklistId,
+				checklistItemId: checklistItemId,
+				completed: completed,
+			})
+		);
+		dispatch(
+			setChecklistItemCompletedOfCard({
+				listId,
+				cardId,
 				checklistId: checklistId,
 				checklistItemId: checklistItemId,
 				completed: completed,
@@ -327,6 +383,15 @@ export const checklistItemCompletedSet = async (
 export const checklistItemTextSet = async (cardId, listId, boardId, checklistId, checklistItemId, text, dispatch) => {
 	try {
 		dispatch(setChecklistItemText({ checklistId: checklistId, checklistItemId: checklistItemId, text: text }));
+		dispatch(
+			setChecklistItemTextOfCard({
+				listId,
+				cardId,
+				checklistId: checklistId,
+				checklistItemId: checklistItemId,
+				text: text,
+			})
+		);
 		await axios.put(
 			baseUrl +
 				'/' +
@@ -357,6 +422,9 @@ export const checklistItemTextSet = async (cardId, listId, boardId, checklistId,
 export const checklistItemDelete = async (cardId, listId, boardId, checklistId, checklistItemId, dispatch) => {
 	try {
 		dispatch(deleteChecklistItem({ checklistId: checklistId, checklistItemId: checklistItemId }));
+		dispatch(
+			deleteChecklistItemOfCard({ listId, cardId, checklistId: checklistId, checklistItemId: checklistItemId })
+		);
 		await axios.delete(
 			baseUrl +
 				'/' +

@@ -48,10 +48,229 @@ const listSlice = createSlice({
 			});
 		},
 		updateListTitle: (state, action) => {
-			const { listId,  title } = action.payload;
+			const { listId, title } = action.payload;
 			state.allLists = state.allLists.map((list) => {
 				if (list._id === listId) {
 					list.title = title;
+				}
+				return list;
+			});
+		},
+		updateMemberOfCard: (state, action) => {
+			const { listId, cardId, memberId, memberName } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) card.members.unshift({ user: memberId, name: memberName });
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		deleteMemberOfCard: (state, action) => {
+			const { listId, cardId, memberId } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId)
+							card.members = card.members.filter((member) => member.user !== memberId);
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		updateDescriptionOfCard: (state, action) => {
+			const { listId, cardId, description } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) card.description = description;
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		updateLabelSelectionOfCard: (state, action) => {
+			const { listId, cardId, labelId, selected } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.labels = card.labels.map((label) => {
+								if (label._id === labelId) {
+									label.selected = selected;
+								}
+								return label;
+							});
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		updateLabelOfCard: (state, action) => {
+			const { listId, cardId, labelId, text, color, backColor } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.labels = card.labels.map((label) => {
+								if (label._id === labelId) {
+									label.text = text;
+									label.color = color;
+									label.backColor = backColor;
+								}
+								return label;
+							});
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		createLabelForCard: (state, action) => {
+			const { listId, cardId, _id, text, color, backColor } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.labels.unshift({ _id, text, color, backColor, selected: true });
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		deleteLabelOfCard: (state, action) => {
+			const { listId, cardId, labelId } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.labels = card.labels.filter((label) => label._id !== labelId);
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		createChecklistForCard: (state, action) => {
+			const { listId, cardId, _id, title } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists.push({ _id, title, items: [] });
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		deleteChecklistOfCard: (state, action) => {
+			const { listId, cardId, checklistId } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists = card.checklists.filter((l) => l._id !== checklistId);
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		addChecklistItemForCard: (state, action) => {
+			const { listId, cardId, checklistId, _id, text } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists = card.checklists.map((list) => {
+								if (list._id.toString() === checklistId.toString()) {
+									list.items.push({ _id: _id, text: text, completed: false });
+								}
+								return list;
+							});
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		setChecklistItemCompletedOfCard: (state, action) => {
+			const { listId, cardId, checklistId, checklistItemId, completed } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists = card.checklists.map((list) => {
+								if (list._id.toString() === checklistId.toString()) {
+									list.items = list.items.map((item) => {
+										if (item._id === checklistItemId) {
+											item.completed = completed;
+										}
+										return item;
+									});
+								}
+								return list;
+							});
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		deleteChecklistItemOfCard: (state, action) => {
+			const { listId, cardId, checklistId, checklistItemId } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists = card.checklists.map((list) => {
+								if (list._id.toString() === checklistId.toString()) {
+									list.items = list.items.filter((item) => item._id !== checklistItemId);
+								}
+								return list;
+							});
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		setChecklistItemTextOfCard: (state, action) => {
+			const { listId, cardId, checklistId, checklistItemId, text } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.checklists = card.checklists.map((list) => {
+								if (list._id.toString() === checklistId.toString()) {
+									list.items = list.items.map((item) => {
+										if (item._id === checklistItemId) {
+											item.text = text;
+										}
+										return item;
+									});
+								}
+								return list;
+							});
+						}
+						return card;
+					});
 				}
 				return list;
 			});
@@ -69,6 +288,19 @@ export const {
 	updateListDragDrop,
 	setCardTitle,
 	updateListTitle,
+	updateMemberOfCard,
+	deleteMemberOfCard,
+	updateDescriptionOfCard,
+	updateLabelSelectionOfCard,
+	updateLabelOfCard,
+	createLabelForCard,
+	deleteLabelOfCard, ///////
+	createChecklistForCard,
+	deleteChecklistOfCard,
+	addChecklistItemForCard,
+	setChecklistItemCompletedOfCard,
+	deleteChecklistItemOfCard,
+	setChecklistItemTextOfCard,
 } = listSlice.actions;
 
 export default listSlice.reducer;
