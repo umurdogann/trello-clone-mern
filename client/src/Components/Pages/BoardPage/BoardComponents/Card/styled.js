@@ -63,7 +63,7 @@ justify-content: space-between;
 flex-direction:row;
 flex-wrap: wrap;
 width: 100%;
-height: fit-content;
+height: auto;
 
 `;
 
@@ -79,8 +79,8 @@ align-items:center;
 export const IconGroupContainer = styled.div`
 flex:3;
 display: inline-block;
-min-width: fit-content;
-margin-bottom:0.3rem;
+width: auto;
+height:fit-content;
 `;
 export const IconGroupWrapper = styled.div`
 

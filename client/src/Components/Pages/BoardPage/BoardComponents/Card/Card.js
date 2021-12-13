@@ -67,7 +67,7 @@ const Card = (props) => {
 							{labels && (
 								<LabelContainer>
 									{labels.map((label) => {
-										return <Label color={label.color} />;
+										return <Label key={label._id} color={label.color} />;
 									})}
 								</LabelContainer>
 							)}

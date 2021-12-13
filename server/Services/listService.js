@@ -35,11 +35,11 @@ const create = async (model, user, callback) => {
 const getAll = async (boardId, callback) => {
 	try {
 		//get lists whose owner id equals to boardId param
-		const lists = await listModel
+		let lists = await listModel
 			.find({ owner: { $in: boardId } })
-			.populate({path:'cards', select:'title'})/* { path: 'cards', select: 'title' }) */
+			.populate({ path: 'cards' }) /* { path: 'cards', select: 'title' }) */
 			.exec();
-
+		
 		// Order the lists
 		const board = await boardModel.findById(boardId);
 		let responseObject = board.lists.map((listId) => {
@@ -164,7 +164,7 @@ const updateListTitle = async (listId, boardId, user, title, callback) => {
 		list.title = title;
 		await list.save();
 
-		return callback(false, {message:'Success'});
+		return callback(false, { message: 'Success' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -176,5 +176,5 @@ module.exports = {
 	deleteById,
 	updateCardOrder,
 	updateListOrder,
-	updateListTitle
+	updateListTitle,
 };
