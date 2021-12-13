@@ -98,18 +98,18 @@ align-items:center;
 padding: 0.1rem 0.3rem;
 border-radius: 3px;
 gap:0.2rem;
-background-color: ${props=>props.isRed?'#ec9488':'transparent'};
-color: ${props=>props.isRed?'white':'gray'};
+background-color: ${props=>props.backColor};
+color: ${props=>props.color};
 cursor:pointer;
 color:white;
 &:hover{
-    background-color:${props=>props.isRed?'#eb5a46':'lightgray'};
+    background-color:${props=>props.hoverBg};
 }
 `;
 
 export const Span = styled.div`
 font-size: 0.75rem;
-color: ${props=>props.isRed?'white':'gray'};
+color: ${props=>props.color};
 `;
 
 export const CommentContainer = styled.div`

@@ -275,6 +275,37 @@ const listSlice = createSlice({
 				return list;
 			});
 		},
+		updateStartDueDatesOfCard: (state, action) => {
+			const { listId, cardId, startDate, dueDate, dueTime } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.date.startDate = startDate;
+							card.date.dueDate = dueDate;
+							card.date.dueTime = dueTime;
+							if (dueDate === null) state.date.completed = false;
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
+		updateDateCompletedOfCard: (state, action) => {
+			const { listId, cardId, completed } = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if (list._id === listId) {
+					list.cards = list.cards.map((card) => {
+						if (card._id === cardId) {
+							card.date.completed = completed;
+						}
+						return card;
+					});
+				}
+				return list;
+			});
+		},
 	},
 });
 
@@ -301,6 +332,9 @@ export const {
 	setChecklistItemCompletedOfCard,
 	deleteChecklistItemOfCard,
 	setChecklistItemTextOfCard,
+	updateStartDueDatesOfCard,
+	updateDateCompletedOfCard
+
 } = listSlice.actions;
 
 export default listSlice.reducer;

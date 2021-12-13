@@ -42,10 +42,12 @@ import {
 	setCardTitle,
 	setChecklistItemCompletedOfCard,
 	setChecklistItemTextOfCard,
+	updateDateCompletedOfCard,
 	updateDescriptionOfCard,
 	updateLabelOfCard,
 	updateLabelSelectionOfCard,
 	updateMemberOfCard,
+	updateStartDueDatesOfCard,
 } from '../Redux/Slices/listSlice';
 const baseUrl = 'http://localhost:3001/card';
 
@@ -452,6 +454,7 @@ export const checklistItemDelete = async (cardId, listId, boardId, checklistId, 
 export const startDueDatesUpdate = async (cardId, listId, boardId, startDate, dueDate, dueTime, dispatch) => {
 	try {
 		dispatch(updateStartDueDates({ startDate, dueDate, dueTime }));
+		dispatch(updateStartDueDatesOfCard({ listId,cardId,startDate, dueDate, dueTime }));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-dates', {
 			startDate,
 			dueDate,
@@ -470,6 +473,7 @@ export const startDueDatesUpdate = async (cardId, listId, boardId, startDate, du
 export const dateCompletedUpdate = async (cardId, listId, boardId, completed, dispatch) => {
 	try {
 		dispatch(updateDateCompleted(completed));
+		dispatch(updateDateCompletedOfCard({listId,cardId,completed}));
 		await axios.put(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/update-date-completed', {
 			completed,
 		});

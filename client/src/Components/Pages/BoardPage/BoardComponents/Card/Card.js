@@ -79,10 +79,51 @@ const Card = (props) => {
 												<FollowIcon fontSize='0.5rem' />
 											</IconWrapper>
 										)}
-										{(card.date.dueDate || card.date.startDate) && (
-											<DateContainer isRed={moment(card.date.dueDate).toDate().getTime() < new Date().getTime()}>
-												<WatchIcon style={{color:moment(card.date.dueDate).toDate().getTime() < new Date().getTime()?'white':'darkgray'}} fontSize='0.5rem' />
-												<Span isRed={moment(card.date.dueDate).toDate().getTime() < new Date().getTime()}>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${
+										{(card.date.dueDate || card.date.startDate) && ( //#ec9488, #eb5a46 #61bd4f
+											<DateContainer
+												backColor={
+													card.date.completed
+														? '#61bd4f'
+														: moment(card.date.dueDate).toDate().getTime() <
+														  new Date().getTime()
+														? '#ec9488'
+														: 'transparent'
+												}
+												hoverBg={
+													card.date.completed
+														? '#81dd6f'
+														: moment(card.date.dueDate).toDate().getTime() <
+														  new Date().getTime()
+														? '#eb5a46'
+														: 'lightgray'
+												}
+												color={
+													card.date.completed ||
+													moment(card.date.dueDate).toDate().getTime() < new Date().getTime()
+														? 'white'
+														: 'darkgray'
+												}
+											>
+												<WatchIcon
+													style={{
+														color:
+															card.date.completed ||
+															moment(card.date.dueDate).toDate().getTime() <
+																new Date().getTime()
+																? 'white'
+																: 'darkgray',
+													}}
+													fontSize='0.5rem'
+												/>
+												<Span
+													color={
+														card.date.completed ||
+														moment(card.date.dueDate).toDate().getTime() <
+															new Date().getTime()
+															? 'white'
+															: 'darkgray'
+													}
+												>{`${card.date.startDate ? formatDate(card.date.startDate) : ''}${
 													card.date.startDate ? (card.date.dueDate ? ' - ' : '') : ''
 												}${card.date.dueDate ? formatDate(card.date.dueDate) : ''}${
 													card.date.dueTime ? ' at ' + card.date.dueTime : ''
@@ -106,14 +147,16 @@ const Card = (props) => {
 										)}
 									</IconGroupWrapper>
 								</IconGroupContainer>
-								<MembersContainer>
-									<MembersWrapper>
-										{card.members &&
-											card.members.map((member) => {
-												return <MemberAvatar>{member.name[0]}</MemberAvatar>;
-											})}
-									</MembersWrapper>
-								</MembersContainer>
+								{card.members && (
+									<MembersContainer>
+										<MembersWrapper>
+											{card.members &&
+												card.members.map((member) => {
+													return <MemberAvatar>{member.name[0]}</MemberAvatar>;
+												})}
+										</MembersWrapper>
+									</MembersContainer>
+								)}
 							</FooterContainer>
 						</Container>
 					);
