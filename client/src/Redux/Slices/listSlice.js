@@ -21,6 +21,15 @@ const listSlice = createSlice({
 		successDeletingList: (state, action) => {
 			state.allLists = state.allLists.filter((list) => list._id !== action.payload);
 		},
+		deleteCard: (state,action)=> {
+			const {listId,cardId} = action.payload;
+			state.allLists = state.allLists.map((list) => {
+				if(list._id === listId){
+					list.cards = list.cards.filter(card=> card._id !== cardId);					
+				}
+				return list;
+			});
+		},
 		successCreatingCard: (state, action) => {
 			state.allLists = state.allLists.map((list) => {
 				if (list._id === action.payload.listId) {
@@ -357,6 +366,7 @@ export const {
 	successCreatingList,
 	successFetchingLists,
 	successDeletingList,
+	deleteCard,
 	successCreatingCard,
 	updateCardDragDrop,
 	updateListDragDrop,

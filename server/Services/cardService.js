@@ -32,8 +32,42 @@ const create = async (title, listId, boardId, user, callback) => {
 		await board.save();
 
 		// Set data transfer object
-		const result = await listModel.findById(listId).populate({ path: 'cards'}).exec();
+		const result = await listModel.findById(listId).populate({ path: 'cards' }).exec();
 		return callback(false, result);
+	} catch (error) {
+		return callback({ errMessage: 'Something went wrong', details: error.message });
+	}
+};
+
+const deleteById = async (cardId, listId, boardId, user, callback) => {
+	try {
+		// Get models
+		const card = await cardModel.findById(cardId);
+		const list = await listModel.findById(listId);
+		const board = await boardModel.findById(boardId);
+
+		// Validate owner
+		const validate = await helperMethods.validateCardOwners(card, list, board, user, false);
+		if (!validate) {
+			errMessage: 'You dont have permission to update this card';
+		}
+
+
+		// Delete the card
+		const result = await cardModel.findByIdAndDelete(cardId);
+
+		// Delete the list from lists of board
+		console.log(cardId)
+		list.cards = list.cards.filter((tempCard) => tempCard.toString() !== cardId);
+		await list.save();
+
+		// Add activity log to board
+		board.activity.unshift({
+			action: `${user.name + ' ' + user.surname} deleted ${result.title} from ${list.title}`,
+		});
+		await board.save();
+
+		return callback(false, {message:'Success'});
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -598,7 +632,9 @@ const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, cal
 		}
 
 		//Delete checklistItem
-		card.attachments = card.attachments.filter(attachment => attachment._id.toString() !== attachmentId.toString())
+		card.attachments = card.attachments.filter(
+			(attachment) => attachment._id.toString() !== attachmentId.toString()
+		);
 		await card.save();
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -620,13 +656,13 @@ const updateAttachment = async (cardId, listId, boardId, user, attachmentId, lin
 		}
 
 		//Update date completed event
-		card.attachments = card.attachments.map(attachment=>{
-			if(attachment._id.toString() === attachmentId.toString()){
+		card.attachments = card.attachments.map((attachment) => {
+			if (attachment._id.toString() === attachmentId.toString()) {
 				attachment.link = link;
 				attachment.name = name;
 			}
 			return attachment;
-		})
+		});
 
 		await card.save();
 		return callback(false, { message: 'Success!' });
@@ -649,7 +685,7 @@ const updateCover = async (cardId, listId, boardId, user, color, isSizeOne, call
 		}
 
 		//Update date cover color
-		card.cover.color= color;
+		card.cover.color = color;
 		card.cover.isSizeOne = isSizeOne;
 
 		await card.save();
@@ -664,6 +700,7 @@ module.exports = {
 	update,
 	getCard,
 	addComment,
+	deleteById,
 	updateComment,
 	deleteComment,
 	addMember,
@@ -681,7 +718,7 @@ module.exports = {
 	updateStartDueDates,
 	updateDateCompleted,
 	addAttachment,
-	deleteAttachment,	
+	deleteAttachment,
 	updateAttachment,
 	updateCover,
 };

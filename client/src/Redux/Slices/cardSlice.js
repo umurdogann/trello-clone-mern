@@ -232,7 +232,7 @@ const cardsSlice = createSlice({
 			const {color, isSizeOne} = action.payload;
 			state.cover.color = color;
 			state.cover.isSizeOne = isSizeOne;
-		}
+		},
 	},
 });
 

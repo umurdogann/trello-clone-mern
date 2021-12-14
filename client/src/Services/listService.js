@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { openAlert } from '../Redux/Slices/alertSlice';
-import { setLoading, successCreatingCard } from '../Redux/Slices/listSlice';
+import { setLoading, successCreatingCard,deleteCard } from '../Redux/Slices/listSlice';
 
 const baseUrl = 'http://localhost:3001/card';
 
@@ -20,3 +20,17 @@ export const createCard = async (title, listId, boardId, dispatch) => {
 		);
 	}
 };
+
+export const cardDelete = async(listId,boardId,cardId,dispatch)=>{
+	try {
+		await dispatch(deleteCard({listId,cardId}));
+		await axios.delete(baseUrl + "/"+boardId+"/"+listId + "/" + cardId+ "/delete-card");
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+}
