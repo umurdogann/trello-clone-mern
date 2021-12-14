@@ -284,7 +284,7 @@ const listSlice = createSlice({
 							card.date.startDate = startDate;
 							card.date.dueDate = dueDate;
 							card.date.dueTime = dueTime;
-							if (dueDate === null) state.date.completed = false;
+							if (dueDate === null) card.date.completed = false;
 						}
 						return card;
 					});

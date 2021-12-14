@@ -32,7 +32,7 @@ const create = async (title, listId, boardId, user, callback) => {
 		await board.save();
 
 		// Set data transfer object
-		const result = await listModel.findById(listId).populate({ path: 'cards', select: 'title' }).exec();
+		const result = await listModel.findById(listId).populate({ path: 'cards'}).exec();
 		return callback(false, result);
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
