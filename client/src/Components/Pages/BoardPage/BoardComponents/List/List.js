@@ -46,7 +46,7 @@ const List = (props) => {
 	const handleFooterClick = async () => {
 		setNewCardTitle('');
 		await createCard(newCardTitle, props.info._id, props.info.owner, dispatch);
-		ref.current.scrollIntoView({ behavior: 'smooth' });
+		ref && ref.current && ref.current.scrollIntoView({ behavior: 'smooth' });
 	};
 	const handleFooterCloseClick = () => {
 		setClickFooter(false);
@@ -56,9 +56,9 @@ const List = (props) => {
 	const handleOnChangeTitle = (e) => {
 		setCurrentListTitle(e.target.value);
 	};
-	const handleChangeTitle = async() => {		
-		if(props.info.title !== currentListTitle)
-		await listTitleUpdate(props.info._id,props.info.owner, currentListTitle,dispatch);
+	const handleChangeTitle = async () => {
+		if (props.info.title !== currentListTitle)
+			await listTitleUpdate(props.info._id, props.info.owner, currentListTitle, dispatch);
 	};
 
 	const handleDeleteClick = () => {
@@ -159,6 +159,7 @@ const List = (props) => {
 													<AddTitleCardContainer ref={ref}>
 														<TitleNewCardInput
 															value={newCardTitle}
+															autoFocus={true}
 															placeholder='Enter a title for this card...'
 															height={Math.floor(newCardTitle.length / 16) + 'rem'}
 															onChange={(e) => setNewCardTitle(e.target.value)}

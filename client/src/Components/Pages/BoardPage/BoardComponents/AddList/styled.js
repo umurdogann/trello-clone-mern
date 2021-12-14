@@ -3,7 +3,7 @@ import { Button } from "../../CommonStyled";
 
 export const AddAnotherListContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column;  
   flex-wrap: wrap;
   overflow-y: auto;
   min-width: 16rem;
@@ -37,7 +37,7 @@ display: ${props =>props.show ? "flex" : "none"};
 animation-name: ${props=> props.show && slideAnimation};
 animation-duration:200ms;
 animation-iteration-count: 1;
-padding: 0.3rem;
+padding: 0.5rem;
 gap:0.3rem;
 
 `;
@@ -57,4 +57,7 @@ outline: 2px solid #0079bf;
 display:flex;
 justify-content: flex-start;
 display:inline;
+&:focus{
+  
+}
 `;

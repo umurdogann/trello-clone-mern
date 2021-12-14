@@ -4,19 +4,20 @@ export const Container = styled.div`
 background-color: #fff;
 -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
   -moz-box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;
-width:100%;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 1px 3px;  
+min-width: 14.1rem;
 display: flex;
 flex-direction: column;
 align-items: flex-start;
 justify-content: flex-start;
 padding: 0.3rem 0.3rem;
-margin: 0.2rem 0.3rem;
+margin: 0.2rem 1rem 0.2rem 0.3rem;
 border-radius:3px;
 color:black;
 gap:0.3rem;
 background-color: ${props=>props.color?props.color:'#fff'};
 padding-top: ${props=>props.padding?'2.3rem':'0.3rem'};
+
 &:hover{
     cursor: pointer;
     background-color: ${props=>props.color?props.color:'rgba(255,255,255,0.25);'};
@@ -54,7 +55,10 @@ border-radius: 2rem;
 `;
 
 export const CardTitle = styled.div`
-    font-size: 0.85rem;
+    font-size: 0.85rem;    
+    max-width:100%;
+    word-wrap: break-word;
+    white-space:pre-wrap;
 `;
 
 export const FooterContainer = styled.div`

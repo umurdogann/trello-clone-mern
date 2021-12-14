@@ -93,7 +93,7 @@ export const DateDropDown = styled.div`
 	min-height: 2rem;
 	display: flex;
 	flex-direction: row;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 	border-radius: 3px;
 	cursor: pointer;

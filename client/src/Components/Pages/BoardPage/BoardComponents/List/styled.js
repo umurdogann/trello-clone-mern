@@ -17,6 +17,7 @@ export const Container = styled.div`
 	border-radius: 3px;
 	background-color: #ebecf0;
 	padding: 0.3rem;
+	box-sizing: border-box;
 `;
 
 export const Header = styled.div`
@@ -63,7 +64,8 @@ export const TitleInput = styled.input`
 
 export const CardContainer = styled.div`
 	height: 100%;
-	width: 100%;
+	width: 100%;	
+	box-sizing: content-box;
 `;
 
 export const CardWrapper = styled.div`
@@ -128,27 +130,30 @@ export const Span = styled.span`
 export const AddTitleCardContainer = styled.div`
 	box-sizing: border-box;
 	margin-top: 0.2rem;
-	padding: 0rem 0.3rem;
-	width: 100%;
+	padding: 0rem 0.3rem;			
+	min-width: 14.7rem;
 	display: flex;
 	flex-flow: column wrap;
 	gap: 0.5rem;
 `;
 
 export const TitleNewCardInput = styled.textarea`
-	border: none;
+	border: 2px solid transparent;
+	border-radius:3px;
 	resize: none;
 	font-size: 0.75rem;
 	color: #000;
 	padding: 0.4rem 0.5rem;
 	min-height: 4rem;
-	max-height: 7rem;
+	max-height: 7rem;	
 	height: ${(props) => props.height};
 	transition: 500ms ease-in;
-	box-shadow: 0 1px 0 #091e4240;
 	outline: none;
+	&:focus{
+		border: 2px solid #0079bf;
+	}
 	&::placeholder {
 		font-weight: 600;
-		color: #a3a3a3;
+		color: rgba(0,0,0,0.5);
 	}
 `;

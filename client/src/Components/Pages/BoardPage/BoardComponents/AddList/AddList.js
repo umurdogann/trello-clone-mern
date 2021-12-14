@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as style from './styled';
 import AddIcon from '@mui/icons-material/Add';
 import BottomButtonGroup from '../BottomButtonGroup/BottomButtonGroup';
@@ -9,18 +9,23 @@ import { createList } from '../../../../../Services/boardService';
 const AddList = (props) => {
 	const dispatch = useDispatch();
 	const [addList, setAddList] = useState(false);
-	const [title,setTitle] = useState("");
-	
+	const [title, setTitle] = useState('');
+	const ref = useRef();
+
+	useEffect(() => {
+		if(addList)
+		ref.current.focus();
+	}, [addList]);
 
 	const handleCloseClick = () => {
 		setAddList(false);
-		setTitle("");
+		setTitle('');
 	};
 
 	const handleAddClick = () => {
 		setAddList(false);
-		createList(title,props.boardId,dispatch);
-		setTitle("");
+		createList(title, props.boardId, dispatch);
+		setTitle('');
 	};
 
 	return (
@@ -32,7 +37,12 @@ const AddList = (props) => {
 				</style.AddAnotherListButton>
 				<style.AddListContainer show={addList}>
 					<style.AddListWrapper>
-						<style.ListTitleInput placeholder='Enter list title' value={title} onChange={(e)=>setTitle(e.target.value)} />
+						<style.ListTitleInput
+							ref={ref}
+							placeholder='Enter list title'
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+						/>
 						<BottomButtonGroup
 							title='Add list'
 							clickCallback={handleAddClick}
