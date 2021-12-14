@@ -21,7 +21,7 @@ export const TitleInput = styled.input`
 	background-color: transparent;
 	border-radius: 2px;
 	overflow: auto;
-	width: 95%;
+	width: 90%;
 	font-size: 1.25rem;
 	font-weight: 800;
 	&:focus {

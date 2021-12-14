@@ -103,3 +103,21 @@ background-repeat: no-repeat;
 width:100%;
 height:100%;
 `;
+
+export const CloseIconWrapper = styled.div`
+position: absolute;
+top:0.4rem;
+right:0.4rem;
+padding: 0.3rem;
+display:flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+cursor: pointer;
+&:hover{
+	background-color: rgba(0,0,0,0.065);	
+}
+&:active{
+	background-color: rgba(0,0,0,0.15);
+}
+`;

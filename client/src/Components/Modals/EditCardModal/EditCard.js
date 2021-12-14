@@ -13,6 +13,7 @@ import { getCard } from '../../../Services/cardService';
 import { useSelector, useDispatch } from 'react-redux';
 import IconButton from './ReUsableComponents/IconButton';
 import CoverIcon from '@mui/icons-material/TableChartOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import {
 	Container,
 	Wrapper,
@@ -29,6 +30,7 @@ import {
 	LoadingScreen,
 	AttachmentContainer,
 	CoverButtonWrapper,
+	CloseIconWrapper,
 } from './styled';
 
 export default function EditCard(props) {
@@ -95,6 +97,9 @@ export default function EditCard(props) {
 							</ActionsContainer>
 						</RightContainer>
 					</Wrapper>
+					<CloseIconWrapper onClick={props.callback}>
+						<CloseIcon fontSize='small' color= 'black'/>
+					</CloseIconWrapper>
 				</Container>
 			</Modal>
 		</div>
