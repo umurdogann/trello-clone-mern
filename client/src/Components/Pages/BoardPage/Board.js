@@ -14,13 +14,17 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 const Board = (props) => {
 	/* props.match.params.id */
 	const dispatch = useDispatch();
-	const { backgroundImageLink, loading } = useSelector((state) => state.board);
+	const { backgroundImageLink, loading,title } = useSelector((state) => state.board);
 	const { allLists, loadingListService } = useSelector((state) => state.list);
 	const boardId = props.match.params.id;
 	useEffect(() => {
 		getBoard(props.match.params.id, dispatch);
 		getLists(boardId, dispatch);
 	}, [props.match.params.id, dispatch, boardId]);
+
+	useEffect(() => {
+		document.title = title + " | Trello Clone";
+	  }, [title])
 
 	const onDragEnd = async (result) => {
 		const { draggableId, source, destination } = result;

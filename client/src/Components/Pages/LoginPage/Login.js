@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { login } from "../../../Services/userService";
@@ -26,6 +27,9 @@ const Login = () => {
     password: "",
   });
 
+  useEffect(() => {
+    document.title = "Log in to Trello Clone"
+  }, [])
   const handleSubmit = (e) => {
     e.preventDefault();
     login(userInformations, dispatch);

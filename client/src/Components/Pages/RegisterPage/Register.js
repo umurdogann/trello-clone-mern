@@ -18,6 +18,7 @@ import {
   Hr,
   Link,
 } from "./Styled";
+import { useEffect } from "react";
 
 const Register = () => {
   let history = useHistory();
@@ -30,6 +31,10 @@ const Register = () => {
     password: "",
     repassword: "",
   });
+
+  useEffect(() => {
+    document.title = "Create a Trello Account"
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault();

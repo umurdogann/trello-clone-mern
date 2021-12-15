@@ -25,6 +25,10 @@ const Boards = () => {
     getBoards(dispatch);
   }, [dispatch]);
 
+  useEffect(() => {
+    document.title = "Boards | Trello Clone"
+  }, [])
+
   return (
     <>
       {pending && <LoadingScreen />}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import IndexNav from "../../IndexNav";
 import { useHistory } from "react-router-dom";
 import {
@@ -15,6 +15,9 @@ import {
 
 const Index = () => {
   let history = useHistory();
+  useEffect(() => {
+    document.title = "Trello Clone"
+  }, [])
   return (
     <>
       <IndexNav />
