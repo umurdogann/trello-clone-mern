@@ -78,6 +78,7 @@ const LogoContainer = styled.div`
 const TrelloLogo = styled.img`
   width: 75px;
   height: 15px;
+  cursor: pointer;
 `;
 
 const DropdownContainer = styled.div`
@@ -91,16 +92,16 @@ const DropdownContainer = styled.div`
 `;
 
 const Navbar = () => {
-
-
-
+  const history = useHistory();
 
   
   return (
     <Container>
       <LeftSide>
         <LogoContainer>
-          <TrelloLogo src="https://a.trellocdn.com/prgb/dist/images/header-logo-spirit-loading.87e1af770a49ce8e84e3.gif" />
+          <TrelloLogo onClick={()=>{
+            history.push('/boards');
+          }} src="https://a.trellocdn.com/prgb/dist/images/header-logo-spirit-loading.87e1af770a49ce8e84e3.gif" />
         </LogoContainer>
         <DropdownContainer>
           <DropdownMenu

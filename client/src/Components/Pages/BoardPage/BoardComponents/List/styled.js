@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import { xs } from '../../../../../BreakPoints';
 
 export const Container = styled.div`
-	box-sizing: border-box;
+	box-sizing: content-box;
 	border: 1px solid white;
 	height: fit-content;
 	max-height: 98%;
-	min-width: 16rem;
+	min-width: 15rem;
+	width: 15rem;
 	max-width: 16rem;
 	margin: 0rem 0.2rem;
 	display: flex;
@@ -16,8 +17,7 @@ export const Container = styled.div`
 	gap: 0.3rem;
 	border-radius: 3px;
 	background-color: #ebecf0;
-	padding: 0.3rem;
-	box-sizing: border-box;
+	padding: 0.3rem ;	
 `;
 
 export const Header = styled.div`
@@ -64,7 +64,7 @@ export const TitleInput = styled.input`
 
 export const CardContainer = styled.div`
 	height: 100%;
-	width: 100%;	
+	width: 100%;		
 	box-sizing: content-box;
 `;
 
@@ -72,26 +72,25 @@ export const CardWrapper = styled.div`
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	align-items: center;
+	align-items: flex-start;
+	box-sizing: content-box;
 	overflow-x: hidden;
 	overflow-y: auto;
 	height:fit-content;
 	max-height: ${props=> props.dock? "73.5vh" :"70.6vh"};
 	justify-content: flex-start;
-	padding: 0.1rem 0rem;
+	padding: 0.1rem 0.1rem 0.1rem 0rem;		
 	width: 100%;
-	margin-right:3px;
 	${xs({
 		maxHeight: props=> props.dock? "74.6vh" :"70.6vh",
 	})}
 	::-webkit-scrollbar {
 		-webkit-appearance: none;
 		height: 0.75rem;
-		width: 0.5rem;		
+		width: 0.5rem;	
 	}
 	::-webkit-scrollbar-track {
-		background: rgba(255, 255, 255, 0.4);
-		
+		background: rgba(255, 255, 255, 0.4);		
 		margin-left:5px;
 		border-radius: 5px;
 	}
@@ -130,8 +129,9 @@ export const Span = styled.span`
 export const AddTitleCardContainer = styled.div`
 	box-sizing: border-box;
 	margin-top: 0.2rem;
-	padding: 0rem 0.3rem;			
+	padding: 0rem 0.2rem;			
 	min-width: 14.7rem;
+	width:100%;
 	display: flex;
 	flex-flow: column wrap;
 	gap: 0.5rem;

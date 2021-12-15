@@ -49,6 +49,16 @@ const Card = (props) => {
 		else return moment(date).format('MMM DD');
 	};
 
+	function getStyle(style, snapshot) {
+		if (!snapshot.isDropAnimating) {
+		  return style;
+		}
+		return {
+		  ...style,
+		  transitionDuration: `80ms`,
+		};
+	  }
+
 	return (
 		<>
 			<Draggable draggableId={props.info._id} index={props.index}>
@@ -58,6 +68,7 @@ const Card = (props) => {
 							onClick={handleOpenClose}
 							{...provided.dragHandleProps}
 							{...provided.draggableProps}
+							style={getStyle(provided.draggableProps.style, snapshot)}
 							ref={provided.innerRef}
 							isDragging={snapshot.isDragging}
 							color={!card.cover.isSizeOne ? card.cover.color : '#fff'}
