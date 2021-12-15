@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div`	
 	background-color: #fff;
-  	box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
 	box-sizing: border-box;
 	width: 14rem;
 	display: flex;
@@ -17,12 +17,9 @@ export const Container = styled.div`
 	gap: 0.3rem;
 	background-color: ${(props) => (props.color ? props.color : '#fff')};
 	padding-top: ${(props) => (props.padding ? '2.3rem' : '0.3rem')};
-	outline: 2px solid transparent;
-	
-
 	&:hover {
 		cursor: pointer;
-		outline:2px solid lightblue;
+		filter: grayscale(20%) brightness(97%);
 	}
 	position: relative;
 `;
@@ -139,7 +136,7 @@ export const CheckContainer = styled.div`
 
 export const MembersContainer = styled.div`
 	display: inline-block;
-	margin-left:auto;
+	margin-left: auto;
 	width: fit-content;
 `;
 
@@ -168,3 +165,4 @@ export const MemberAvatar = styled.div`
 		opacity: 60%;
 	}
 `;
+
