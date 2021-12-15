@@ -33,7 +33,7 @@ const DatePopover = (props) => {
 	const [focusStart, setFocusStart] = useState(false);
 	const [focusDue, setFocusDue] = useState(false);
 	const [time, setTime] = useState(
-		card.date.dueDate !== null ? card.date.dueTime : moment(new Date(), ['h:mm A']).format('HH:mm')
+		card.date.dueDate? card.date.dueTime : moment(new Date()).format('HH:mm')
 	);
 	const [startDate, setStartDate] = useState(
 		card.date.startDate != null ? card.date.startDate : moment(state[0].startDate).format('YYYY-MM-DD')
