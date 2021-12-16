@@ -5,11 +5,13 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import * as common from '../../CommonStyled';
 import { useDispatch, useSelector } from 'react-redux';
 import { boardTitleUpdate } from '../../../../../Services/boardsService';
-
+import RightDrawer from '../../../../Drawers/RightDrawer/RightDrawer';
 const TopBar = () => {
 	const board = useSelector((state) => state.board);
 	const [currentTitle, setCurrentTitle] = useState(board.title);
+	const [showDrawer,setShowDrawer] = useState(false);
 	const dispatch = useDispatch();
+	console.log(board.activity)
 	useEffect(()=>{
 		if(!board.loading)
 			setCurrentTitle(board.title);
@@ -34,11 +36,12 @@ const TopBar = () => {
 			</style.LeftWrapper>
 
 			<style.RightWrapper>
-				<common.Button>
+				<common.Button onClick={()=>{setShowDrawer(true)}}>
 					<MoreHorizIcon />
 					<style.TextSpan>Show menu</style.TextSpan>
 				</common.Button>
 			</style.RightWrapper>
+			<RightDrawer show={showDrawer} closeCallback={()=>{setShowDrawer(false)}} />
 		</style.TopBar>
 	);
 };
