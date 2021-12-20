@@ -16,7 +16,7 @@ const create = async (req, callback) => {
 
 		// Add user to members of this board
 		let allMembers = [];
-		allMembers.push({ user: user.id, name: user.name, surname: user.surname, role: 'owner' });
+		allMembers.push({ user: user.id, name: user.name, surname: user.surname, email: user.email, role: 'owner' });
 
 		// Save newBoard's id to boards of members and,
 		// Add ids of members to newBoard
@@ -29,13 +29,21 @@ const create = async (req, callback) => {
 					user: newMember._id,
 					name: newMember.name,
 					surname: newMember.surname,
+					email: newMember.email,
 					role: 'member',
+				});
+				//Add to board activity
+				newBoard.activity.push({
+					user: user.id,
+					name: user.name,
+					action: `added user '${newMember.name}' to this board`,
 				});
 			})
 		);
 
 		// Add created activity to activities of this board
-		newBoard.activity.unshift({user:user._id,name:user.name,action:'created this board'})
+		newBoard.activity.unshift({ user: user._id, name: user.name, action: 'created this board' });
+
 		// Save new board
 		newBoard.members = allMembers;
 		await newBoard.save();
@@ -92,31 +100,31 @@ const getActivityById = async (id, callback) => {
 	}
 };
 
-const updateBoardTitle = async (boardId, title,user, callback)=>{
+const updateBoardTitle = async (boardId, title, user, callback) => {
 	try {
 		// Get board by id
 		const board = await boardModel.findById(boardId);
 		board.title = title;
-		board.activity.unshift({user:user._id,name:user.name,action:'update title of this board'})
+		board.activity.unshift({ user: user._id, name: user.name, action: 'update title of this board' });
 		await board.save();
-		return callback(false, {message: 'Success!'});
+		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ message: 'Something went wrong', details: error.message });
 	}
-}
+};
 
-const updateBoardDescription = async (boardId, description, user, callback)=>{
+const updateBoardDescription = async (boardId, description, user, callback) => {
 	try {
 		// Get board by id
 		const board = await boardModel.findById(boardId);
 		board.description = description;
-		board.activity.unshift({user:user._id,name:user.name,action:'update description of this board'})
+		board.activity.unshift({ user: user._id, name: user.name, action: 'update description of this board' });
 		await board.save();
-		return callback(false, {message: 'Success!'});
+		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ message: 'Something went wrong', details: error.message });
 	}
-}
+};
 
 module.exports = {
 	create,
@@ -124,5 +132,5 @@ module.exports = {
 	getById,
 	getActivityById,
 	updateBoardTitle,
-	updateBoardDescription
+	updateBoardDescription,
 };

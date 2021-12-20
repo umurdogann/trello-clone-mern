@@ -52,6 +52,9 @@ const boardSchema = mongoose.Schema(
 				surname: {
 					type: String,
 				},
+				email: {
+					type:String,
+				},
 				role: {
 					type: String,
 					default: 'member',

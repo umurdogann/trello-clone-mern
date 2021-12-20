@@ -7,7 +7,7 @@ import {
 	updateListTitle,
 } from '../Redux/Slices/listSlice';
 import { openAlert } from '../Redux/Slices/alertSlice';
-import { setActivityLoading, updateActivity } from '../Redux/Slices/boardSlice';
+import { setActivityLoading, updateActivity, updateDescription } from '../Redux/Slices/boardSlice';
 
 const listRoute = 'http://localhost:3001/list';
 const boardRoute = 'http://localhost:3001/board';
@@ -86,6 +86,22 @@ export const listTitleUpdate = async (listId, boardId, title, dispatch) => {
 	try {
 		await dispatch(updateListTitle({ listId: listId, title: title }));
 		await axios.put(listRoute + '/' + boardId + '/' + listId + '/update-title', { title: title });
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const boardDescriptionUpdate = async (boardId, description, dispatch) => {
+	try {
+		await dispatch(updateDescription(description));
+		await axios.put(`${boardRoute}/${boardId}/update-board-description`,{
+			description
+		});
 	} catch (error) {
 		dispatch(
 			openAlert({

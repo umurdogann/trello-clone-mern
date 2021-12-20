@@ -91,26 +91,40 @@ width:100%;
 resize:none;
 border-radius:3px;
 font-size:0.875rem;
-min-height:5rem;
-padding: 0.5rem;
+min-height:${props=>props.value?'1.5rem':'5rem'};
+${props=>!props.focused&&'max-height: '+props.textHeight+'px'};
+padding: ${props=>props.value?'0rem':'0.5rem'};
 border:none;
-line-height: 1.25rem;
-background-color:rgba(0,0,0,0.045);
+overflow:hidden;
+line-height: 1.25rem; 
+background-color:${props=>props.focused?'#fff':props.value?'transparent':'rgba(0,0,0,0.045)'};
+${props=>props.focused&&'padding: 0.5rem'};
 outline-color: transparent;
 cursor: pointer;
 &:hover{
-    background-color: rgba(0,0,0,0.065);
+    background-color: ${props=>props.value?'transparent':'rgba(0,0,0,0.065)'};
 }
 &::placeholder{
-    color: #000;
+    ${props=>!props.focused&&'color: #000'};
     
 }
 &:focus{
+    padding:0.5rem;
     background-color:white;
     outline-color: #0079bf;
+    cursor: text;
     &::placeholder{
         color: #C7CCD4;
     }
 }
 `;
 
+export const HiddenText = styled.div`
+visibility: hidden;
+position: absolute;
+z-index: 123;
+word-wrap:break-word;
+width:280px;
+top:0;
+left:0;
+`;
