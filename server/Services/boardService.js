@@ -82,6 +82,16 @@ const getById = async (id, callback) => {
 	}
 };
 
+const getActivityById = async (id, callback) => {
+	try {
+		// Get board by id
+		const board = await boardModel.findById(id);
+		return callback(false, board.activity);
+	} catch (error) {
+		return callback({ message: 'Something went wrong', details: error.message });
+	}
+};
+
 const updateBoardTitle = async (boardId, title,user, callback)=>{
 	try {
 		// Get board by id
@@ -99,5 +109,6 @@ module.exports = {
 	create,
 	getAll,
 	getById,
+	getActivityById,
 	updateBoardTitle,
 };
