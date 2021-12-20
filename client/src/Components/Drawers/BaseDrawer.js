@@ -11,9 +11,10 @@ const BaseDrawer = (props) => {
 	}, [props.show]);
 
 	const toggleDrawer = (value) => (event) => {
-		if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+		if(event.type === 'keydown') return;
+		/* if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
 			return;
-		}
+		} */
 		setOpen(value);
 		props.closeCallback(value);
 	};
@@ -22,7 +23,7 @@ const BaseDrawer = (props) => {
 		<div>
 			<Drawer anchor={'right'} open={open} onClose={toggleDrawer(false)}>
 				<Box
-					sx={{ width: 280 }}
+					sx={{ width: 320 }}
 					role='presentation'
 					onKeyDown={toggleDrawer(false)}
 					backgroundColor='#f4f5f7'

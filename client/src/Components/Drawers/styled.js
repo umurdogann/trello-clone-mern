@@ -10,6 +10,7 @@ justify-content: flex-start;
 
 export const HeadContainer = styled.div`
 display:flex;
+padding: 0.5rem 0rem;
 flex-direction:row;
 width: 100%;
 justify-content:space-between;
@@ -61,4 +62,5 @@ border-radius: 3px;
 export const ContentWrapper = styled.div`
 overflow-x:hidden;
 overflow-y:auto;
+width:100%;
 `;

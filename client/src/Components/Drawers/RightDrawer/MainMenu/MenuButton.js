@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonWrapper, IconWrapper, TextWrapper, Title,DescriptionText } from './styled';
 const MenuButton = (props) => {
 	return (
-		<ButtonWrapper>
+		<ButtonWrapper onClick={props.clickCallback}>
 			<IconWrapper>{props.icon}</IconWrapper>
 			<TextWrapper>
 				<Title>{props.title}</Title>
