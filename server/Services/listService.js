@@ -18,7 +18,9 @@ const create = async (model, user, callback) => {
 
 		// Add created activity to owner board activities
 		ownerBoard.activity.unshift({
-			action: `${user.name + ' ' + user.surname} added ${newList.title} to this board`,
+			user: user._id,
+			name: user.name,
+			action: `added ${newList.title} to this board`,
 		});
 
 		// Save changes
@@ -39,7 +41,7 @@ const getAll = async (boardId, callback) => {
 			.find({ owner: { $in: boardId } })
 			.populate({ path: 'cards' }) /* { path: 'cards', select: 'title' }) */
 			.exec();
-		
+
 		// Order the lists
 		const board = await boardModel.findById(boardId);
 		let responseObject = board.lists.map((listId) => {
@@ -73,7 +75,9 @@ const deleteById = async (listId, boardId, user, callback) => {
 
 		// Add activity log to board
 		board.activity.unshift({
-			action: `${user.name + ' ' + user.surname} deleted ${result.title} from this board`,
+			user: user._id,
+			name: user.name,
+			action: `deleted ${result.title} from this board`,
 		});
 		board.save();
 

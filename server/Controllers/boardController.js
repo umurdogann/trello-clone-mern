@@ -44,7 +44,7 @@ const updateBoardTitle = async (req, res) => {
 	const {boardId} = req.params;
 	const {title} = req.body;
 	// Call the service
-	await boardService.updateBoardTitle(boardId,title, (err, result) => {
+	await boardService.updateBoardTitle(boardId,title,req.user, (err, result) => {
 		if (err) return res.status(400).send(err);
 		return res.status(200).send(result);
 	});

@@ -35,8 +35,7 @@ const create = async (req, callback) => {
 		);
 
 		// Add created activity to activities of this board
-		newBoard.activity.unshift({ action: `New board created by ${user.name}` });
-
+		newBoard.activity.unshift({user:user._id,name:user.name,action:'created this board'})
 		// Save new board
 		newBoard.members = allMembers;
 		await newBoard.save();
@@ -83,11 +82,12 @@ const getById = async (id, callback) => {
 	}
 };
 
-const updateBoardTitle = async (boardId, title, callback)=>{
+const updateBoardTitle = async (boardId, title,user, callback)=>{
 	try {
 		// Get board by id
 		const board = await boardModel.findById(boardId);
 		board.title = title;
+		board.activity.unshift({user:user._id,name:user.name,action:'update title of this board'})
 		await board.save();
 		return callback(false, {message: 'Success!'});
 	} catch (error) {

@@ -25,10 +25,8 @@ const create = async (title, listId, boardId, user, callback) => {
 		list.cards.push(card._id);
 		await list.save();
 
-		// Add log to board activity
-		board.activity.unshift({
-			action: `${user.name + ' ' + user.surname} added ${card.title} to this board`,
-		});
+		// Add log to board activity		
+		board.activity.unshift({ user: user._id, name: user.name, action: `added ${card.title} to this board` });
 		await board.save();
 
 		// Set data transfer object
@@ -52,22 +50,22 @@ const deleteById = async (cardId, listId, boardId, user, callback) => {
 			errMessage: 'You dont have permission to update this card';
 		}
 
-
 		// Delete the card
 		const result = await cardModel.findByIdAndDelete(cardId);
 
 		// Delete the list from lists of board
-		console.log(cardId)
 		list.cards = list.cards.filter((tempCard) => tempCard.toString() !== cardId);
 		await list.save();
 
 		// Add activity log to board
 		board.activity.unshift({
-			action: `${user.name + ' ' + user.surname} deleted ${result.title} from ${list.title}`,
+			user: user._id,
+			name: user.name,
+			action: `deleted ${result.title} from ${list.title}`,
 		});
 		await board.save();
 
-		return callback(false, {message:'Success'});
+		return callback(false, { message: 'Success' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
 	}
@@ -138,6 +136,16 @@ const addComment = async (cardId, listId, boardId, user, body, callback) => {
 		});
 		await card.save();
 
+		//Add comment to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: body.text,
+			actionType: 'comment',
+			cardTitle: card.title,
+		});
+		board.save();
+
 		return callback(false, card.activities);
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -169,6 +177,17 @@ const updateComment = async (cardId, listId, boardId, commentId, user, body, cal
 		});
 		await card.save();
 
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: body.text,
+			actionType: 'comment',
+			edited: true,
+			cardTitle: card.title,
+		});
+		board.save();
+
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -191,6 +210,14 @@ const deleteComment = async (cardId, listId, boardId, commentId, user, callback)
 		//Delete card
 		card.activities = card.activities.filter((activity) => activity._id.toString() !== commentId.toString());
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `deleted his/her own comment from ${card.title}`,
+		});
+		board.save();
 
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -219,6 +246,10 @@ const addMember = async (cardId, listId, boardId, user, memberId, callback) => {
 		});
 		await card.save();
 
+		//Add to board activity
+		board.activity.unshift({ user: user._id, name: user.name, action: `added '${member.name}' to ${card.title}` });
+		board.save();
+
 		return callback(false, { message: 'success' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -241,6 +272,14 @@ const deleteMember = async (cardId, listId, boardId, user, memberId, callback) =
 		//delete member
 		card.members = card.members.filter((a) => a.user.toString() !== memberId.toString());
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: member.name === user.name ? `left ${card.title}` : `removed '${member.name}' from ${card.title}`,
+		});
+		board.save();
 
 		return callback(false, { message: 'success' });
 	} catch (error) {
@@ -380,6 +419,10 @@ const createChecklist = async (cardId, listId, boardId, user, title, callback) =
 
 		const checklistId = card.checklists[card.checklists.length - 1]._id;
 
+		//Add to board activity
+		board.activity.unshift({ user: user._id, name: user.name, action: `added '${title}' to ${card.title}` });
+		board.save();
+
 		return callback(false, { checklistId: checklistId });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -398,10 +441,14 @@ const deleteChecklist = async (cardId, listId, boardId, checklistId, user, callb
 		if (!validate) {
 			errMessage: 'You dont have permission to delete this checklist';
 		}
-
+		let cl = card.checklist.filter((l) => l._id.toString() === checklistId.toString());
 		//Delete checklist
 		card.checklists = card.checklists.filter((list) => list._id.toString() !== checklistId.toString());
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({ user: user._id, name: user.name, action: `removed '${cl.title}' from ${card.title}` });
+		board.save();
 
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -466,13 +513,14 @@ const setChecklistItemCompleted = async (
 		if (!validate) {
 			errMessage: 'You dont have permission to set complete of this checklist item';
 		}
-
+		let clItem = '';
 		//Update completed of checklistItem
 		card.checklists = card.checklists.map((list) => {
 			if (list._id.toString() == checklistId.toString()) {
 				list.items = list.items.map((item) => {
 					if (item._id.toString() === checklistItemId) {
 						item.completed = completed;
+						clItem = item.title;
 					}
 					return item;
 				});
@@ -480,6 +528,17 @@ const setChecklistItemCompleted = async (
 			return list;
 		});
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: completed
+				? `completed '${clItem}' on ${card.title}`
+				: `marked as uncompleted to '${clItem}' on ${card.title}`,
+		});
+		board.save();
+
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -587,6 +646,15 @@ const updateDateCompleted = async (cardId, listId, boardId, user, completed, cal
 		card.date.completed = completed;
 
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `marked the due date on ${card.title} ${completed ? 'complete' : 'uncomplete'}`,
+		});
+		board.save();
+
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -612,6 +680,10 @@ const addAttachment = async (cardId, listId, boardId, user, link, name, callback
 		card.attachments.push({ link: validLink, name: name });
 		await card.save();
 
+		//Add to board activity
+		board.activity.unshift({ user: user._id, name: user.name, action: `attached ${validLink} to ${card.title}` });
+		board.save();
+
 		return callback(false, { attachmentId: card.attachments[card.attachments.length - 1]._id.toString() });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });
@@ -631,11 +703,24 @@ const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, cal
 			errMessage: 'You dont have permission to delete this attachment';
 		}
 
+		let attachmentObj = card.attachments.filter(
+			(attachment) => attachment._id.toString() === attachmentId.toString()
+		);
+
 		//Delete checklistItem
 		card.attachments = card.attachments.filter(
 			(attachment) => attachment._id.toString() !== attachmentId.toString()
 		);
 		await card.save();
+
+		//Add to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `deleted the ${attachmentObj.link} attachment from ${card.title}`,
+		});
+		board.save();
+
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
 		return callback({ errMessage: 'Something went wrong', details: error.message });

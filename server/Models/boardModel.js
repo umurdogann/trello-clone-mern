@@ -12,13 +12,32 @@ const boardSchema = mongoose.Schema(
 		},
 		activity: [
 			{
+				user: {
+					type: mongoose.Schema.Types.ObjectId,
+					ref:'user',
+				},
+				name: {
+					type: String
+				},
 				action: {
 					type: String,
 				},
 				date: {
 					type: Date,
 					default: Date.now(),
-				},
+				},	
+				edited:{
+					type: Boolean,
+					default: false,
+				},	
+				cardTitle:{
+					type: String,
+					default: '',
+				},		
+				actionType:{
+					type:String,
+					default:'action',
+				}
 			},
 		],
 		members: [
