@@ -8,6 +8,7 @@ const initialState = {
 	members: [],
 	activity: [],
 	loading: true,
+	activityLoading: false,
 };
 
 const boardSlice = createSlice({
@@ -27,9 +28,16 @@ const boardSlice = createSlice({
 		},
 		updateTitle: (state,action) => {
 			state.title = action.payload;
+		},
+		setActivityLoading: (state,action) => {
+			state.activityLoading = action.payload;
+		},
+		updateActivity: (state,action)=>{
+			state.activity = action.payload;
 		}
+
 	},
 });
 
-export const { setLoading, successFetchingBoard, updateTitle } = boardSlice.actions;
+export const { setLoading, successFetchingBoard, updateTitle,setActivityLoading,updateActivity } = boardSlice.actions;
 export default boardSlice.reducer;

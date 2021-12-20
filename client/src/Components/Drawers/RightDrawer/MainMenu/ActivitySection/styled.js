@@ -26,6 +26,7 @@ export const HeadTitle = styled.div`
 
 export const Wrapper = styled.div`
 	width: 100%;
+	height:fit-content;
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
@@ -97,4 +98,15 @@ export const CommentArea = styled.div`
 	overflow-wrap: break-word;
 	word-break: break-word;
 	font-size: 0.875rem;
+`;
+
+export const LoadingBox = styled.div`
+	height: 3rem;
+	width: 8rem;
+	padding: 0.5rem 3rem;
+	margin-right:auto;
+	margin-left:auto;
+	background-image: url(${(props) => props.image});
+	background-position: center;
+	background-repeat: no-repeat;
 `;

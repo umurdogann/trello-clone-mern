@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ActivityIcon from '@mui/icons-material/MessageOutlined';
+import { useDispatch, useSelector } from 'react-redux';
 import {
 	ActionContainer,
 	Avatar,
@@ -10,46 +11,51 @@ import {
 	CommentArea,
 	Container,
 	HeadWrapper,
+	LoadingBox,
 	HeadTitle,
 	Wrapper,
 } from './styled';
 import moment from 'moment';
-
-
+import { activityUpdate } from '../../../../../Services/boardService';
+import  CardLoadingSvg  from '../../../../../Images/cardLoading.svg';
 
 const ActivitySection = () => {
+	const board = useSelector((state) => state.board);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		activityUpdate(board.id, dispatch);
+	}, [board.id, dispatch]);
 
-	const formatDate = (date) => {
-		if (moment(date).toDate().getFullYear() < new Date().getFullYear()) return moment(date).format('MMM DD, yyyy');
-		else return moment(date).format('MMM DD');
-	};
-	
 	const Comment = (props) => {
 		return (
 			<ActionContainer>
-				<Avatar>u</Avatar>
+				<Avatar>{props.name[0]}</Avatar>
 				<ActionWrapper>
 					<CommentTitle>
 						<Text>
-							<b style={{ fontSize: '0.875rem' }}>Umur</b> on asd
+							<b style={{ fontSize: '0.875rem' }}>{props.name}</b> on {props.cardTitle}
 						</Text>
-						<Date>5 minutes ago</Date>
+						<Date>{moment(props.date).fromNow()}</Date>
 					</CommentTitle>
-					<CommentArea>This is a sample comment</CommentArea>
+					<CommentArea>{props.action}</CommentArea>
 				</ActionWrapper>
 			</ActionContainer>
 		);
 	};
-	
+
 	const Action = (props) => {
 		return (
 			<ActionContainer>
-				<Avatar>u</Avatar>
+				<Avatar>{props.name[0].toLowerCase()}</Avatar>
 				<ActionWrapper>
 					<Text>
-						<b style={{ fontSize: '0.875rem' }}>Umur</b> joined s
+						<b style={{ fontSize: '0.875rem' }}>{props.name}</b> {props.action}
 					</Text>
-					<Date>yesterday at 5:23 AM</Date>
+					<Date>
+						{moment(props.date).calendar().indexOf('Today') === -1
+							? moment(props.date).calendar()
+							: moment(props.date).fromNow()}
+					</Date>
 				</ActionWrapper>
 			</ActionContainer>
 		);
@@ -62,8 +68,17 @@ const ActivitySection = () => {
 				<HeadTitle>Activity</HeadTitle>
 			</HeadWrapper>
 			<Wrapper>
-				<Comment />
-				<Action />
+				{board.activityLoading ? (
+					<LoadingBox image={CardLoadingSvg} />
+				) : (
+					board.activity.map((act) => {
+						return act.actionType === 'action' ? (
+							<Action key={act._id} {...act} />
+						) : (
+							<Comment key={act._id} {...act} />
+						);
+					})
+				)}
 			</Wrapper>
 		</Container>
 	);
