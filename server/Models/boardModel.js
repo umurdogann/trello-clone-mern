@@ -64,6 +64,10 @@ const boardSchema = mongoose.Schema(
 				ref: 'list',
 			},
 		],
+		description:{
+			type: String,
+			default:'',
+		}
 	},
 	{ timestamps: true }
 );

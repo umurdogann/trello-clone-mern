@@ -23,9 +23,7 @@ const getById = async (req, res) => {
 	// Validate whether params.id is in the user's boards or not
 	const validate = req.user.boards.filter((board) => board === req.params.id);
 	if (!validate)
-		return res
-			.status(400)
-			.send({ errMessage: 'You can not show the this board, you are not a member or owner!' });
+		return res.status(400).send({ errMessage: 'You can not show the this board, you are not a member or owner!' });
 
 	// Call the service
 	await boardService.getById(req.params.id, (err, result) => {
@@ -38,9 +36,7 @@ const getActivityById = async (req, res) => {
 	// Validate whether params.id is in the user's boards or not
 	const validate = req.user.boards.filter((board) => board === req.params.id);
 	if (!validate)
-		return res
-			.status(400)
-			.send({ errMessage: 'You can not show the this board, you are not a member or owner!' });
+		return res.status(400).send({ errMessage: 'You can not show the this board, you are not a member or owner!' });
 
 	// Call the service
 	await boardService.getActivityById(req.params.id, (err, result) => {
@@ -56,10 +52,26 @@ const updateBoardTitle = async (req, res) => {
 		return res
 			.status(400)
 			.send({ errMessage: 'You can not change title of this board, you are not a member or owner!' });
-	const {boardId} = req.params;
-	const {title} = req.body;
+	const { boardId } = req.params;
+	const { title } = req.body;
 	// Call the service
-	await boardService.updateBoardTitle(boardId,title,req.user, (err, result) => {
+	await boardService.updateBoardTitle(boardId, title, req.user, (err, result) => {
+		if (err) return res.status(400).send(err);
+		return res.status(200).send(result);
+	});
+};
+
+const updateBoardDescription = async (req, res) => {
+	// Validate whether params.id is in the user's boards or not
+	const validate = req.user.boards.filter((board) => board === req.params.id);
+	if (!validate)
+		return res
+			.status(400)
+			.send({ errMessage: 'You can not change description of this board, you are not a member or owner!' });
+	const { boardId } = req.params;
+	const { description } = req.body;
+	// Call the service
+	await boardService.updateBoardDescription(boardId, description, req.user, (err, result) => {
 		if (err) return res.status(400).send(err);
 		return res.status(200).send(result);
 	});
@@ -71,4 +83,5 @@ module.exports = {
 	getById,
 	getActivityById,
 	updateBoardTitle,
+	updateBoardDescription,
 };

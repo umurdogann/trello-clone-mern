@@ -105,10 +105,24 @@ const updateBoardTitle = async (boardId, title,user, callback)=>{
 	}
 }
 
+const updateBoardDescription = async (boardId, description, user, callback)=>{
+	try {
+		// Get board by id
+		const board = await boardModel.findById(boardId);
+		board.description = description;
+		board.activity.unshift({user:user._id,name:user.name,action:'update description of this board'})
+		await board.save();
+		return callback(false, {message: 'Success!'});
+	} catch (error) {
+		return callback({ message: 'Something went wrong', details: error.message });
+	}
+}
+
 module.exports = {
 	create,
 	getAll,
 	getById,
 	getActivityById,
 	updateBoardTitle,
+	updateBoardDescription
 };
