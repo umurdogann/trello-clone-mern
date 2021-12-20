@@ -75,6 +75,8 @@ export const Text = styled.p`
 	margin: 0;
 	padding: 0;
 	font-size: 0.875rem;
+	overflow-x:hidden;
+	word-break: break-all;
 `;
 
 export const Date = styled.p`

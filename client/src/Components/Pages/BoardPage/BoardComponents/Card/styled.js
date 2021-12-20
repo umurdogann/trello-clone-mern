@@ -10,7 +10,7 @@ export const Container = styled.div`
 	align-items: flex-start;
 	justify-content: flex-start;
 	padding: 0.3rem 0.3rem;
-	width: 100%;
+	width: 98%;
 	margin: 0.2rem 0.2rem 0.2rem 0.2rem;
 	border-radius: 3px;
 	color: black;
