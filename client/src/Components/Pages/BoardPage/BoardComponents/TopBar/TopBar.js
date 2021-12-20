@@ -11,7 +11,6 @@ const TopBar = () => {
 	const [currentTitle, setCurrentTitle] = useState(board.title);
 	const [showDrawer,setShowDrawer] = useState(false);
 	const dispatch = useDispatch();
-	console.log(board.activity)
 	useEffect(()=>{
 		if(!board.loading)
 			setCurrentTitle(board.title);
