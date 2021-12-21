@@ -1,5 +1,5 @@
 import Navbar from '../../Navbar';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import TopBar from './BoardComponents/TopBar/TopBar';
 import * as style from './Styled';
 import AddList from './BoardComponents/AddList/AddList';
@@ -16,6 +16,7 @@ const Board = (props) => {
 	const dispatch = useDispatch();
 	const { backgroundImageLink, isImage, loading, title } = useSelector((state) => state.board);
 	const { allLists, loadingListService } = useSelector((state) => state.list);
+	const [searchString, setSearchString] = useState('');
 	const boardId = props.match.params.id;
 	useEffect(() => {
 		getBoard(props.match.params.id, dispatch);
@@ -60,7 +61,7 @@ const Board = (props) => {
 
 	return (
 		<>
-			<Navbar />
+			<Navbar searchString={searchString} setSearchString={setSearchString} />
 			<style.Container
 				isImage={isImage}
 				bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}
@@ -74,7 +75,15 @@ const Board = (props) => {
 								<style.ListContainer {...provided.droppableProps} ref={provided.innerRef}>
 									{!loading &&
 										allLists.map((list, index) => {
-											return <List key={list._id} index={index} info={list} boardId={boardId} />;
+											return (
+												<List
+													searchString={searchString}
+													key={list._id}
+													index={index}
+													info={list}
+													boardId={boardId}
+												/>
+											);
 										})}
 									{provided.placeholder}
 									<AddList boardId={boardId} />

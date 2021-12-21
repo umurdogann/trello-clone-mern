@@ -143,7 +143,7 @@ const List = (props) => {
 											isDraggingOver={snapshot.isDraggingOver}
 										>
 											<CardWrapper dock={clickFooter}>
-												{props.info.cards.map((card, index) => {
+												{props.info.cards.filter(card=>props.searchString?card.title.toLowerCase().includes(props.searchString.toLowerCase()):true).map((card, index) => {
 													return (
 														<Card
 															boardId={props.boardId}
