@@ -14,7 +14,7 @@ import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 const Board = (props) => {
 	/* props.match.params.id */
 	const dispatch = useDispatch();
-	const { backgroundImageLink, loading,title } = useSelector((state) => state.board);
+	const { backgroundImageLink, isImage, loading, title } = useSelector((state) => state.board);
 	const { allLists, loadingListService } = useSelector((state) => state.list);
 	const boardId = props.match.params.id;
 	useEffect(() => {
@@ -23,8 +23,8 @@ const Board = (props) => {
 	}, [props.match.params.id, dispatch, boardId]);
 
 	useEffect(() => {
-		document.title = title + " | Trello Clone";
-	  }, [title])
+		document.title = title + ' | Trello Clone';
+	}, [title]);
 
 	const onDragEnd = async (result) => {
 		const { draggableId, source, destination } = result;
@@ -61,7 +61,10 @@ const Board = (props) => {
 	return (
 		<>
 			<Navbar />
-			<style.Container bgImage={backgroundImageLink.split('?')[0]}>
+			<style.Container
+				isImage={isImage}
+				bgImage={isImage ? backgroundImageLink.split('?')[0] : backgroundImageLink}
+			>
 				<TopBar />
 				{(loading || loadingListService) && <LoadingScreen />}
 				<DragDropContext onDragEnd={onDragEnd}>

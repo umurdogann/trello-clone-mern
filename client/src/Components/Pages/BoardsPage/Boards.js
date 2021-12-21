@@ -40,7 +40,7 @@ const Boards = () => {
             boardsData.length>0 &&
             boardsData.map((item) => {
               return (
-                <Board key={item._id} link={item.backgroundImageLink} id={item._id} onClick={(e)=>handleClick(e)}>
+                <Board key={item._id} link={item.backgroundImageLink} isImage={item.isImage} id={item._id} onClick={(e)=>handleClick(e)}>
                   {item.title}
                 </Board>
               );

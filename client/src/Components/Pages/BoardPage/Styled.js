@@ -1,8 +1,8 @@
-import { xs } from '../../../BreakPoints';
 import styled from 'styled-components';
 
 export const Container = styled.div`
-	background-image: url(${(props) => props.bgImage});
+	${(props) =>
+		props.isImage ? 'background-image: url(' + props.bgImage + ');' : 'background-color: ' + props.bgImage + ';'}
 	background-repeat: no-repeat;
 	background-position: 50%;
 	zoom: 1;

@@ -4,6 +4,7 @@ const initialState = {
 	id: '',
 	title: '',
 	backgroundImageLink: '',
+	isImage: true,
 	lists: [],
 	members: [],
 	activity: [],
@@ -23,6 +24,7 @@ const boardSlice = createSlice({
 			state.id = action.payload._id;
 			state.title = action.payload.title;
 			state.backgroundImageLink = action.payload.backgroundImageLink;
+			state.isImage = action.payload.isImage;
 			state.lists = action.payload.lists;
 			state.members = action.payload.members;
 			state.activity = action.payload.activity;
@@ -40,9 +42,21 @@ const boardSlice = createSlice({
 		updateDescription: (state, action) => {
 			state.description = action.payload;
 		},
+		updateBackground: (state, action) => {
+			const { background, isImage } = action.payload;
+			state.backgroundImageLink = background;
+			state.isImage = isImage;
+		},
 	},
 });
 
-export const { setLoading, successFetchingBoard, updateTitle, setActivityLoading, updateActivity, updateDescription } =
-	boardSlice.actions;
+export const {
+	setLoading,
+	successFetchingBoard,
+	updateTitle,
+	setActivityLoading,
+	updateActivity,
+	updateDescription,
+	updateBackground,
+} = boardSlice.actions;
 export default boardSlice.reducer;

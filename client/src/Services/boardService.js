@@ -7,7 +7,7 @@ import {
 	updateListTitle,
 } from '../Redux/Slices/listSlice';
 import { openAlert } from '../Redux/Slices/alertSlice';
-import { setActivityLoading, updateActivity, updateDescription } from '../Redux/Slices/boardSlice';
+import { setActivityLoading, updateActivity, updateBackground, updateDescription } from '../Redux/Slices/boardSlice';
 
 const listRoute = 'http://localhost:3001/list';
 const boardRoute = 'http://localhost:3001/board';
@@ -101,6 +101,23 @@ export const boardDescriptionUpdate = async (boardId, description, dispatch) => 
 		await dispatch(updateDescription(description));
 		await axios.put(`${boardRoute}/${boardId}/update-board-description`,{
 			description
+		});
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const boardBackgroundUpdate = async (boardId, background, isImage, dispatch) => {
+	try {
+		await dispatch(updateBackground({background,isImage}));
+		await axios.put(`${boardRoute}/${boardId}/update-background`,{
+			background,
+			isImage,
 		});
 	} catch (error) {
 		dispatch(

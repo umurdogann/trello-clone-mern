@@ -9,6 +9,12 @@ const RightDrawer = (props) => {
 	useEffect(() => {
 		props.show && setShow(true);
 	}, [props.show]);
+
+	const handleBackClick = () => {
+		if (sectionName === 'About this board' || sectionName === 'Change background') setSectionName('Menu');
+		else setSectionName('Change background');
+	};
+
 	return (
 		<BaseDrawer
 			title={sectionName}
@@ -17,9 +23,7 @@ const RightDrawer = (props) => {
 				setShow(param);
 				props.closeCallback();
 			}}
-			backClickCallback={(param) => {
-				setSectionName('Menu');
-			}}
+			backClickCallback={handleBackClick}
 			showBackIcon={true}
 			content={
 				sectionName === 'Menu' ? (
@@ -31,7 +35,12 @@ const RightDrawer = (props) => {
 				) : sectionName === 'About this board' ? (
 					<AboutMenu />
 				) : (
-					<BackgroundMenu />
+					<BackgroundMenu
+						menuCallback={(param) => {
+							setSectionName(param);
+						}}
+						sectionName={sectionName}
+					/>
 				)
 			}
 		/>
