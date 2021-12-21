@@ -469,7 +469,7 @@ const deleteChecklist = async (cardId, listId, boardId, checklistId, user, callb
 		if (!validate) {
 			errMessage: 'You dont have permission to delete this checklist';
 		}
-		let cl = card.checklist.filter((l) => l._id.toString() === checklistId.toString());
+		let cl = card.checklists.filter((l) => l._id.toString() === checklistId.toString());
 		//Delete checklist
 		card.checklists = card.checklists.filter((list) => list._id.toString() !== checklistId.toString());
 		await card.save();
@@ -757,7 +757,7 @@ const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, cal
 		board.activity.unshift({
 			user: user._id,
 			name: user.name,
-			action: `deleted the ${attachmentObj.link} attachment from ${card.title}`,
+			action: `deleted the ${attachmentObj[0].link} attachment from ${card.title}`,
 			color: user.color,
 		});
 		board.save();
