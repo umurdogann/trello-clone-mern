@@ -12,7 +12,7 @@ const Boards = () => {
   const history = useHistory();
   const { pending, boardsData } = useSelector((state) => state.boards);
   const [openModal, setOpenModal] = useState(false);
-
+  const [searchString, setSearchString] = useState('');
   const handleModalClose = () => {
     setOpenModal(false);
   };
@@ -33,12 +33,12 @@ const Boards = () => {
     <>
       {pending && <LoadingScreen />}
       <Container>        
-        <Navbar />
+        <Navbar searchString={searchString} setSearchString={setSearchString} />
         <Wrapper>
           <Title>Your Boards</Title>
           {!pending &&
             boardsData.length>0 &&
-            boardsData.map((item) => {
+            boardsData.filter(item=>searchString?item.title.toLowerCase().includes(searchString.toLowerCase()):true).map((item) => {
               return (
                 <Board key={item._id} link={item.backgroundImageLink} isImage={item.isImage} id={item._id} onClick={(e)=>handleClick(e)}>
                   {item.title}

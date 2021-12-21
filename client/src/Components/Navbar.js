@@ -91,7 +91,7 @@ const DropdownContainer = styled.div`
   })}
 `;
 
-const Navbar = () => {
+const Navbar = (props) => {
   const history = useHistory();
 
   
@@ -110,7 +110,7 @@ const Navbar = () => {
         </DropdownContainer>
       </LeftSide>
       <RightSide>
-        <SearchBar />
+        <SearchBar searchString={props.searchString} setSearchString={props.setSearchString} />
         <ProfileBox/>
       </RightSide>
     </Container>

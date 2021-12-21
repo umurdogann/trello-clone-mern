@@ -56,11 +56,12 @@ const Icon = styled.img`
   })}
 `;
 
-const SearchBar = () => {
+const SearchBar = (props) => {
+  const {searchString, setSearchString} = props;
   return (
     <Container>
       <Icon src={SearchIcon} />
-      <Input placeholder="Search" />
+      <Input placeholder="Search" value={searchString} onChange={e=>setSearchString(e.target.value)}/>
     </Container>
   );
 };
