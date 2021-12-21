@@ -78,7 +78,7 @@ const cardSchema = mongoose.Schema({
 			},
 			date: {
 				type: Date,
-				default: Date(),
+				default: Date.now,
 			},
 		},
 	],
@@ -92,7 +92,7 @@ const cardSchema = mongoose.Schema({
 			},
 			date: {
 				type: Date,
-				default: Date.now(),
+				default: Date.now,
 			},
 			isComment: {
 				type: Boolean,

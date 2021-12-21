@@ -1,4 +1,5 @@
 import { Avatar } from '@mui/material';
+import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Container, LeftContainer, RightContainer, LogWrapper, Title, Date } from './styled';
@@ -28,7 +29,7 @@ const ActivityLog = () => {
 								<LogWrapper>
 									<Title>{activity.userName}</Title> {activity.text}
 								</LogWrapper>
-								<Date>{activity.date}</Date>
+								<Date>{moment(activity.date).format('MMMM Do YYYY, h:mm:ss a')}</Date>
 							</RightContainer>
 						</Container>
 					);
