@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { CommonButton } from './CommonStyles';
 import { sm, xs } from '../../../BreakPoints';
 
 export const Container = styled.div`
@@ -12,7 +11,7 @@ export const Container = styled.div`
 	height: fit-content;
 	margin: 3rem auto 5rem auto;
 	padding: 0.5rem 0rem 1rem 0.25rem;
-	position:relative;
+	position: relative;
 	${sm({
 		width: '90%',
 	})}
@@ -22,20 +21,20 @@ export const Container = styled.div`
 `;
 
 export const CoverContainer = styled.div`
-display: ${props=>props.color?'block':'none'};
-min-height: 7.25rem;
-background-color: ${props=>props.color};
-margin:-0.5rem 0rem 0rem -0.25rem;
-border-top-left-radius:3px;
-border-top-right-radius:3px;
-position: relative;
+	display: ${(props) => (props.color ? 'block' : 'none')};
+	min-height: 7.25rem;
+	background-color: ${(props) => props.color};
+	margin: -0.5rem 0rem 0rem -0.25rem;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+	position: relative;
 `;
 
 export const CoverButtonWrapper = styled.div`
 	position: absolute;
-	bottom:0.5rem;
-	right:0.5rem;
-	width:5.5rem;
+	bottom: 0.5rem;
+	right: 0.5rem;
+	width: 5.5rem;
 `;
 
 export const TitleContainer = styled.div`
@@ -57,7 +56,7 @@ export const Wrapper = styled.div`
 export const MainContainer = styled.div`
 	flex: 3;
 	min-height: 50vh;
-	padding-right:0.5rem;
+	padding-right: 0.5rem;
 	width: 100%;
 	overflow-x: hidden;
 	gap: 1.5rem;
@@ -97,27 +96,27 @@ export const AddToCardContainer = styled.div``;
 export const ActionsContainer = styled.div``;
 
 export const LoadingScreen = styled.div`
-background-image: url(${props=>props.image});
-background-position:center;
-background-repeat: no-repeat;
-width:100%;
-height:100%;
+	background-image: url(${(props) => props.image});
+	background-position: center;
+	background-repeat: no-repeat;
+	width: 100%;
+	height: 100%;
 `;
 
 export const CloseIconWrapper = styled.div`
-position: absolute;
-top:0.4rem;
-right:0.4rem;
-padding: 0.3rem;
-display:flex;
-justify-content: center;
-align-items: center;
-border-radius: 50%;
-cursor: pointer;
-&:hover{
-	background-color: rgba(0,0,0,0.065);	
-}
-&:active{
-	background-color: rgba(0,0,0,0.15);
-}
+	position: absolute;
+	top: 0.4rem;
+	right: 0.4rem;
+	padding: 0.3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	cursor: pointer;
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.065);
+	}
+	&:active {
+		background-color: rgba(0, 0, 0, 0.15);
+	}
 `;

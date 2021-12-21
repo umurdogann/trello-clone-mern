@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import { Container, HeadContainer, BackIconWrapper, Title, CloseIconWrapper, Hr, ContentWrapper } from './styled';
@@ -11,7 +11,7 @@ const BaseDrawer = (props) => {
 	}, [props.show]);
 
 	const toggleDrawer = (value) => (event) => {
-		if(event.type === 'keydown') return;
+		if (event.type === 'keydown') return;
 		/* if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
 			return;
 		} */

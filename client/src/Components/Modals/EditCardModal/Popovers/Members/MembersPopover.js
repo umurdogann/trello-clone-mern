@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from 'react-redux';
@@ -59,7 +59,6 @@ const MemberWrapper = styled.div`
 	}
 `;
 
-
 export const IconWrapper = styled.div`
 	width: fit-content;
 	height: fit-content;
@@ -83,7 +82,9 @@ const MemberComponent = (props) => {
 	};
 	return (
 		<MemberWrapper onClick={handleClick}>
-			<Avatar sx={{ width: 28, height: 28, bgcolor: props.color, fontSize:'0.875rem', fontWeight:'800' }}>{props.name[0].toUpperCase()}</Avatar>
+			<Avatar sx={{ width: 28, height: 28, bgcolor: props.color, fontSize: '0.875rem', fontWeight: '800' }}>
+				{props.name[0].toUpperCase()}
+			</Avatar>
 			<MemberName>{props.name}</MemberName>
 			{isMember && (
 				<IconWrapper>

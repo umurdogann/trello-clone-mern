@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, SubContainer, Image, Title, PhotosContainer, PhotosWrapper } from './styled';
 import axios from 'axios';
 import Skeleton from '@mui/material/Skeleton';
-import {useDispatch,useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { boardBackgroundUpdate } from '../../../../Services/boardService';
 
 const getImages = async () => {
@@ -39,23 +39,23 @@ const PhotosMenu = (props) => {
 		});
 	}, []);
 
-	const handleClick = (background)=>{
-		boardBackgroundUpdate(props.boardId,background,true,props.dispatch);
-	}
+	const handleClick = (background) => {
+		boardBackgroundUpdate(props.boardId, background, true, props.dispatch);
+	};
 
 	return (
 		<PhotosContainer>
 			{images.length > 0
 				? images.map((image) => {
 						return (
-							<PhotosWrapper onClick={()=>handleClick(image.urls.full)}>
+							<PhotosWrapper key={image.id} onClick={() => handleClick(image.urls.full)}>
 								<Image key={image.id} link={image.urls.small} />
 							</PhotosWrapper>
 						);
 				  })
-				: [...Array(18).keys()].map((l,i) => (
-						<PhotosWrapper>
-							<Skeleton key={i} variant='rectangular' width='100%' height='6rem' />
+				: [...Array(18).keys()].map((l, i) => (
+						<PhotosWrapper key={i}>
+							<Skeleton variant='rectangular' width='100%' height='6rem' />
 						</PhotosWrapper>
 				  ))}
 		</PhotosContainer>
@@ -64,16 +64,16 @@ const PhotosMenu = (props) => {
 
 const ColorsMenu = (props) => {
 	const colors = ['#0079bf', '#d29034', '#519839', '#b04632', '#89609e', '#cd5a91', '#4bbf6b', '#00aecc'];
-	
-	const handleClick = (background)=>{
-		boardBackgroundUpdate(props.boardId,background,false,props.dispatch);
-	}
-	
+
+	const handleClick = (background) => {
+		boardBackgroundUpdate(props.boardId, background, false, props.dispatch);
+	};
+
 	return (
 		<PhotosContainer>
 			{colors.map((image) => {
 				return (
-					<PhotosWrapper onClick={()=>handleClick(image)}>
+					<PhotosWrapper key={image} onClick={() => handleClick(image)}>
 						<Image key={image} bg={image} />
 					</PhotosWrapper>
 				);
@@ -84,15 +84,15 @@ const ColorsMenu = (props) => {
 
 const BackgroundMenu = (props) => {
 	const dispatch = useDispatch();
-	const boardId = useSelector(state=>state.board.id);
+	const boardId = useSelector((state) => state.board.id);
 	return (
 		<>
 			{props.sectionName === 'Change background' ? (
 				<DefaultMenu {...props} dispatch={dispatch} boardId={boardId} />
 			) : props.sectionName === 'Photos by Unsplash' ? (
-				<PhotosMenu {...props} dispatch={dispatch} boardId={boardId}/>
+				<PhotosMenu {...props} dispatch={dispatch} boardId={boardId} />
 			) : (
-				<ColorsMenu {...props} dispatch={dispatch} boardId={boardId}/>
+				<ColorsMenu {...props} dispatch={dispatch} boardId={boardId} />
 			)}
 		</>
 	);

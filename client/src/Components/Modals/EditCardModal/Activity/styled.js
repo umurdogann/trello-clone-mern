@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { CommonButton } from '../CommonStyles';
 
 export const Container = styled.div`
 	margin-left: 1rem;
@@ -12,8 +11,8 @@ export const LeftContainer = styled.div`
 	padding-top: 0.3rem;
 	display: flex;
 	flex-direction: column;
-	align-items:center;
-	gap:1.4rem;
+	align-items: center;
+	gap: 1.4rem;
 `;
 
 export const RightContainer = styled.div`
@@ -24,10 +23,10 @@ export const RightContainer = styled.div`
 `;
 
 export const TitleWrapper = styled.div`
-display: flex;
-flex-direction:row;
-align-items: center;
-justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 `;
 
 export const Title = styled.div`
@@ -52,7 +51,7 @@ export const CommentArea = styled.textarea`
 	resize: none;
 	outline: none;
 	border-radius: 2px;
-	height: ${props=>props.focus?"5.25rem":"2.1rem"};
+	height: ${(props) => (props.focus ? '5.25rem' : '2.1rem')};
 	font-size: 0.875rem;
 	padding: 0.5rem 0.75rem;
 	border: 1px solid lightgray;

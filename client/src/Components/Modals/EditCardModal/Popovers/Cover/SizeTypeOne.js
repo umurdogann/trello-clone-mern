@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-
-
 const Container = styled.div`
 	height: 4rem;
 	width: 100%;
-    border: 2px solid ${props=>props.selected?'#0079bf':'#fff'};	    
-    border-radius: 5px;
-    padding:1px;
+	border: 2px solid ${(props) => (props.selected ? '#0079bf' : '#fff')};
+	border-radius: 5px;
+	padding: 1px;
 `;
 
 const Wrapper = styled.div`
@@ -22,7 +20,7 @@ const Wrapper = styled.div`
 
 const Top = styled.div`
 	width: 100%;
-	background-color: ${props=>props.top};
+	background-color: ${(props) => props.top};
 	height: 1.75rem;
 	border-radius: 3px 3px 0px 0px;
 `;
@@ -36,7 +34,7 @@ const LongBar = styled.div`
 	width: 100%;
 	height: 0.25rem;
 	border-radius: 3px;
-	background-color: ${props=>props.primary};
+	background-color: ${(props) => props.primary};
 `;
 
 const ShortBar = styled(LongBar)`
@@ -59,25 +57,24 @@ const Square = styled.div`
 	width: 1rem;
 	height: 0.3rem;
 	border-radius: 5px;
-	background-color: ${props=>props.primary}; //6b778c
+	background-color: ${(props) => props.primary}; //6b778c
 `;
 const Circle = styled.div`
 	height: 0.5rem;
 	width: 0.5rem;
 	border-radius: 50%;
-	background-color: ${props=>props.primary};
+	background-color: ${(props) => props.primary};
 `;
 
 const SizeTypeOne = (props) => {
-    const [colors, setColors] = useState({
-        top: props.selected?props.color:'#CED2DA',
-        primary: props.selected?'#6b778c':'#CED2DA',
-    });
-	console.log(props.selected)
+	const [colors, setColors] = useState({
+		top: props.selected ? props.color : '#CED2DA',
+		primary: props.selected ? '#6b778c' : '#CED2DA',
+	});
 	useEffect(() => {
 		setColors({
-			top: props.color?props.color:'#CED2DA',
-			primary: props.color?'#6b778c':'#CED2DA',
+			top: props.color ? props.color : '#CED2DA',
+			primary: props.color ? '#6b778c' : '#CED2DA',
 		});
 	}, [props.color, props.selected]);
 
@@ -86,14 +83,14 @@ const SizeTypeOne = (props) => {
 			<Wrapper>
 				<Top top={colors.top} />
 				<Bottom>
-					<LongBar primary={colors.primary}/>
+					<LongBar primary={colors.primary} />
 					<ShortBar primary={colors.primary} />
 					<Footer>
 						<SquareWrapper>
-							<Square primary={colors.primary}/>
+							<Square primary={colors.primary} />
 							<Square />
 						</SquareWrapper>
-						<Circle primary={colors.primary}/>
+						<Circle primary={colors.primary} />
 					</Footer>
 				</Bottom>
 			</Wrapper>

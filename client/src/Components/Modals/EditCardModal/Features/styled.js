@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import { CommonButton } from '../CommonStyles';
-import { sm, xs } from '../../../../BreakPoints';
+import { xs } from '../../../../BreakPoints';
 export const Container = styled.div`
 	padding-left: 3.5rem;
 	display: flex;

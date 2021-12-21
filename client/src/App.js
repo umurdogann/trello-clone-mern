@@ -10,7 +10,6 @@ import { loadUser } from "./Services/userService";
 import Store from "./Redux/Store";
 import FreeRoute from "./Utils/FreeRoute";
 import Board from "./Components/Pages/BoardPage/Board";
-import EditCard from "./Components/Modals/EditCardModal/EditCard";
 const App = () => {
   useEffect(() => {
     loadUser(Store.dispatch);
@@ -19,7 +18,6 @@ const App = () => {
     <BrowserRouter>
       <Alert />
       <Switch>
-        <ProtectedRoute exact path="/testpage" component = {EditCard}/>
         <ProtectedRoute exact path="/boards" component={Boards} />
         <ProtectedRoute exact path="/board/:id" component={Board} />
         <FreeRoute exact path="/login" component={Login} />

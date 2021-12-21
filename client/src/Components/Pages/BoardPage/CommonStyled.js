@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {xs} from '../../../BreakPoints';
 
 export const TextSpan = styled.span`
 	font-size: 0.85rem;
@@ -24,18 +23,17 @@ export const Button = styled.button`
 `;
 
 export const ClickableIcon = styled.div`
-color: ${props=>props.color};
-background-color: rgba(255,255,255,0);
-width:1.5rem;
-height:1.5rem;
-cursor: pointer;
-transition: 150ms ease-in;
-border-radius:3px;
-display:flex;
-align-items:center;
-justify-content: center;
-&:hover{
-	background-color: rgba(0,0,0,0.1);
-}
-
+	color: ${(props) => props.color};
+	background-color: rgba(255, 255, 255, 0);
+	width: 1.5rem;
+	height: 1.5rem;
+	cursor: pointer;
+	transition: 150ms ease-in;
+	border-radius: 3px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
 `;

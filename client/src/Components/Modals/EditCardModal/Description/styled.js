@@ -1,6 +1,4 @@
 import styled from 'styled-components';
-import { CommonButton } from '../CommonStyles';
-import { sm, xs } from '../../../../BreakPoints';
 
 export const Container = styled.div`
 	display: flex;

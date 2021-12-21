@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { xs } from '../../../../BreakPoints';
 
 export const Container = styled.div`
 	padding-left: 1rem;
@@ -28,7 +27,7 @@ export const LeftColumn = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	width: 2rem;	
+	width: 2rem;
 `;
 
 export const RightColumn = styled.div`
@@ -36,8 +35,8 @@ export const RightColumn = styled.div`
 	width: 100%;
 	flex-direction: row;
 	align-items: center;
-	gap:0.5rem;
-	justify-content: space-between;	
+	gap: 0.5rem;
+	justify-content: space-between;
 `;
 
 export const Title = styled.div`
@@ -55,7 +54,6 @@ export const RowRightButtonsWrapper = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 	gap: 0.5rem;
-
 `;
 
 export const Percentage = styled.div`

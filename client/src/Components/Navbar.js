@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import DropdownMenu from './DropdownMenu';
 import SearchBar from './SearchBar';
 import { xs } from '../BreakPoints';
 import ProfileBox from './ProfileBox';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { getBoards } from '../Services/boardsService';
+
 const Container = styled.div`
 	height: 3rem;
 	width: 100%;
@@ -48,27 +47,6 @@ const RightSide = styled.div`
 	align-items: center;
 	justify-content: flex-end;
 `;
-
-/* const UserProfile = styled.div`
-    background-color:green;
-    color: white;
-    font-weight:600;
-    box-sizing: border-box;
-    border:4px solid rgba(255,255,255,0.1);    
-    height:2.1rem;
-    border-radius:50%;
-    -moz-border-radius:50%;
-    -webkit-border-radius:50%;
-    width:2.1rem;
-    display: flex;
-    align-items:center;
-    justify-content: center;
-    cursor: pointer;
-    
-    &:hover{
-      border: 4px solid rgba(255,255,255,0.5)
-    }
-`; */
 
 const LogoContainer = styled.div`
 	display: flex;

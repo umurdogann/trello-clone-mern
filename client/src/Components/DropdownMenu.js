@@ -40,7 +40,6 @@ const LoadingBox = styledComponent.div`
 	background-repeat: no-repeat;
 `;
 
-
 const Span = styledComponent.span`
 font-size: 0.85rem;
 display:block;
@@ -67,7 +66,7 @@ export default function DropdownMenu(props) {
 
 	React.useEffect(() => {
 		if (!Object.keys(boardsData).length) getBoards(dispatch);
-	}, []);
+	}, [boardsData, dispatch]);
 
 	const handleClose = () => {
 		setAnchorEl(null);
