@@ -147,6 +147,43 @@ const updateBackground = async (id, background, isImage, user, callback) => {
 	}
 };
 
+const addMember = async (id, members, user, callback) => {
+	try {
+		// Get board by id
+		const board = await boardModel.findById(id);
+
+		// Set variables
+		await Promise.all(
+			members.map(async (member) => {
+				const newMember = await userModel.findOne({ email: member.email });
+				newMember.boards.push(board._id);
+				await newMember.save();
+				board.members.push({
+					user: newMember._id,
+					name: newMember.name,
+					surname: newMember.surname,
+					email: newMember.email,
+					role: 'member',
+				});
+				//Add to board activity
+				board.activity.push({
+					user: user.id,
+					name: user.name,
+					action: `added user '${newMember.name}' to this board`,
+				});
+			})
+		);
+		// Save changes
+		await board.save();
+
+		return callback(false, board.members);
+	} catch (error) {
+		return callback({ message: 'Something went wrong', details: error.message });
+	}
+};
+
+
+
 module.exports = {
 	create,
 	getAll,
@@ -155,4 +192,5 @@ module.exports = {
 	updateBoardTitle,
 	updateBoardDescription,
 	updateBackground,
+	addMember,
 };

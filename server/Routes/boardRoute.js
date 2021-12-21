@@ -2,6 +2,7 @@ const express = require('express');
 const boardController = require('../Controllers/boardController');
 const route = express.Router();
 
+route.post('/:boardId/add-member', boardController.addMember);
 route.put('/:boardId/update-background', boardController.updateBackground);
 route.put('/:boardId/update-board-description', boardController.updateBoardDescription);
 route.put('/:boardId/update-board-title', boardController.updateBoardTitle);
