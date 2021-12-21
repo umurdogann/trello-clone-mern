@@ -60,10 +60,11 @@ export const CardTitle = styled.div`
 export const FooterContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
+	align-items:center;
 	flex-direction: row;
 	flex-wrap: wrap;
 	width: 100%;
-	height: auto;
+	height: auto;	
 `;
 
 export const AttachmentContainer = styled.div`
@@ -72,10 +73,10 @@ export const AttachmentContainer = styled.div`
 	gap: 0.2rem;
 	width: fit-content;
 	justify-content: center;
-	align-items: center;
+	align-items: center;	
 `;
 
-export const IconGroupContainer = styled.div`
+export const IconGroupContainer = styled.div`	
 	display: flex;
 	align-items: center;
 	justify-content: center;
