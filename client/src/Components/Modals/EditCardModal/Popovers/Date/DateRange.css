@@ -1,0 +1,148 @@
+.rdrCalendarWrapper {
+	width: 14rem;
+}
+
+.rdrDateDisplayWrapper {
+	display: none;
+}
+.rdrWeekDays {
+	width: 13.1rem;
+	margin-left: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+.rdrMonth {
+	width: 14rem;
+	padding: 0;
+}
+.rdrMonths {
+	width: 14rem;
+	padding: 0;
+}
+.rdrDateDisplayItem + .rdrDateDisplayItem {
+	margin: 0rem;
+}
+.rdrDateInput {
+	height: 1.5rem;
+}
+.rdrDateDisplayItem input {
+	height: 100%;
+	font-size: 0.8rem;
+	line-height: 1rem;
+}
+.rdrNextPrevButton {
+	min-width: 1.5rem;
+	max-height: 1.5rem;
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	background-color: transparent;
+}
+.rdrMonthAndYearWrapper {
+	height: 1rem;
+	padding: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	box-sizing: content-box;
+}
+.rdrMonthAndYearPickers select {
+	font-size: 0.8rem;
+	width: fit-content;
+	padding: 0;
+	padding-right: 1.5rem;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: rgb(23, 43, 77);
+}
+
+.rdrMonthAndYearPickers select:hover {
+	background-color: transparent;
+	cursor: default;
+}
+
+.rdrMonthAndYearPickers {
+	margin: 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+.rdrMonthPicker {
+	margin: 0;
+}
+.rdrYearPicker {
+	margin: 0;
+}
+
+.rdrWeekDay {
+	text-decoration: none;
+	text-shadow: none;
+	max-width: 1.91rem;
+	color: rgb(107, 119, 140);
+	font-size: 11px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+.rdrDay {
+	height: 2.32rem;
+	width: 1.9rem;
+	border-radius: 3px;
+}
+
+.rdrDayEndPreview{
+	border-radius:  0px!important;
+	border-color: lightgray;
+}
+
+.rdrDayInPreview{
+	border-radius:  0px!important;
+	border-color: lightgray;
+}
+.rdrDayStartPreview{
+	border-radius:  0px!important;
+	border-color: lightgray;
+}
+
+.rdrDay:hover {
+	border-radius: 3px!important;
+	
+}
+.rdrInRange {
+	border-radius: 3px!important;
+	background-color: rgba(66, 82, 110,0.3);
+}
+.rdrEndEdge {
+	border-radius: 3px!important;
+	background-color: rgb(66, 82, 110);
+}
+.rdrStartEdge {
+	border-radius: 3px!important;
+	background-color: rgb(66, 82, 110);
+}
+.rdrDayWeekend {
+	border-radius: 3px!important;
+}
+.rdrDayEndOfWeek{
+	border-radius: 3px!important;
+}
+.rdrDayStartOfWeek{
+	border-radius: 3px!important;
+}
+.rdrDays {
+	align-items: center;
+	justify-content: center;
+}
+.rdrDayNumber span {
+	font-size: 0.85rem;	
+	color: rgb(9, 30, 66);
+}
+
+.rdrDayNumber:hover{
+	font-weight: 800;
+}

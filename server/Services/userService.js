@@ -1,7 +1,7 @@
 const userModel = require("../Models/userModel");
 
 const register = async (user, callback) => {
-  const newUser = userModel({ ...user });
+  const newUser = userModel({ ...user, color:'#'+Math.floor(Math.random()*16777215).toString(16)});
   await newUser
     .save()
     .then((result) => {
@@ -18,11 +18,45 @@ const login = async (email, callback) => {
     if (!user) return callback({ errMessage: "Your email/password is wrong!" });
     return callback(false, { ...user.toJSON() });
   } catch (err) {
-    return callback({ errMsg: "Something went wrong", details: err.message });
+    return callback({
+      errMessage: "Something went wrong",
+      details: err.message,
+    });
+  }
+};
+
+const getUser = async (id, callback) => {
+  try {
+    let user = await userModel.findById(id);
+    if (!user) return callback({ errMessage: "User not found!" });
+    return callback(false, { ...user.toJSON() });
+  } catch (err) {
+    return callback({
+      errMessage: "Something went wrong",
+      details: err.message,
+    });
+  }
+};
+
+const getUserWithMail = async (email, callback) => {
+  try {
+    let user = await userModel.findOne({ email });
+    if (!user)
+      return callback({
+        errMessage: "There is no registered user with this e-mail.",
+      });
+    return callback(false, { ...user.toJSON() });
+  } catch (error) {
+    return callback({
+      errMessage: "Something went wrong",
+      details: error.message,
+    });
   }
 };
 
 module.exports = {
   register,
   login,
+  getUser,
+  getUserWithMail,
 };
