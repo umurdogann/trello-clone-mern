@@ -7,7 +7,7 @@ import {
 	updateListTitle,
 } from '../Redux/Slices/listSlice';
 import { openAlert } from '../Redux/Slices/alertSlice';
-import { setActivityLoading, updateActivity, updateBackground, updateDescription } from '../Redux/Slices/boardSlice';
+import { addMembers, setActivityLoading, updateActivity, updateBackground, updateDescription } from '../Redux/Slices/boardSlice';
 
 const listRoute = 'http://localhost:3001/list';
 const boardRoute = 'http://localhost:3001/board';
@@ -119,6 +119,28 @@ export const boardBackgroundUpdate = async (boardId, background, isImage, dispat
 			background,
 			isImage,
 		});
+	} catch (error) {
+		dispatch(
+			openAlert({
+				message: error?.response?.data?.errMessage ? error.response.data.errMessage : error.message,
+				severity: 'error',
+			})
+		);
+	}
+};
+
+export const boardMemberAdd = async (boardId, members, dispatch) => {
+	try {
+		const result = await axios.post(`${boardRoute}/${boardId}/add-member`,{
+			members
+		});
+		await dispatch(addMembers(result.data));
+		dispatch(
+			openAlert({
+				message: 'Members are added to this board successfully',
+				severity: 'success',
+			})
+		);
 	} catch (error) {
 		dispatch(
 			openAlert({

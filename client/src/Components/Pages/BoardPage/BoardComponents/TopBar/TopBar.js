@@ -6,10 +6,15 @@ import * as common from '../../CommonStyled';
 import { useDispatch, useSelector } from 'react-redux';
 import { boardTitleUpdate } from '../../../../../Services/boardsService';
 import RightDrawer from '../../../../Drawers/RightDrawer/RightDrawer';
+import BasePopover from '../../../../Modals/EditCardModal/ReUsableComponents/BasePopover';
+import InviteMembers from '../../../../Modals/EditCardModal/Popovers/InviteMembers/InviteMembers';
+
+
 const TopBar = () => {
 	const board = useSelector((state) => state.board);
 	const [currentTitle, setCurrentTitle] = useState(board.title);
 	const [showDrawer,setShowDrawer] = useState(false);
+	const [invitePopover, setInvitePopover] = React.useState(null);
 	const dispatch = useDispatch();
 	useEffect(()=>{
 		if(!board.loading)
@@ -21,10 +26,22 @@ const TopBar = () => {
 	return (
 		<style.TopBar>
 			<style.LeftWrapper>
-				<style.InviteButton>
+				<style.InviteButton onClick={(event) => setInvitePopover(event.currentTarget)}>
 					<PersonAddAltIcon />
-					<style.TextSpan>Invite</style.TextSpan>
+					<style.TextSpan>Add Member</style.TextSpan>
 				</style.InviteButton>
+				{invitePopover && (
+				<BasePopover
+					anchorElement={invitePopover}
+					closeCallback={() => {
+						setInvitePopover(null);
+					}}
+					title='Invite Members'
+					contents={<InviteMembers closeCallback={() => {
+						setInvitePopover(null);
+					}}/>}
+				/>
+			)}
 
 				<style.BoardNameInput
 					placeholder='Board Name'

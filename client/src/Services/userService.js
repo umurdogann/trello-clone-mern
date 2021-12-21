@@ -125,5 +125,6 @@ export const getUserFromEmail = async (email, dispatch) => {
       })
       );
      dispatch(fetchingFinish());
+     return null;
   }
 };

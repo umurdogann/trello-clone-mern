@@ -47,6 +47,9 @@ const boardSlice = createSlice({
 			state.backgroundImageLink = background;
 			state.isImage = isImage;
 		},
+		addMembers: (state,action)=>{
+			state.members = action.payload;
+		}
 	},
 });
 
@@ -58,5 +61,6 @@ export const {
 	updateActivity,
 	updateDescription,
 	updateBackground,
+	addMembers,
 } = boardSlice.actions;
 export default boardSlice.reducer;
