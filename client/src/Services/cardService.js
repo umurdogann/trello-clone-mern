@@ -152,11 +152,10 @@ export const commentDelete = async (cardId, listId, boardId, commentId, dispatch
 	}
 };
 
-export const memberAdd = async (cardId, listId, boardId, memberId, memberName, dispatch) => {
+export const memberAdd = async (cardId, listId, boardId, memberId, memberName, memberColor, dispatch) => {
 	try {
-		dispatch(addMember({ memberId, memberName }));
-		dispatch(updateMemberOfCard({ listId, cardId, memberId, memberName }));
-		console.log(memberId, memberName);
+		dispatch(addMember({ memberId, memberName, memberColor }));
+		dispatch(updateMemberOfCard({ listId, cardId, memberId, memberName, memberColor }));
 		await axios.post(baseUrl + '/' + boardId + '/' + listId + '/' + cardId + '/add-member', {
 			memberId: memberId,
 		});

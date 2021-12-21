@@ -42,19 +42,6 @@ export const ActionContainer = styled.div`
 	gap: 0.5rem;
 `;
 
-export const Avatar = styled.div`
-	padding: 0.25rem;
-	border-radius: 50%;
-	background-color: green;
-	font-size: 1rem;
-	height: 1.5rem;
-	width: 1.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: white;
-`;
-
 export const ActionWrapper = styled.div`
 	width: 100%;
 	height: fit-content;

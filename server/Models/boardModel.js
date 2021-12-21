@@ -6,7 +6,7 @@ const boardSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		isImage:{
+		isImage: {
 			type: Boolean,
 			default: true,
 		},
@@ -18,10 +18,10 @@ const boardSchema = mongoose.Schema(
 			{
 				user: {
 					type: mongoose.Schema.Types.ObjectId,
-					ref:'user',
+					ref: 'user',
 				},
 				name: {
-					type: String
+					type: String,
 				},
 				action: {
 					type: String,
@@ -29,19 +29,22 @@ const boardSchema = mongoose.Schema(
 				date: {
 					type: Date,
 					default: Date.now(),
-				},	
-				edited:{
+				},
+				edited: {
 					type: Boolean,
 					default: false,
-				},	
-				cardTitle:{
+				},
+				cardTitle: {
 					type: String,
 					default: '',
-				},		
-				actionType:{
-					type:String,
-					default:'action',
-				}
+				},
+				actionType: {
+					type: String,
+					default: 'action',
+				},
+				color: {
+					type: String,
+				},
 			},
 		],
 		members: [
@@ -57,12 +60,15 @@ const boardSchema = mongoose.Schema(
 					type: String,
 				},
 				email: {
-					type:String,
+					type: String,
 				},
 				role: {
 					type: String,
 					default: 'member',
 				},
+				color: {
+					type:String,
+				}
 			},
 		],
 		lists: [
@@ -71,10 +77,10 @@ const boardSchema = mongoose.Schema(
 				ref: 'list',
 			},
 		],
-		description:{
+		description: {
 			type: String,
-			default:'',
-		}
+			default: '',
+		},
 	},
 	{ timestamps: true }
 );

@@ -10,7 +10,6 @@ import {
 	MemberEmail,
 	IconWrapper,
 	SectionTitle,
-	Avatar,
 	MemberName,
 	DescriptionInput,
 	HiddenText,
@@ -19,8 +18,8 @@ import MemberIcon from '@mui/icons-material/PersonOutlineOutlined';
 import DescriptionIcon from '@mui/icons-material/TextSnippetOutlined';
 import BottomButtonGroup from '../../../Pages/BoardPage/BoardComponents/BottomButtonGroup/BottomButtonGroup';
 import { boardDescriptionUpdate } from '../../../../Services/boardService';
+import { Avatar } from '@mui/material';
 const AboutMenu = () => {
-
 	const textAreaRef = useRef();
 	const hiddenTextRef = useRef();
 	const descriptionAreaRef = useRef();
@@ -46,7 +45,7 @@ const AboutMenu = () => {
 		if (descriptionAreaRef.current)
 			if (!descriptionAreaRef.current.contains(e.target)) {
 				setTextareaFocus(false);
-				setDescription(board.description)
+				setDescription(board.description);
 			}
 	};
 
@@ -68,8 +67,12 @@ const AboutMenu = () => {
 					.filter((member) => member.role === 'owner')
 					.map((member) => {
 						return (
-							<MemberSectionContainer>
-								<Avatar>{member.name[0].toUpperCase()}</Avatar>
+							<MemberSectionContainer key={member.email}>
+								<Avatar
+									sx={{ width: '3rem', height: '3rem', bgcolor: member.color, fontWeight: '800' }}
+								>
+									{member.name[0].toUpperCase()}
+								</Avatar>
 								<MemberInfoContainer>
 									<MemberName>{`${member.name.replace(
 										/^./,

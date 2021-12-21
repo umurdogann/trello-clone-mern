@@ -23,10 +23,10 @@ import {
 	CheckContainer,
 	MembersContainer,
 	MembersWrapper,
-	MemberAvatar,
 } from './styled';
 import { Draggable } from 'react-beautiful-dnd';
 import moment from 'moment';
+import { Avatar } from '@mui/material';
 const Card = (props) => {
 	const [openModal, setOpenModal] = useState(false);
 	const card = props.info;
@@ -51,13 +51,13 @@ const Card = (props) => {
 
 	function getStyle(style, snapshot) {
 		if (!snapshot.isDropAnimating) {
-		  return style;
+			return style;
 		}
 		return {
-		  ...style,
-		  transitionDuration: `80ms`,
+			...style,
+			transitionDuration: `80ms`,
 		};
-	  }
+	}
 
 	return (
 		<>
@@ -92,14 +92,13 @@ const Card = (props) => {
 												<FollowIcon fontSize='0.5rem' />
 											</IconWrapper>
 										)}
-										{card.attachments.length>0 &&
-										<AttachmentContainer>
-											<AttachmentIcon fontSize='small' />		
-											<Span>{card.attachments.length}</Span>								
-										</AttachmentContainer>
-										
-										}
-										
+										{card.attachments.length > 0 && (
+											<AttachmentContainer>
+												<AttachmentIcon fontSize='small' />
+												<Span>{card.attachments.length}</Span>
+											</AttachmentContainer>
+										)}
+
 										{(card.date.dueDate || card.date.startDate) && ( //#ec9488, #eb5a46 #61bd4f
 											<DateContainer
 												backColor={
@@ -172,8 +171,21 @@ const Card = (props) => {
 									<MembersContainer>
 										<MembersWrapper>
 											{card.members &&
-												card.members.map((member) => {
-													return <MemberAvatar>{member.name[0]}</MemberAvatar>;
+												card.members.map((member, i) => {
+													return (
+														<Avatar
+															key={i}
+															sx={{
+																width: 28,
+																height: 28,
+																bgcolor: member.color,
+																fontSize: '0.875rem',
+																fontWeight: '800',
+															}}
+														>
+															{member.name[0].toUpperCase()}
+														</Avatar>
+													);
 												})}
 										</MembersWrapper>
 									</MembersContainer>

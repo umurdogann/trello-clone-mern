@@ -46,18 +46,6 @@ justify-content:flex-start;
 gap:0.5rem;
 `;
 
-export const Avatar = styled.div`
-min-height: 3rem;
-min-width:3rem;
-border-radius:50%;
-font-size:1.25rem;
-color: #fff;
-background-color:#41885B;
-font-weight: 800;
-display:flex;
-align-items:center;
-justify-content: center;
-`;
 
 export const MemberInfoContainer = styled.div`
 width:100%;

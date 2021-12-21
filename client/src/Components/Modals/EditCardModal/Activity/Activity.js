@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
 	Container,
 	LeftContainer,
-	Avatar,
 	RightContainer,
 	Title,
 	CommentWrapper,
@@ -16,6 +15,7 @@ import ActivityLog from '../ActivityLog/ActivityLog';
 import Button from '../ReUsableComponents/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { comment } from '../../../../Services/cardService';
+import { Avatar } from '@mui/material';
 
 const Activity = () => {
 	const dispatch = useDispatch();
@@ -50,7 +50,17 @@ const Activity = () => {
 			<Container>
 				<LeftContainer>
 					<MessageIcon fontSize='small' />
-					<Avatar>U</Avatar>
+					<Avatar
+						sx={{
+							width: 28,
+							height: 28,
+							bgcolor: user.userInfo.color,
+							fontSize: '0.875rem',
+							fontWeight: '800',
+						}}
+					>
+						{user.userInfo.name[0].toUpperCase()}
+					</Avatar>
 				</LeftContainer>
 				<RightContainer>
 					<TitleWrapper>

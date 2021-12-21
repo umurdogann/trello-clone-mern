@@ -4,10 +4,8 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../Redux/Slices/userSlice';
@@ -18,6 +16,7 @@ export default function ProfileBox() {
 	const dispatch = useDispatch();
 	const open = Boolean(anchorEl);
 	const name = useSelector((state) => state.user.userInfo.name);
+	const color = useSelector((state) => state.user.userInfo.color);
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -27,9 +26,11 @@ export default function ProfileBox() {
 	return (
 		<React.Fragment>
 			<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-				<Tooltip title='Account settings'>
+				<Tooltip title='Logout'>
 					<IconButton onClick={handleClick} size='small' sx={{ ml: 2 }}>
-						<Avatar sx={{ width: 32, height: 32 }}>{name[0]}</Avatar>
+						<Avatar sx={{ width: 32, height: 32, bgcolor: color, fontSize: '0.875rem', fontWeight: '800' }}>
+							{name[0]}
+						</Avatar>
 					</IconButton>
 				</Tooltip>
 			</Box>
@@ -67,16 +68,6 @@ export default function ProfileBox() {
 				transformOrigin={{ horizontal: 'right', vertical: 'top' }}
 				anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
 			>
-				<MenuItem>
-					<Avatar /> Profile
-				</MenuItem>
-				<Divider />
-				<MenuItem>
-					<ListItemIcon>
-						<Settings fontSize='small' />
-					</ListItemIcon>
-					Settings
-				</MenuItem>
 				<MenuItem
 					onClick={() => {
 						dispatch(reset);

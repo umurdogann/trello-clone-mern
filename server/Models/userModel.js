@@ -21,6 +21,9 @@ const userSchema = mongoose.Schema({
 	avatar: {
 		type: String,
 	},
+	color: {
+		type: String,
+	},
 	boards: [
 		{
 			type: mongoose.Schema.Types.ObjectId,

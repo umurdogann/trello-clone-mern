@@ -12,20 +12,8 @@ export const LeftContainer = styled.div`
 	padding-top: 0.3rem;
 	display: flex;
 	flex-direction: column;
-	gap: 1rem;
-`;
-
-export const Avatar = styled.div`
-	background-color: green;
-	font-size: 0.85rem;
-	border-radius: 50%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: white;
-	font-weight: 600;
-	height: 1.5rem;
-	width: 1.5rem;
+	align-items:center;
+	gap:1.4rem;
 `;
 
 export const RightContainer = styled.div`

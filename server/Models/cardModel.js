@@ -35,6 +35,9 @@ const cardSchema = mongoose.Schema({
 			name: {
 				type: String,
 			},
+			color:{
+				type:String,
+			}
 		},
 	],
 	watchers: [
@@ -95,6 +98,9 @@ const cardSchema = mongoose.Schema({
 				type: Boolean,
 				default: false,
 			},
+			color: {
+				type: String,
+			},
 		},
 	],
 	owner: {
@@ -109,7 +115,7 @@ const cardSchema = mongoose.Schema({
 		isSizeOne: {
 			type: Boolean,
 			default: null,
-		}
+		},
 	},
 	checklists: [
 		{

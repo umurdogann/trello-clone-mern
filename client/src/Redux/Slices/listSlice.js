@@ -66,11 +66,11 @@ const listSlice = createSlice({
 			});
 		},
 		updateMemberOfCard: (state, action) => {
-			const { listId, cardId, memberId, memberName } = action.payload;
+			const { listId, cardId, memberId, memberName, memberColor } = action.payload;
 			state.allLists = state.allLists.map((list) => {
 				if (list._id === listId) {
 					list.cards = list.cards.map((card) => {
-						if (card._id === cardId) card.members.unshift({ user: memberId, name: memberName });
+						if (card._id === cardId) card.members.unshift({ user: memberId, name: memberName, color:memberColor });
 						return card;
 					});
 				}

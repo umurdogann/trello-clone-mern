@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import DoneIcon from '@mui/icons-material/Done';
 import { useDispatch, useSelector } from 'react-redux';
 import { memberAdd, memberDelete } from '../../../../../Services/cardService';
+import { Avatar } from '@mui/material';
 const Container = styled.div`
 	width: 100%;
 	height: fit-content;
@@ -58,19 +59,6 @@ const MemberWrapper = styled.div`
 	}
 `;
 
-export const Avatar = styled.div`
-	display: flex;
-	border-radius: 50%;
-	background-color: #5e6c84;
-	justify-content: center;
-	align-items: center;
-	font-weight: 600;
-	color: white;
-	font-size: 0.85rem;
-	height: 1.6rem;
-	width: 1.6rem;
-	cursor: pointer;
-`;
 
 export const IconWrapper = styled.div`
 	width: fit-content;
@@ -90,12 +78,12 @@ const MemberComponent = (props) => {
 		if (isMember) {
 			await memberDelete(card.cardId, card.listId, card.boardId, props.user, props.name, dispatch);
 		} else {
-			await memberAdd(card.cardId, card.listId, card.boardId, props.user, props.name, dispatch);
+			await memberAdd(card.cardId, card.listId, card.boardId, props.user, props.name, props.color, dispatch);
 		}
 	};
 	return (
 		<MemberWrapper onClick={handleClick}>
-			<Avatar>{props.name[0]}</Avatar>
+			<Avatar sx={{ width: 28, height: 28, bgcolor: props.color, fontSize:'0.875rem', fontWeight:'800' }}>{props.name[0].toUpperCase()}</Avatar>
 			<MemberName>{props.name}</MemberName>
 			{isMember && (
 				<IconWrapper>

@@ -147,22 +147,4 @@ export const MembersWrapper = styled.div`
 	gap: 0.2rem;
 `;
 
-export const MemberAvatar = styled.div`
-	background-color: darkblue;
-	opacity: 80%;
-	border-radius: 25rem;
-	height: 1.75rem;
-	width: 1.75rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	color: white;
-	font-weight: 600;
-	font-size: 0.85rem;
-	cursor: pointer;
-	transition: 150ms ease-in;
-	&:hover {
-		opacity: 60%;
-	}
-`;
 

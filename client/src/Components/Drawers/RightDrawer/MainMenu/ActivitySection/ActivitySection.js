@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import ActivityIcon from '@mui/icons-material/MessageOutlined';
 import { useDispatch, useSelector } from 'react-redux';
+import Avatar from '@mui/material/Avatar';
 import {
 	ActionContainer,
-	Avatar,
 	ActionWrapper,
 	CommentTitle,
 	Text,
@@ -17,7 +17,7 @@ import {
 } from './styled';
 import moment from 'moment';
 import { activityUpdate } from '../../../../../Services/boardService';
-import  CardLoadingSvg  from '../../../../../Images/cardLoading.svg';
+import CardLoadingSvg from '../../../../../Images/cardLoading.svg';
 
 const ActivitySection = () => {
 	const board = useSelector((state) => state.board);
@@ -29,7 +29,9 @@ const ActivitySection = () => {
 	const Comment = (props) => {
 		return (
 			<ActionContainer>
-				<Avatar>{props.name[0]}</Avatar>
+				<Avatar sx={{ width: 32, height: 32, bgcolor: props.color, fontSize: '0.875rem', fontWeight: '800' }}>
+					{props.name[0].toUpperCase()}
+				</Avatar>
 				<ActionWrapper>
 					<CommentTitle>
 						<Text>
@@ -46,7 +48,9 @@ const ActivitySection = () => {
 	const Action = (props) => {
 		return (
 			<ActionContainer>
-				<Avatar>{props.name[0].toLowerCase()}</Avatar>
+				<Avatar sx={{ width: 32, height: 32, bgcolor: props.color, fontSize: '0.875rem', fontWeight: '800' }}>
+					{props.name[0].toUpperCase()}
+				</Avatar>
 				<ActionWrapper>
 					<Text>
 						<b style={{ fontSize: '0.875rem' }}>{props.name}</b> {props.action}

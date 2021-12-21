@@ -21,6 +21,7 @@ const create = async (model, user, callback) => {
 			user: user._id,
 			name: user.name,
 			action: `added ${newList.title} to this board`,
+			color: user.color,
 		});
 
 		// Save changes
@@ -78,6 +79,7 @@ const deleteById = async (listId, boardId, user, callback) => {
 			user: user._id,
 			name: user.name,
 			action: `deleted ${result.title} from this board`,
+			color: user.color,
 		});
 		board.save();
 
@@ -120,6 +122,7 @@ const updateCardOrder = async (boardId, sourceId, destinationId, destinationInde
 			card.activities.unshift({
 				text: `moved this card from ${sourceList.title} to ${destinationList.title}`,
 				userName: user.name,
+				color: user.color,
 			});
 
 		// Change owner board of card

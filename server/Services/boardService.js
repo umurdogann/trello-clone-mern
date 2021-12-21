@@ -16,7 +16,14 @@ const create = async (req, callback) => {
 
 		// Add user to members of this board
 		let allMembers = [];
-		allMembers.push({ user: user.id, name: user.name, surname: user.surname, email: user.email, role: 'owner' });
+		allMembers.push({
+			user: user.id,
+			name: user.name,
+			surname: user.surname,
+			email: user.email,
+			color: user.color,
+			role: 'owner',
+		});
 
 		// Save newBoard's id to boards of members and,
 		// Add ids of members to newBoard
@@ -30,6 +37,7 @@ const create = async (req, callback) => {
 					name: newMember.name,
 					surname: newMember.surname,
 					email: newMember.email,
+					color: newMember.color,
 					role: 'member',
 				});
 				//Add to board activity
@@ -42,7 +50,7 @@ const create = async (req, callback) => {
 		);
 
 		// Add created activity to activities of this board
-		newBoard.activity.unshift({ user: user._id, name: user.name, action: 'created this board' });
+		newBoard.activity.unshift({ user: user._id, name: user.name, action: 'created this board', color: user.color });
 
 		// Save new board
 		newBoard.members = allMembers;
@@ -105,7 +113,12 @@ const updateBoardTitle = async (boardId, title, user, callback) => {
 		// Get board by id
 		const board = await boardModel.findById(boardId);
 		board.title = title;
-		board.activity.unshift({ user: user._id, name: user.name, action: 'update title of this board' });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: 'update title of this board',
+			color: user.color,
+		});
 		await board.save();
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -118,7 +131,12 @@ const updateBoardDescription = async (boardId, description, user, callback) => {
 		// Get board by id
 		const board = await boardModel.findById(boardId);
 		board.description = description;
-		board.activity.unshift({ user: user._id, name: user.name, action: 'update description of this board' });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: 'update description of this board',
+			color: user.color,
+		});
 		await board.save();
 		return callback(false, { message: 'Success!' });
 	} catch (error) {
@@ -136,7 +154,12 @@ const updateBackground = async (id, background, isImage, user, callback) => {
 		board.isImage = isImage;
 
 		// Log the activity
-		board.activity.unshift({ user: user._id, name: user.name, action: 'update background of this board' });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: 'update background of this board',
+			color: user.color,
+		});
 
 		// Save changes
 		await board.save();
@@ -163,6 +186,7 @@ const addMember = async (id, members, user, callback) => {
 					name: newMember.name,
 					surname: newMember.surname,
 					email: newMember.email,
+					color: newMember.color,
 					role: 'member',
 				});
 				//Add to board activity
@@ -170,6 +194,7 @@ const addMember = async (id, members, user, callback) => {
 					user: user.id,
 					name: user.name,
 					action: `added user '${newMember.name}' to this board`,
+					color: user.color,
 				});
 			})
 		);
@@ -181,8 +206,6 @@ const addMember = async (id, members, user, callback) => {
 		return callback({ message: 'Something went wrong', details: error.message });
 	}
 };
-
-
 
 module.exports = {
 	create,

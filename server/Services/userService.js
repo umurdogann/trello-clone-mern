@@ -1,7 +1,7 @@
 const userModel = require("../Models/userModel");
 
 const register = async (user, callback) => {
-  const newUser = userModel({ ...user });
+  const newUser = userModel({ ...user, color:'#'+Math.floor(Math.random()*16777215).toString(16)});
   await newUser
     .save()
     .then((result) => {

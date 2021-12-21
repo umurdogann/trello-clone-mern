@@ -65,6 +65,7 @@ const getUserWithMail = async(req,res) => {
     const dataTransferObject = {
       name: result.name,
       surname: result.surname,
+      color: result.color,
       email : result.email
     };
     return res.status(200).send(dataTransferObject);

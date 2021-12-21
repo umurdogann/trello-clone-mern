@@ -81,8 +81,8 @@ const cardsSlice = createSlice({
 			state.activities = state.activities.filter((act) => act._id !== action.payload);
 		},
 		addMember: (state, action) => {
-			const { memberId, memberName } = action.payload;
-			state.members.unshift({ user: memberId, name: memberName });
+			const { memberId, memberName, memberColor } = action.payload;
+			state.members.unshift({ user: memberId, name: memberName, color: memberColor });
 		},
 		deleteMember: (state, action) => {
 			const { memberId } = action.payload;

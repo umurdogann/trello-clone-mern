@@ -47,7 +47,7 @@ export default function EditCard(props) {
 		<div style={{ position: 'relative' }}>
 			<Modal open={props.open} onClose={props.callback} style={{ overflow: 'auto' }}>
 				<Container>
-					<CoverContainer color={!thisCard.pending?thisCard.cover.color:null}>
+					<CoverContainer color={!thisCard.pending ? thisCard.cover.color : null}>
 						<CoverButtonWrapper>
 							<IconButton title='Cover' icon={<CoverIcon fontSize='small' />} />
 						</CoverButtonWrapper>
@@ -98,7 +98,7 @@ export default function EditCard(props) {
 						</RightContainer>
 					</Wrapper>
 					<CloseIconWrapper onClick={props.callback}>
-						<CloseIcon fontSize='small' color= 'black'/>
+						<CloseIcon fontSize='small' color='black' />
 					</CloseIconWrapper>
 				</Container>
 			</Modal>

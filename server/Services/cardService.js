@@ -17,7 +17,7 @@ const create = async (title, listId, boardId, user, callback) => {
 		// Create new card
 		const card = await cardModel({ title: title });
 		card.owner = listId;
-		card.activities.unshift({ text: `added this card to ${list.title}`, userName: user.name });
+		card.activities.unshift({ text: `added this card to ${list.title}`, userName: user.name, color: user.color });
 		card.labels = helperMethods.labelsSeed;
 		await card.save();
 
@@ -25,8 +25,13 @@ const create = async (title, listId, boardId, user, callback) => {
 		list.cards.push(card._id);
 		await list.save();
 
-		// Add log to board activity		
-		board.activity.unshift({ user: user._id, name: user.name, action: `added ${card.title} to this board` });
+		// Add log to board activity
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `added ${card.title} to this board`,
+			color: user.color,
+		});
 		await board.save();
 
 		// Set data transfer object
@@ -62,6 +67,7 @@ const deleteById = async (cardId, listId, boardId, user, callback) => {
 			user: user._id,
 			name: user.name,
 			action: `deleted ${result.title} from ${list.title}`,
+			color: user.color,
 		});
 		await board.save();
 
@@ -133,6 +139,7 @@ const addComment = async (cardId, listId, boardId, user, body, callback) => {
 			text: body.text,
 			userName: user.name,
 			isComment: true,
+			color: user.color,
 		});
 		await card.save();
 
@@ -143,6 +150,7 @@ const addComment = async (cardId, listId, boardId, user, body, callback) => {
 			action: body.text,
 			actionType: 'comment',
 			cardTitle: card.title,
+			color: user.color,
 		});
 		board.save();
 
@@ -184,6 +192,7 @@ const updateComment = async (cardId, listId, boardId, commentId, user, body, cal
 			action: body.text,
 			actionType: 'comment',
 			edited: true,
+			color: user.color,
 			cardTitle: card.title,
 		});
 		board.save();
@@ -216,6 +225,7 @@ const deleteComment = async (cardId, listId, boardId, commentId, user, callback)
 			user: user._id,
 			name: user.name,
 			action: `deleted his/her own comment from ${card.title}`,
+			color: user.color,
 		});
 		board.save();
 
@@ -243,11 +253,17 @@ const addMember = async (cardId, listId, boardId, user, memberId, callback) => {
 		card.members.unshift({
 			user: member._id,
 			name: member.name,
+			color: member.color,
 		});
 		await card.save();
 
 		//Add to board activity
-		board.activity.unshift({ user: user._id, name: user.name, action: `added '${member.name}' to ${card.title}` });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `added '${member.name}' to ${card.title}`,
+			color: user.color,
+		});
 		board.save();
 
 		return callback(false, { message: 'success' });
@@ -280,7 +296,11 @@ const deleteMember = async (cardId, listId, boardId, user, memberId, callback) =
 		board.activity.unshift({
 			user: user._id,
 			name: user.name,
-			action: tempMember.name === user.name ? `left ${card.title}` : `removed '${tempMember.name}' from ${card.title}`,
+			action:
+				tempMember.name === user.name
+					? `left ${card.title}`
+					: `removed '${tempMember.name}' from ${card.title}`,
+			color: user.color,
 		});
 		board.save();
 
@@ -423,7 +443,12 @@ const createChecklist = async (cardId, listId, boardId, user, title, callback) =
 		const checklistId = card.checklists[card.checklists.length - 1]._id;
 
 		//Add to board activity
-		board.activity.unshift({ user: user._id, name: user.name, action: `added '${title}' to ${card.title}` });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `added '${title}' to ${card.title}`,
+			color: user.color,
+		});
 		board.save();
 
 		return callback(false, { checklistId: checklistId });
@@ -450,7 +475,12 @@ const deleteChecklist = async (cardId, listId, boardId, checklistId, user, callb
 		await card.save();
 
 		//Add to board activity
-		board.activity.unshift({ user: user._id, name: user.name, action: `removed '${cl.title}' from ${card.title}` });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `removed '${cl.title}' from ${card.title}`,
+			color: user.color,
+		});
 		board.save();
 
 		return callback(false, { message: 'Success!' });
@@ -539,6 +569,7 @@ const setChecklistItemCompleted = async (
 			action: completed
 				? `completed '${clItem}' on ${card.title}`
 				: `marked as uncompleted to '${clItem}' on ${card.title}`,
+			color: user.color,
 		});
 		board.save();
 
@@ -655,6 +686,7 @@ const updateDateCompleted = async (cardId, listId, boardId, user, completed, cal
 			user: user._id,
 			name: user.name,
 			action: `marked the due date on ${card.title} ${completed ? 'complete' : 'uncomplete'}`,
+			color: user.color,
 		});
 		board.save();
 
@@ -684,7 +716,12 @@ const addAttachment = async (cardId, listId, boardId, user, link, name, callback
 		await card.save();
 
 		//Add to board activity
-		board.activity.unshift({ user: user._id, name: user.name, action: `attached ${validLink} to ${card.title}` });
+		board.activity.unshift({
+			user: user._id,
+			name: user.name,
+			action: `attached ${validLink} to ${card.title}`,
+			color: user.color,
+		});
 		board.save();
 
 		return callback(false, { attachmentId: card.attachments[card.attachments.length - 1]._id.toString() });
@@ -721,6 +758,7 @@ const deleteAttachment = async (cardId, listId, boardId, user, attachmentId, cal
 			user: user._id,
 			name: user.name,
 			action: `deleted the ${attachmentObj.link} attachment from ${card.title}`,
+			color: user.color,
 		});
 		board.save();
 
