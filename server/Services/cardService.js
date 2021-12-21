@@ -273,11 +273,14 @@ const deleteMember = async (cardId, listId, boardId, user, memberId, callback) =
 		card.members = card.members.filter((a) => a.user.toString() !== memberId.toString());
 		await card.save();
 
+		//get member
+		const tempMember = await userModel.findById(memberId);
+
 		//Add to board activity
 		board.activity.unshift({
 			user: user._id,
 			name: user.name,
-			action: member.name === user.name ? `left ${card.title}` : `removed '${member.name}' from ${card.title}`,
+			action: tempMember.name === user.name ? `left ${card.title}` : `removed '${tempMember.name}' from ${card.title}`,
 		});
 		board.save();
 
