@@ -553,7 +553,7 @@ const setChecklistItemCompleted = async (
 				list.items = list.items.map((item) => {
 					if (item._id.toString() === checklistItemId) {
 						item.completed = completed;
-						clItem = item.title;
+						clItem = item.text;
 					}
 					return item;
 				});
