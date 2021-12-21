@@ -126,6 +126,27 @@ const updateBoardDescription = async (boardId, description, user, callback) => {
 	}
 };
 
+const updateBackground = async (id, background, isImage, user, callback) => {
+	try {
+		// Get board by id
+		const board = await boardModel.findById(id);
+
+		// Set variables
+		board.backgroundImageLink = background;
+		board.isImage = isImage;
+
+		// Log the activity
+		board.activity.unshift({ user: user._id, name: user.name, action: 'update background of this board' });
+
+		// Save changes
+		await board.save();
+
+		return callback(false, board);
+	} catch (error) {
+		return callback({ message: 'Something went wrong', details: error.message });
+	}
+};
+
 module.exports = {
 	create,
 	getAll,
@@ -133,4 +154,5 @@ module.exports = {
 	getActivityById,
 	updateBoardTitle,
 	updateBoardDescription,
+	updateBackground,
 };

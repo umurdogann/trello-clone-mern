@@ -77,6 +77,22 @@ const updateBoardDescription = async (req, res) => {
 	});
 };
 
+const updateBackground = async (req, res) => {
+	// Validate whether params.id is in the user's boards or not
+	const validate = req.user.boards.filter((board) => board === req.params.id);
+	if (!validate)
+		return res
+			.status(400)
+			.send({ errMessage: 'You can not change background of this board, you are not a member or owner!' });
+	const { boardId } = req.params;
+	const { background, isImage } = req.body;
+	// Call the service
+	await boardService.updateBackground(boardId, background, isImage, req.user, (err, result) => {
+		if (err) return res.status(400).send(err);
+		return res.status(200).send(result);
+	});
+};
+
 module.exports = {
 	create,
 	getAll,
@@ -84,4 +100,5 @@ module.exports = {
 	getActivityById,
 	updateBoardTitle,
 	updateBoardDescription,
+	updateBackground,
 };

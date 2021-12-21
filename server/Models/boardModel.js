@@ -6,6 +6,10 @@ const boardSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+		isImage:{
+			type: Boolean,
+			default: true,
+		},
 		backgroundImageLink: {
 			type: String,
 			required: true,
