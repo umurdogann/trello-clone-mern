@@ -60,13 +60,13 @@ export default function DropdownMenu(props) {
 	const handleClick = async (event) => {
 		setAnchorEl(event.currentTarget);
 		setLoading(true);
-		await getBoards(dispatch);
+		await getBoards(true,dispatch);
 		setLoading(false);
 	};
 
-	React.useEffect(() => {
+/* 	React.useEffect(() => {
 		if (!Object.keys(boardsData).length) getBoards(dispatch);
-	}, [boardsData, dispatch]);
+	}, []); */
 
 	const handleClose = () => {
 		setAnchorEl(null);

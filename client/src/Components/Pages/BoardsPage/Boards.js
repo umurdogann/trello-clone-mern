@@ -22,7 +22,7 @@ const Boards = () => {
   }
 
   useEffect(() => {
-    getBoards(dispatch);
+    getBoards(false,dispatch);
   }, [dispatch]);
 
   useEffect(() => {
