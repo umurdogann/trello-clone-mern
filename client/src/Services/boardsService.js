@@ -12,8 +12,8 @@ import { addNewBoard } from "../Redux/Slices/userSlice";
 import {setLoading, successFetchingBoard, updateTitle} from "../Redux/Slices/boardSlice";
 const baseUrl = "http://localhost:3001/board";
 
-export const getBoards = async (dispatch) => {
-  dispatch(startFetchingBoards());
+export const getBoards = async (fromDropDown,dispatch) => {
+  if(!fromDropDown)dispatch(startFetchingBoards());
   try {
     const res = await axios.get(baseUrl + "/");
     setTimeout(() => {

@@ -24,7 +24,7 @@ const RightDrawer = (props) => {
 				props.closeCallback();
 			}}
 			backClickCallback={handleBackClick}
-			showBackIcon={true}
+			showBackIcon={sectionName!=="Menu"}
 			content={
 				sectionName === 'Menu' ? (
 					<MainMenu
