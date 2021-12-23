@@ -3,6 +3,7 @@
 This is an app built with MERN Stack, and you can access the live demo [HERE](https://trello-clone-umurdogan.herokuapp.com) 
 
 [![Trello clone video](https://img.youtube.com/vi/D2Vcb_QIWmA/0.jpg)](https://www.youtube.com/watch?v=D2Vcb_QIWmA)
+
 Click the image to watch video!
 &nbsp;
 # Purpose
