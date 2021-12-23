@@ -1,8 +1,11 @@
-# MERN STACK TRELLO CLONE
+# Trello Clone With MERN Stack!
 
-This is an app built with MERN Stack, and you can access the live demo [HERE](https://trello-clone-umurdogan.herokuapp.com) 
 
-[![Trello clone video](https://img.youtube.com/vi/D2Vcb_QIWmA/0.jpg)](https://www.youtube.com/watch?v=D2Vcb_QIWmA)
+
+This is an app built with MERN Stack, and you can access the live demo [HERE](https://trello-clone-umurdogan.herokuapp.com) and you can CLICK the following image to watch video! 
+
+[![Trello clone video](https://i.ibb.co/6PRn1Bw/Ekran-g-r-nt-s-2021-12-23-16-21-36.png)](https://www.youtube.com/watch?v=D2Vcb_QIWmA)
+
 
 Click the image to watch video!
 &nbsp;
