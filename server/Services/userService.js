@@ -1,7 +1,8 @@
 const userModel = require("../Models/userModel");
+const { createRandomHexColor } = require("./helperMethods");
 
 const register = async (user, callback) => {
-  const newUser = userModel({ ...user, color:'#'+Math.floor(Math.random()*16777215).toString(16)});
+  const newUser = userModel({ ...user, color:createRandomHexColor()});
   await newUser
     .save()
     .then((result) => {
